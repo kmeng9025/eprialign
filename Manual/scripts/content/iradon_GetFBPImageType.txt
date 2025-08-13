@@ -1,0 +1,17 @@
+<p class="func_descript">Return numerical and string representation of the image type</p>
+
+$syntaxon$
+[nimtype, simtype] = iradon_GetFBPImageType(imtype)
+$syntaxoff$
+
+$descon$
+imtype - image type (int, 1 to 14)
+            or
+       - (string, 'XB'/'YB'/'ZB'/'XYB'/'XZB'/'YZB'/'XYZB'/'X'/'Y'/'Z'/'XY'/'XZ'/'YZ'/'XYZ')
+nimage  - image type (int, 1 to 14)
+simtype - image type (string, 'XB'/'YB'/'ZB'/'XYB'/'XZB'/'YZB'/'XYZB'/'X'/'Y'/'Z'/'XY'/'XZ'/'YZ'/'XYZ')
+$descoff$
+
+$seeon$
+iradon_FBPGradTable
+$seeoff$

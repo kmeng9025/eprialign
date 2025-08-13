@@ -1,0 +1,28 @@
+function [cfield, phase] = rs_get_field_phase(x,y,pars)
+
+cfield = zeros(size(y,2),1);
+for ii=1:size(y,2)
+    [~,idx] = max(abs(y(:,1)));
+    cfield(ii) = x(idx);
+end
+
+phase = zeros(size(cfield));
+
+return;
+
+figure(4); clf;
+x = x(:);
+yy = y(:,1);
+plot(x, real(yy), x, imag(yy)); hold on
+
+x3 = real(sum(yy)*(x(2)-x(1)));
+
+f = @(xx) epri_lshape(x, xx(1), [xx(2), xx(2)], 0.94)*xx(3)*exp(-1i*xx(4));
+ferr = @(xx) norm(f(xx)-yy);
+
+xfit = fminsearch(ferr, [-0.03, 0.07, x3, 0])
+disp(ferr(xfit))
+
+% xfit = [0.0, 0.1, 0.5];
+yfit = f(xfit);
+plot(x, real(yfit), 'ro', x, imag(yfit), 'mo');

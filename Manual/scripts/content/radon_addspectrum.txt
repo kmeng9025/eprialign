@@ -1,0 +1,33 @@
+<p class="func_descript"> Extends a 3-D digital phantom into 4-D </p>
+
+$syntaxon$
+[M]= radon_addspectrum(M,spectr)
+$syntaxoff$
+
+$descon$
+M - Matrix of an object (float)
+spectr - spectrum to be added
+	~.center - center of the spectrum
+	~.type   - type of spectrum
+	<b> for Lorentzian spectrum </b>
+	~.sigma  - width of distrubtion
+
+$descoff$
+
+$exon$
+%construct phantom
+phantom.type = 'sphere';
+phantom.r=3;               
+phantom.offset=[-.5,1,0];  
+phantom.size= 10;           
+phantom.nBins=64;          
+M= radon_phantom(phantom);
+
+%add spectrum
+spectr.type= 'Lorentzian';
+m4d=radon_addspectrum(M,spectr);
+$exoff$
+
+$seeon$
+radon_phantom
+$seeoff$

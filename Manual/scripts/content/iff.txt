@@ -1,0 +1,17 @@
+<p class="func_descript">IF function</p>
+
+$syntaxon$
+res = iff(if_arg, a, b)
+$syntaxoff$
+
+$descon$
+if if_arg then res = a otherwise res = b
+if_arg - condition (bool)
+a - any value
+b - any value
+res - any value
+$descoff$
+
+$exon$
+res = iff(12.4 > 0.5, 1, 0)
+$exoff$

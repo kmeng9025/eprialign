@@ -1,0 +1,10 @@
+<p>This help is built by php script from text files located in the &quot;/scripts/content&quot; directory.</p>
+
+<h2>Software required</h2>
+Latest php interpreter <a href = "http://php.net/">http://php.net/</a><br>
+Any editor, e.g. <a href = "https://notepad-plus-plus.org/">Notepad++</a><br>
+<br>
+
+<h2>Compilation</h2>
+Execute r.bat in &quot;/scripts&quot; directory.<br>
+

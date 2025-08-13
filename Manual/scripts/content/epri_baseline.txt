@@ -1,0 +1,24 @@
+<p class="func_descript">Modification of the gradient table with additional traces for baseline correction.</p>
+
+$syntaxon$
+pars_out = epri_baseline(pars, opt)
+$syntaxoff$
+
+$descon$
+pars - image parameters (structure)
+  ~.G - gradient vector (float, G/cm, Nx3, N - number of gradients)
+  ~.nP - number of projections (int)
+  ~.nTrace - overall number of traces, including baselines, zero gradients etc (int)
+  ~.gidx - index to convert projections into iradon_d2d_mstage layout (int, Nx1, N = nP)
+  ~.service_idx - index to convert traces into projections (int, Nx1, N = nTrace)
+opt  - baseline parameters (structure)
+  ~.baseline  - method of b/l insertion (string, 'BEFORE'/'AFTER'/'BEFORE_AFTER'/'EVERY_N')
+     EVERY_N option has an additional parameter
+  ~.bl_n       - interleaving projection parameter (int, 1/2/etc)
+pars_out          -  experimental parameters with baseline added (structure)
+  see description of pars
+$descoff$
+
+$seeon$
+epri_baseline_split
+$seeoff$

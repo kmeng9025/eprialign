@@ -1,0 +1,144 @@
+%% Help
+%% 
+
+scenario = 'Rapid Scan image reconstruction';
+
+groups{1} = get_group('Data load parameters', 'fbp');
+groups{2} = get_group('Projection processing', 'ppr');
+groups{3} = get_group('Reconstruction parameters', 'rec');
+groups{4} = get_group('Fitting parameters', 'fit');
+groups{5} = get_group('Calibration parameters', 'clb');
+groups{6} = get_group('Processing parameters', 'prc');
+
+fields_FBP{1} = get_input_fields('Take parameters from','take_param', 'data', 'IDXS');
+fields_FBP{end}.Show = {'data', 'GUI'};
+fields_FBP{end}.Options = {'data', 'GUI'};
+fields_FBP{end+1} = get_input_fields('Polar angles', 'nPolar', 18, 'D');
+fields_FBP{end+1} = get_input_fields('Azimuth. angles', 'nAz', 18, 'D');
+fields_FBP{end+1} = get_input_fields('Azimuth. angles', 'nSpec', 1, 'D');
+fields_FBP{end+1} = get_input_fields('Image type','imtype', 14, 'IDX');
+fields_FBP{end}.Show = {'4D XYZB', 'mode 2', 'mode 3', 'mode 4', 'mode 5', 'mode 6', 'mode 7', 'mode 8', 'mode 9', 'mode 10', 'mode 11', 'mode 12', 'mode 13', '3D XYZ'};
+fields_FBP{end}.Options = {'4D XYZB', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '3D XYZ'};
+fields_FBP{end+1} = get_input_fields('Maximum gradient [G/cm]','MaxGradient', 1.5, 'D');
+fields_FBP{end+1} = get_input_fields('Angular scheme','angle_sampling', 'uniform_angular_flip', 'IDXS');
+fields_FBP{end}.Show = {'uniform_angular', 'uniform_spatial_flip', 'uniform_angular_flip'};
+fields_FBP{end}.Options = {'uniform_angular', 'uniform_spatial_flip', 'uniform_angular_flip'};
+fields_FBP{end+1} = get_input_fields('Coord. pole','CoordPole', 'Z', 'IDXS');
+fields_FBP{end}.Show = {'X', 'Y', 'Z'};
+fields_FBP{end}.Options = {'X', 'Y', 'Z'};
+fields_FBP{end+1} = get_input_fields('Baseline type','baseline', 'every_n', 'IDXS');
+fields_FBP{end}.Show = {'none', 'before', 'after', 'before_after', 'every_n', 'from_file', 'split_field'};
+fields_FBP{end}.Options = {'none', 'before', 'after', 'before_after', 'every_n', 'from_file', 'split_field'};
+fields_FBP{end+1} = get_input_fields('Zero gradient','zero_gradient', 'every_n', 'IDXS');
+fields_FBP{end}.Show = {'none', 'before', 'after', 'before_after', 'every_n'};
+fields_FBP{end}.Options = {'none', 'before', 'after', 'before_after', 'every_n'};
+fields_FBP{end+1} = get_input_fields('Baseline frequency','bl_n', 4, 'D');
+fields_FBP{end+1} = get_input_fields('Split field [G]','split_field', 5, 'D');
+fields_FBP{end+1} = get_input_fields('Resonator Q','Q', 13, 'D');
+% fields_FBP{end}.Flags = 1;
+
+fields_PPR{1} = get_input_fields('Filter cut-off [MHz]','Fcut_off', 1, 'D');
+fields_PPR{end+1} = get_input_fields('Convolution filter [G]','Fconv', 0.001, 'D');
+fields_PPR{end+1} = get_input_fields('Baseline harmonics','baseline_harmonics', 2, 'D');
+fields_PPR{end+1} = get_input_fields('Field scan phasing', 'scan_phase_algorithm', 'auto', 'IDXS');
+fields_PPR{end}.Show = {'auto', 'manual'};
+fields_PPR{end}.Options = {'auto', 'manual'};
+fields_PPR{end+1} = get_input_fields('Field scan phase [deg]','field_scan_phase', 0, 'D');
+fields_PPR{end+1} = get_input_fields('EPR data phasing', 'phase_algorithm', 'auto', 'IDXS');
+fields_PPR{end}.Show = {'auto', 'manual'};
+fields_PPR{end}.Options = {'auto', 'manual'};
+fields_PPR{end+1} = get_input_fields('EPR data phase [deg]','data_phase', 0, 'D');
+fields_PPR{end+1} = get_input_fields('EPR field offset [G]','data_offset', 0, 'D');
+fields_PPR{end+1} = get_input_fields('EPR field reference [G]','field_reference', 0, 'D');
+fields_PPR{end+1} = get_input_fields('EPR field span [G]','data_span', 0, 'D');
+fields_PPR{end+1} = get_input_fields('Field scan polarity', 'up_down', 'up_down', 'IDXS');
+fields_PPR{end}.Show = {'up_down', 'down_up'};
+fields_PPR{end}.Options = {'up_down', 'down_up'};
+fields_PPR{end+1} = get_input_fields('Verbosity', 'display', 'off', 'IDXS');
+fields_PPR{end}.Show = {'off', 'message', 'figure', 'all'};
+fields_PPR{end}.Options = {'off', 'message', 'figure', 'all'};
+
+
+fields_REC{1} = get_input_fields('Matrix size (space)', 'nBins', 64, 'D');
+fields_REC{end+1} = get_input_fields('Matrix size (field)', 'nBinsField', 64, 'D');
+fields_REC{end+1} = get_input_fields('FOV/sqrt(2) [cm]', 'size', 3.0, 'D');
+fields_REC{end+1} = get_input_fields('Matrix center', 'center', '[0,0,0]', 'D');
+fields_REC{end+1} = get_input_fields('Field FOV [G]', 'span', 3.0, 'D');
+fields_REC{end+1} = get_input_fields('Number of harmonics', 'nHarmonics', 80, 'D');
+fields_REC{end+1} = get_input_fields('Tolerance', 'tolerance', 200, 'D');
+
+fields_REC{end+1} = get_input_fields('InterpFactor', 'InterpFactor', 4, 'D');
+fields_REC{end+1} = get_input_fields('Filter', 'Filter', 'ram-lak', 'IDXS');
+fields_REC{end}.Show = {'ram-lak', 'shepp-logan','butterworth'};
+fields_REC{end}.Options = {'ram-lak', 'shepp-logan','butterworth'};
+fields_REC{end+1} = get_input_fields('Interpolation', 'Interpolation', 'spline', 'S');
+fields_REC{end+1} = get_input_fields('FilterCutOff', 'FilterCutOff', 0.5, 'D');
+fields_REC{end+1} = get_input_fields('Code', 'CodeFlag', 'MATLAB', 'IDXS');
+fields_REC{end}.Show = {'MATLAB', 'Mark (4D)'};
+fields_REC{end}.Options = {'MATLAB', 'MARK4Dv1'};
+
+fields_FIT{1} = get_input_fields('Spin probe', 'spin_probe', 'OX063H', 'IDXS');
+fields_FIT{end}.Show = {'OX063H', 'OX063D24','Lorentzian','Voigtian (fix gauss)'};
+fields_FIT{end}.Options = {'OX063H', 'OX063D24','Lorentzian','Voigtian'};
+fields_FIT{end+1} = get_input_fields('Use data from tau', 'use_echos', [], 'D');
+fields_FIT{end+1} = get_input_fields('Mask', 'fit_mask', 'threshold_mask', 'IDXS');
+fields_FIT{end}.Show = {'Threshold', 'External file'};
+fields_FIT{end}.Options = {'threshold_mask', 'external_file'};
+fields_FIT{end+1} = get_input_fields('External mask file', 'fit_mask_file', 'ffff', 'F');
+fields_FIT{end}.Flags = hex2dec('0');
+fields_FIT{end+1} = get_input_fields('Mask threshold (0-1)', 'fit_mask_threshold', 0.1, 'D');
+
+stage_show = {'None', 'Fill holes in the mask', 'Leave only objects larger than N', 'Raise threshold'};
+stage_opt  = {'proc_none', 'proc_fill', 'proc_leave_large', 'proc_adaptive_threshold'};
+fields_FIT{end+1} = get_input_fields('Mask processing stage 1', 'mask_proc_stage1', 'proc_none', 'IDXS');
+fields_FIT{end}.Show = stage_show;
+fields_FIT{end}.Options = stage_opt;
+fields_FIT{end+1} = get_input_fields('Mask processing stage 2', 'mask_proc_stage2', 'proc_none', 'IDXS');
+fields_FIT{end}.Show = stage_show;
+fields_FIT{end}.Options = stage_opt;
+fields_FIT{end+1} = get_input_fields('Mask processing stage 3', 'mask_proc_stage3', 'proc_none', 'IDXS');
+fields_FIT{end}.Show = stage_show;
+fields_FIT{end}.Options = stage_opt;
+fields_FIT{end+1} = get_input_fields('Mask processing stage 4', 'mask_proc_stage4', 'proc_none', 'IDXS');
+fields_FIT{end}.Show = stage_show;
+fields_FIT{end}.Options = stage_opt;
+fields_FIT{end+1} = get_input_fields('Fill holes in the mask', 'fit_mask_fill', '0', 'D');
+fields_FIT{end+1} = get_input_fields('Leave only objects larger than N', 'fit_mask_object_size', '0', 'D');
+fields_FIT{end+1} = get_input_fields('Maximum voxels in the mask', 'fit_mask_max_voxels', '6000', 'D');
+
+fields_FIT{end+1} = get_input_fields('Consider fit errors as bad voxels', 'fit_errors_kill', 'yes', 'IDXS');
+fields_FIT{end}.Show = {'Yes', 'No'};
+fields_FIT{end}.Options = {'yes', 'no'};
+fields_FIT{end+1} = get_input_fields('Fitting method', 'fit_method', 'Method1', 'IDXS');
+fields_FIT{end}.Show = {'Default', 'Lookup general'};
+fields_FIT{end}.Options = {'default', 'lookup_general'};
+fields_FIT{end+1} = get_input_fields('Line width min-max [G]', 'fit_LW_min_max', '[0.2,0.8]', 'D');
+fields_FIT{end+1} = get_input_fields('Offset min-max [G]', 'fit_x0_min_max', '[-0.2,0.2]', 'D');
+fields_FIT{end+1} = get_input_fields('Phase min-max [deg]', 'fit_ph_min_max', '[-10, 10]', 'D');
+fields_FIT{end+1} = get_input_fields('Amplitude min-max [deg]', 'fit_amp_min_max', '[0, 10]', 'D');
+fields_FIT{end+1} = get_input_fields('Gaussian line width [G]', 'fit_gauss_LW', '0.5', 'D');
+
+fields_PRC{1} = get_input_fields('Processing type', 'process_method', 'ese_fbp', 'IDXS');
+fields_PRC{end}.Show = {'Continuous wave'};
+fields_PRC{end}.Options = {'cw_fbp'};
+fields_PRC{end+1} = get_input_fields('Reconstruct data', 'recon_data', 'yes', 'IDXS');
+fields_PRC{end}.Show = {'Yes', 'No'};
+fields_PRC{end}.Options = {'yes', 'no'};
+fields_PRC{end+1} = get_input_fields('Save data', 'save_data', 'yes', 'IDXS');
+fields_PRC{end}.Show = {'Yes', 'No'};
+fields_PRC{end}.Options = {'yes', 'no'};
+fields_PRC{end+1} = get_input_fields('Fit data', 'fit_data', 'no', 'IDXS');
+fields_PRC{end}.Show = {'Yes', 'No'};
+fields_PRC{end}.Options = {'yes', 'no'};
+fields_PRC{end+1} = get_input_fields('Show viewer', 'launch_viewer', 'no', 'IDXS');
+fields_PRC{end}.Show = {'Yes', 'No'};
+fields_PRC{end}.Options = {'yes', 'no'};
+fields_PRC{end+1} = get_input_fields('Export projections', 'export_prj', 'no', 'IDXS');
+fields_PRC{end}.Show = {'Raw', 'No'};
+fields_PRC{end}.Options = {'raw', 'no'};
+
+fields_CLB{1} = get_input_fields('LLW_zero_po2 [mG]', 'LLW_zero_po2', 12.4, 'D');
+fields_CLB{2} = get_input_fields('mG_per_mM [mG/mM]', 'mG_per_mM', 2.32, 'D');
+fields_CLB{3} = get_input_fields('Torr_per_mGauss [torr/mG]', 'Torr_per_mGauss', 1.84, 'D');
+fields_CLB{4} = get_input_fields('amp1mM', 'amp1mM', 0.065, 'D');
+fields_CLB{5} = get_input_fields('Q during calibration', 'Qcb', 14, 'D');

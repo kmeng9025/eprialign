@@ -1,0 +1,6 @@
+% ARBUZ_GET  get project property
+% result = arbuz_get(hGUI, property_name);
+% hGUI - handle to the object that holds the project [double]
+% property_name  - project property [string]
+%   FILENAME
+% result - property value [variant]

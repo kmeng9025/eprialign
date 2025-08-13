@@ -1,0 +1,3 @@
+% fpath = epr_GetIniPath
+% fname = epr_GetIniPath(ini_file)
+% returns the path for the ini file or ini file name (if provided) for different OS

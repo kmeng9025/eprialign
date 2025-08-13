@@ -1,0 +1,10 @@
+EPRIrecon_tool_v0.1
+Instructions:
+1) Compling: First go to the "gridding_ls_3D" directory and then type the command 'mex grid3d.c' to obtain a mex file (e.g., grid3d.mexa64 in a 64-bit work station)
+2) Then run Demo_gridding_LSrec.m in the main diretory of the reconstruction package. This demo uses the data set TCD50_MCa4_M61_002.mat as an example to illustrate the reconstruction method. 
+
+Bo Zhao and Anothny Christodolou,
+University of Illinois, 
+Oct 28, 2012
+
+The gridding_ls_3D is credited to Dr. Justin P. Haldar, a former Ph. D student in the Prof. Zhi-Pei Liang's group. 

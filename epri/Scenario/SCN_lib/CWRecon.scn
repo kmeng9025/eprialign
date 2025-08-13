@@ -1,0 +1,65 @@
+%% Help
+%% 
+
+scenario = 'CW image reconstruction';
+
+groups{1} = get_group('Data load parameters', 'load');
+groups{2} = get_group('Reconstruction parameters', 'rec');
+groups{3} = get_group('Fitting parameters', 'fit');
+groups{4} = get_group('Calibration parameters', 'clb');
+groups{5} = get_group('Processing parameters', 'prc');
+
+fields_LOAD{1} = get_input_fields('Modulation clb', 'mod_cal', 0.196, 'D');
+fields_LOAD{end+1} = get_input_fields('Lag shift', 'lagshift', 0.25, 'D');
+fields_LOAD{end+1} = get_input_fields('Q', 'Q', 100, 'D');
+fields_LOAD{end+1} = get_input_fields('ModBroadn_0', 'ModBroadn_0', 0.1714, 'D');
+fields_LOAD{end+1} = get_input_fields('ModBroadn_1', 'ModBroadn_1', 1.0, 'D');
+
+fields_REC{1} = get_input_fields('Matrix size', 'Sub_points', 64, 'D');
+fields_REC{end+1} = get_input_fields('InterpFactor', 'InterpFactor', 4, 'D');
+fields_REC{end+1} = get_input_fields('Filter', 'Filter', 'ram-lak', 'S');
+fields_REC{end+1} = get_input_fields('Interpolation', 'Interpolation', 'spline', 'S');
+fields_REC{end+1} = get_input_fields('FilterCutOff', 'FilterCutOff', 0.5, 'D');
+fields_REC{end+1} = get_input_fields('Code', 'CodeFlag', 'MATLAB', 'IDXS');
+fields_REC{end}.Show = {'FORTRAN', 'MATLAB', 'C'};
+fields_REC{end}.Options = {'FORTRAN', 'MATLAB', 'C'};
+fields_REC{end+1} = get_input_fields('Subsampling', 'SubSampling', 'gaussian', 'IDXS');
+fields_REC{end}.Show = {'imresize', 'spline', 'gaussian'};
+fields_REC{end}.Options = {'imresize', 'spline', 'gaussian'};
+%fields_REC{end+1} = get_input_fields('Enabled', 'Enabled', 'on', 'S');
+
+fields_FIT{1} = get_input_fields('Mask', 'fit_mask', 'threshold_mask', 'IDXS');
+fields_FIT{end}.Show = {'Threshold', 'External file'};
+fields_FIT{end}.Options = {'threshold_mask', 'external_file'};
+fields_FIT{end+1} = get_input_fields('External mask file', 'fit_mask_file', 'ffff', 'F');
+fields_FIT{end}.Flags = hex2dec('0');
+fields_FIT{end+1} = get_input_fields('Mask threshold (0-1)', 'fit_mask_threshold', 0.1, 'D');
+fields_FIT{end+1} = get_input_fields('Spin probe', 'spin_probe', 'OX063H', 'IDXS');
+fields_FIT{end}.Show = {'OX063H'};
+fields_FIT{end}.Options = {'OX063H'};
+fields_FIT{end+1} = get_input_fields('Consider fit errors as bad voxels', 'fit_errors_kill', 'yes', 'IDXS');
+fields_FIT{end}.Show = {'Yes', 'No'};
+fields_FIT{end}.Options = {'yes', 'no'};
+fields_FIT{end+1} = get_input_fields('Minimum amplitude (0-1)*mean', 'fit_min_amp', 0, 'D');
+fields_FIT{end+1} = get_input_fields('Maximum amplitude (0-1)*mean', 'fit_max_amp', 5, 'D');
+fields_FIT{end+1} = get_input_fields('Minimum LLW [mG]', 'fit_min_LLW', 5, 'D');
+fields_FIT{end+1} = get_input_fields('Maximum LLW [mG]', 'fit_max_LLW', 1000, 'D');
+
+fields_PRC{1} = get_input_fields('Processing type', 'process_method', 'cw_fbp', 'IDXS');
+fields_PRC{end}.Show = {'Pulse ESE', 'CW 4D', 'Pulse MB ESE', 'Rapid Scan', 'CW_4D_mod', 'CW_4D_rec'};
+fields_PRC{end}.Options = {'ese_fbp', 'cw_fbp', 'ese_fbp', 'rs_fbp', 'cw_fbp_mod', 'cw_fbp_rec'};
+fields_PRC{end+1} = get_input_fields('Reconstruct data', 'recon_data', 'yes', 'IDXS');
+fields_PRC{end}.Show = {'Yes', 'No'};
+fields_PRC{end}.Options = {'yes', 'no'};
+fields_PRC{end+1} = get_input_fields('Save data', 'save_data', 'yes', 'IDXS');
+fields_PRC{end}.Show = {'Yes', 'No'};
+fields_PRC{end}.Options = {'yes', 'no'};
+fields_PRC{end+1} = get_input_fields('Fit data', 'fit_data', 'no', 'IDXS');
+fields_PRC{end}.Show = {'Yes', 'No'};
+fields_PRC{end}.Options = {'yes', 'no'};
+
+fields_CLB{1} = get_input_fields('LLW_zero_po2 [mG]', 'LLW_zero_po2', 18.0, 'D');
+fields_CLB{2} = get_input_fields('mG_per_mM [mG/mM]', 'mG_per_mM', 2.32, 'D');
+fields_CLB{3} = get_input_fields('Torr_per_mGauss [torr/mG]', 'Torr_per_mGauss', 1.84, 'D');
+fields_CLB{4} = get_input_fields('1mM intensity', 'amp1mM', 0.065, 'D');
+fields_CLB{5} = get_input_fields('Q during calibration', 'Qcb', 300, 'D');

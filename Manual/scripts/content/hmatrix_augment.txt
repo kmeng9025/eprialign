@@ -1,0 +1,12 @@
+<p class="func_descript">Add 4th column to Nx3 array</p>
+
+$syntaxon$
+v4 = hmatrix_augment(v3)
+$syntaxoff$
+
+$descon$
+Convert array 3D points from 3 element to 4 element notation
+v3 - array of 3D points (float, Nx3, N - number of points)
+v4 - array with 4th column of 1's appended (float, Nx4, N - number of points)
+$descoff$
+

@@ -1,0 +1,12 @@
+Inverse Radon transformation image reconstruction toolbox
+
+<p><strong>Relation between Radon transformation and EPRI</strong></p>
+<p>Spatial imaging</p>
+
+<p>Spectral imaging</p>
+<img height = "140" src="images/iradon_epri_relation.png">
+<p>
+Three parameters of spectral imaging are number of spectral angles <strong><i>N<sub>&alpha;</sub></i></strong>, 
+image spatial support <strong><i>&Delta;L</i></strong> and image spectral support <strong><i>&Delta;B</i></strong>. The resulting image has physical dimensions of <strong><i>&Delta;L</i></strong> and <strong><i>&Delta;B</i></strong>. The equal spectral angle gradient scheme given above is not the best and is given as an example. <strong><i>&Delta;B</i></strong> that covers all regions of EPR spectrum with significant intensity is required for proper reconstruction. For a single line spectrum <strong><i>&Delta;B</i></strong> of 5-7 line widths is recommended. <br> 
+Note that the required <strong><i>B<sup>sweep</sup></i></strong> and <strong><i>G</i></strong> are quickly growing with the increase of <strong><i>N<sub>&alpha;</sub></i></strong>. For reconstruction methods that demand equal number of points in all projections (e.g. $iradon_d2d_mstage$), the EPR spectra have to be re-sampled to accommodate difference in <strong><i>B<sup>sweep</sup></i></strong>. Correspondingly, the intensity of EPR spectra <strong><i>I</i></strong> has to be renormalized.
+</p>

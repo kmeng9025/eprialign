@@ -1,0 +1,16 @@
+Z:\Matlab_BE\Utils\inimanaging.m
+Z:\Matlab_BE\Utils\safeget.m
+Z:\Matlab_BE\easyspin\bmagn.p
+Z:\Matlab_BE\easyspin\planck.p
+Z:\Matlab_BE\easyspin\pseumod.p
+Z:\Matlab_BE\easyspin\rcfilt.p
+Z:\Matlab_BE\kazan\kazan.m
+Z:\Matlab_BE\kazan\kv_asciiwrite.m
+Z:\Matlab_BE\kazan\kv_bestunit.m
+Z:\Matlab_BE\kazan\kv_brukerwrite.m
+Z:\Matlab_BE\kazan\kv_d01write.m
+Z:\Matlab_BE\kazan\kv_mvgavg.m
+Z:\Matlab_BE\kazan\kv_seltrace.m
+Z:\Matlab_BE\kazan\kvskyline.m
+Z:\Matlab_BE\kazan\processing.m
+Z:\Matlab_BE\kazan\viewarea_func.m

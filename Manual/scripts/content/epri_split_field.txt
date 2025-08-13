@@ -1,0 +1,9 @@
+<p class="func_descript">Modification of the gradient table with additional traces for base line removal.</p>
+
+$syntaxon$
+pars_out = epri_split_field(pars, opt)
+$syntaxoff$
+
+$descon$
+Modification of the gradient table with additional traces for base line removal. Each trace is recorded twice with different magnetic field. Used for Rapid Scan baseline removal.
+$descoff$

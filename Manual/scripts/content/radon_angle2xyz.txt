@@ -1,0 +1,24 @@
+<p class="func_descript">Conversion of projection angles into unit vector projections</p>
+
+$syntaxon$
+radon_pars = radon_angle2xyz(radon_pars)
+$syntaxoff$
+
+$descon$
+radon_pars - structure of parameters
+  ~.Theta, ~.Phi - projection angles
+radon_pars - structure of parameters
+  ~.un - unit vector projections on coordinate axis
+$descoff$
+
+$exon$
+% Define parameters
+radon_pars.Theta=50;
+radon_pars.Phi=30;
+
+radon_pars=radon_angle2xyz(radon_pars)
+$exoff$
+
+$seeon$
+radon_d2d
+$seeoff$

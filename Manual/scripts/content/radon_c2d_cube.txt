@@ -1,0 +1,50 @@
+<p class="func_descript">Analytic Radon transformation of a cube phantom</p>
+
+$syntaxon$
+[P] = radon_c2d_cube(phantom, radon_pars)
+[l,P] = radon_c2d_cube(phantom, radon_pars)
+$syntaxoff$
+
+$descon$
+phantom - phantom (structure)
+    ~.a      - cube side (float, cm)
+    ~.offset - offset of the cube from the center (float, cm)
+radon_pars - Radon transformation parameters (structure)
+    ~.un     - unit vectors of directions (float, Nx2 or Nx3, N-number of projection)
+    ~.size   - projection length (float, cm)
+    ~.nBins  - projection array length (int)
+    ~.l      - projection spatial support (float, cm, Mx1, M - projection length)
+    (size, nBins) and l are mutually exclusive definitions	
+P - projection data (float, MxN, M - projection length, N-number of projection)
+l - axis of projection (float, cm, Mx1, M - projection length)
+$descoff$
+
+$exon$
+% Generate equal solid angle layout of projections
+fbp_struct.nAz = 36;
+fbp_struct.nPolar = 36;
+fbp_struct.imtype = iradon_GetFBPImageType('XYZ');
+fbp_struct.MaxGradient = 1;     % maximum gradient (G/cm)
+fbp_struct.angle_sampling = 'UNIFORM_SPATIAL_FLIP';
+pars = iradon_FBPGradTable(fbp_struct);
+
+% Radon transformation parameters
+radon_pars.un = pars.G;    % unit vectors of the gradients
+radon_pars.size = 5;       % projection spatial support (cm)
+radon_pars.nBins = 64;     % length of the projection spatial support
+
+% Phantom parameters
+phantom.a = 2.2;               % cube side (cm)
+phantom.offset = [0.1,-0.1,0]; % offset of the cube(cm)
+
+P = radon_c2d_cube(phantom, radon_pars);
+MatrixGUI(P)               % view projections
+$exoff$
+
+$seeon$
+RADON_C2D_SPHERE
+radon_d2d
+iradon_FBPGradTable
+matrixgui
+$seeoff$
+

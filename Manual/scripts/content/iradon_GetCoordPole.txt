@@ -1,0 +1,19 @@
+<p class="func_descript">Return numerical and string representation of the coordinate pole used for imaging.</p>
+
+$syntaxon$
+[ipole] = iradon_GetCoordPole(pole)
+[ipole, cpole] = iradon_GetCoordPole(pole)
+$syntaxoff$
+
+$descon$
+Returns numerical and string representation of the coordinate pole used for imaging.
+The angles <strong><i>&Theta;</i></strong> and <strong><i>&phi;</i></strong> are given relative to this pole (Z in the figure below).
+<img height = "140" src="images/polar_coordinates.png">
+pole - coordinate pole (int, 1/2/3 or string, 'X'/'Y'/'Z')
+ipole - coordinate pole (int, 1/2/3)
+cpole - coordinate pole (string, 'X'/'Y'/'Z')
+$descoff$
+
+$seeon$
+iradon_FBPGradTable
+$seeoff$

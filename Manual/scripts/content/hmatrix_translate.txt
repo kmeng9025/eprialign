@@ -1,0 +1,13 @@
+<p class="func_descript">Create translation matrix</p>
+
+$syntaxon$
+A = hmatrix_translate(translation)
+$syntaxoff$
+
+
+$descon$
+<img height = "90" src="images/hmatrix_translate.png">
+Creates translation matrix from a translation vector
+translation - translation vector (float, 1x3)
+A - transformation matrix (float, 4x4)
+$descoff$

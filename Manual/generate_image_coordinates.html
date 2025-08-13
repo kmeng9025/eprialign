@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<head>
+<title>EPR Imaging Toolbox Help</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="epri.css" type="text/css" />
+
+</head>
+<body>
+<table class="page_header" width = "100%">
+  <tr>
+    <td class="menu_style" width = "260"><img src="images/logo_200.png" alt="Logo" width="100"></td>
+    <td class="menu_style">EPR Imaging Toolbox collection user manual</td>
+  </tr>
+ </table>
+ <table class="page_core" width = "100%"  height="100%">
+  <tr class="page_core_tr">
+    <td class="page_navigation" width = "260"><table width="100%" class="page_navigation">
+<tr><td class="menu_group0">&nbsp;</td></tr>
+<tr><td class="menu_group0"><a href='index.html'>About</a></td></tr>
+<tr><td class="menu_group0"><a href='general_contribution.html'>Contributions</a></td></tr>
+<tr><td class="menu_group0"><a href='general_installation.html'>Installation</a></td></tr>
+<tr><td class="menu_group0"><a href='sample_data.html'>Sample data</a></td></tr>
+<tr><td class="menu_group0"><a href='radon_toolbox.html'>Radon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='iradon_toolbox.html'>Iradon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox.html'>Common toolbox: Algebra</a></td></tr>
+<tr><td class="menu_group1"><a href='connected_components.html'>connected_components</a></td></tr>
+<tr><td class="menu_group1"><a href='hmatrix_augment.html'>hmatrix_augment</a></td></tr>
+<tr><td class="menu_group1"><a href='hmatrix_rotate_about.html'>hmatrix_rotate_about</a></td></tr>
+<tr><td class="menu_group1"><a href='hmatrix_rotate_euler.html'>hmatrix_rotate_euler</a></td></tr>
+<tr><td class="menu_group1"><a href='hmatrix_rotate_x.html'>hmatrix_rotate_x</a></td></tr>
+<tr><td class="menu_group1"><a href='hmatrix_rotate_y.html'>hmatrix_rotate_y</a></td></tr>
+<tr><td class="menu_group1"><a href='hmatrix_rotate_z.html'>hmatrix_rotate_z</a></td></tr>
+<tr><td class="menu_group1"><a href='hmatrix_scale.html'>hmatrix_scale</a></td></tr>
+<tr><td class="menu_group1"><a href='hmatrix_scale_get.html'>hmatrix_scale_get</a></td></tr>
+<tr><td class="menu_group1"><a href='hmatrix_translate.html'>hmatrix_translate</a></td></tr>
+<tr><td class="menu_group1"><a href='htransform_planes.html'>htransform_planes</a></td></tr>
+<tr><td class="menu_group1"><a href='htransform_vectors.html'>htransform_vectors</a></td></tr>
+<tr><td class="menu_group1"><a href='resample_plane.html'>resample_plane</a></td></tr>
+<tr><td class="menu_group1"><a href='reslice_volume.html'>reslice_volume</a></td></tr>
+<tr><td class="menu_group1"><a href='generate_slice_coordinates.html'>generate_slice_coordinates</a></td></tr>
+<tr><td class="menu_group1 menu_selected"><a href='generate_image_coordinates.html'>generate_image_coordinates</a></td></tr>
+<tr><td class="menu_group1"><a href='largest_component.html'>largest_component</a></td></tr>
+<tr><td class="menu_group1"><a href='outside_mask3.html'>outside_mask3</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox_other.html'>Common toolbox: Other</a></td></tr>
+<tr><td class="menu_group0"><a href='epri_toolbox.html'>EPRI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='ibgui_toolbox.html'>ibGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='arbuzgui_toolbox.html'>ArbuzGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='processgui_toolbox.html'>ProcessGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='utilities.html'>Useful utilities</a></td></tr>
+<tr><td class="menu_group0"><a href='used_toolboxes.html'>Toolboxes used</a></td></tr>
+<tr><td class="menu_group0"><a href='helpmanual.html'>This help</a></td></tr>
+</table>
+</td>
+    <td class="page_content text_main" ><p class="func_name">generate_image_coordinates</p><hr><p class="func_descript">Return 3D arrays of x, y and z coordinates of image voxels</p>
+
+<p class="matlab_syntax_caption">Syntax:</p>
+<p class="matlab_syntax">[xout, yout, zout] = <b>generate_image_coordinates</b>(xlo, xhi, xcount, ylo, yhi, ycount, zlo, zhi, zcount)</p>
+
+
+<p class="matlab_desc_caption">Description:</p>
+<p class="matlab_description">Returns 3D arrays of x, y and z coordinates of image voxels.
+<span class="structure_field">xlo</span> - minimum X coordinate
+<span class="structure_field">xhi</span> - maximum X coordinate
+<span class="structure_field">xcount</span> - number of voxels in X direction
+similar definitions are for Y and Z coordinates with ylo, yhi, ycount and zlo, zhi, zcount parameters
+<span class="structure_field">xout</span>  - X coordinates for image voxels (float, MxNxL, N = xcount, M = ycount, L = zcount)
+<span class="structure_field">yout</span>  - Y coordinates for image voxels (float, MxNxL, N = xcount, M = ycount, L = zcount)
+<span class="structure_field">zout</span>  - Z coordinates for image voxels (float, MxNxL, N = xcount, M = ycount, L = zcount)
+x is assumed to lie across image ROWS (second array index)
+y down image COLUMNS (first array index)
+z along image PAGE direction (third array index)
+<a href='generate_image_coordinates.html'>generate_image_coordinates</a> provides input to interp3 functions used for image re-sampling.</p>
+
+</td>
+  </tr>
+ </table> 
+</body>
+</html>

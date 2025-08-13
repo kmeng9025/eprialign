@@ -1,0 +1,40 @@
+ Volume in drive Z is DATAPART1
+ Volume Serial Number is 3600-103C
+
+ Directory of Z:\CenterMATLAB\3dparty\DXF
+
+03/29/2016  12:32 PM    <DIR>          .
+03/29/2016  12:32 PM    <DIR>          ..
+03/29/2016  12:32 PM                 0 a
+03/29/2016  11:45 AM            13,310 aci_color_table.txt
+03/29/2016  11:45 AM             6,780 dxf_aci2rgb.m
+03/29/2016  11:45 AM               402 dxf_close.m
+03/29/2016  11:45 AM             2,357 dxf_marker.m
+03/29/2016  11:45 AM             1,453 dxf_open.m
+03/29/2016  11:45 AM             2,015 dxf_point.m
+03/29/2016  11:45 AM             1,374 dxf_polyline.m
+03/29/2016  11:45 AM             2,201 dxf_polymesh.m
+03/29/2016  11:45 AM             3,497 dxf_primitive.m
+03/29/2016  11:45 AM               568 dxf_print_layer.m
+03/29/2016  11:45 AM             1,232 dxf_print_layertable.m
+03/29/2016  11:45 AM               411 dxf_print_point.m
+03/29/2016  11:45 AM               366 dxf_print_seqend.m
+03/29/2016  11:45 AM             2,482 dxf_print_vertex.m
+03/29/2016  11:45 AM             6,805 dxf_rgb2aci.m
+03/29/2016  11:45 AM             2,077 dxf_set.m
+03/29/2016  11:45 AM             9,173 dxf_test.m
+03/29/2016  11:45 AM             4,275 dxf_text.m
+03/29/2016  11:46 AM           114,154 example1_points.dxf
+03/29/2016  11:46 AM            21,284 example2_polylines.dxf
+03/29/2016  11:47 AM           455,808 example3_polymesh.dxf
+03/29/2016  11:47 AM           269,289 example4_primitives.dxf
+03/29/2016  11:47 AM             1,407 example5_simple_text.dxf
+03/29/2016  11:47 AM             4,479 example6_text_alignment.dxf
+03/29/2016  11:47 AM           118,261 example7_ACIcolors.dxf
+03/29/2016  11:47 AM            71,789 example8_colormaps.dxf
+03/29/2016  11:49 AM         2,065,657 example9_polymesh_colored.dxf
+03/29/2016  11:43 AM    <DIR>          examples
+03/29/2016  11:45 AM             1,696 license.txt
+03/29/2016  11:45 AM             1,160 readme.txt
+              30 File(s)      3,185,762 bytes
+               3 Dir(s)  1,624,268,075,008 bytes free

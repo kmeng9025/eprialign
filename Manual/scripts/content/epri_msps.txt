@@ -1,0 +1,30 @@
+<p class="func_descript">Apply MSPS randomization pattern to a gradient scheme.</p>
+
+$syntaxon$
+pars_out = iradon_msps(pars, FBP)
+$syntaxoff$
+
+$descon$
+Applies pre-calculated maximally spaced projection sequence (MSPS) to a gradient scheme.
+Sequences are stored in 'MSPS/MSPSNNindex.mat' files where NN is the number of angles. 
+Only limited MSPS sequences are available for NN = 18, 36 and 72.
+pars - image parameters (structure)
+  ~.G - gradient vector (float, G/cm, Nx3, N - number of gradients)
+  ~.nP - number of projections (int)
+  ~.nTrace - overall number of traces, including baselines, zero gradients etc (int)
+  ~.gidx - index to convert projections into iradon_d2d_mstage layout (int, Nx1, N = nP)
+  ~.service_idx - index to convert traces into projections (int, Nx1, N = nTrace)
+FBP - gradient scheme parameters (structure)
+  ~.projection_order - order of projections (string, 'asis'/'msps')
+  'msps': apply the randomization pattern  
+pars_out          -  experimental parameters with MSPS applied (structure)
+  see description of pars
+$descoff$
+
+<p>
+[1] G. Redler, B. Epel, H.J. Halpern, Maximally spaced projection sequencing in electron paramagnetic resonance imaging, Conc. Magn. Reson. B, 45 (2015) 33-45 DOI 10.1002/cmr.b.21280.
+</p>
+
+$seeon$
+epri_msps_decrypt
+$seeoff$

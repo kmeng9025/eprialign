@@ -1,0 +1,54 @@
+<p class="func_descript">Generation of gradient schemes for FBP images</p>
+
+$syntaxon$
+[out, suplementary_out] = iradon_FBPGradTable(FBP)
+$syntaxoff$
+
+$descon$
+FBP - gradient scheme parameters (structure)
+  ~.imtype - Image type (int, 1 to 14, 1 for 4D, 14 for 3D)
+  ~.nPolar - Number of polar angles (int)
+  ~.nAz    - Number of azimuthal angles (int)
+  ~.nSpec  - Number of spectral angles (int)
+  ~.size - length of the spatial projection (float, cm)
+  ~.CoordPole - (int, 1/2/3) or (string, X/Y/Z, default Z)
+  ~.MaxGradient - Maximum gradient (float, G/cm)
+  ~.angle_sampling - gradient angle sampling scheme (string, 'UNIFORM_ANGULAR'/'UNIFORM_ANGULAR_FLIP'/'UNIFORM_SPATIAL_FLIP')
+     'UNIFORM_ANGULAR': uniform angular
+     'UNIFORM_ANGULAR_FLIP': uniform angular with optimized jumps
+     'UNIFORM_SPATIAL_FLIP': uniform solid angle with optimized jumps
+out - radon transformation parameters (structure)
+  ~.G - gradient vector (float, G/cm, Nx3, N - number of gradients)
+  ~.nP - number of projections (int)
+  ~.nTrace - overall number of traces, including baselines, zero gradients etc (int)
+  ~.gidx - index to convert projections into iradon_d2d_mstage layout (int, Nx1, N = nP)
+  ~.service_idx - index to convert traces into projections (int, Nx1, N = nTrace)
+     1:   a projection
+     0:   not a projection
+suplementary_out - supplementary radon transformation parameters (structure)
+  ~.k - k-space unit vector (float, 1/cm, Nx3, N - number of gradients)
+  ~.w  - projection weight factor (float, 1/cm, Nx3, N - number of gradients)
+  ~.alpha, ~.theta, ~phi - projections angles (float, degree, Nx1, N - number of gradients)
+$descoff$
+
+$exon$
+% Generate equal solid angle layout of projections
+fbp_struct.nAz = 36;
+fbp_struct.nPolar = 36;
+fbp_struct.imtype = iradon_GetFBPImageType('XYZ');
+fbp_struct.MaxGradient = 1;     % maximum gradient (G/cm)
+fbp_struct.angle_sampling = 'UNIFORM_SPATIAL_FLIP'; 
+pars = iradon_FBPGradTable(fbp_struct);
+$exoff$
+
+$exon$
+% convert serial projection layout into iradon_d2d_mstage projection layout
+PP = zeros(size(P,1), fbp_struct.nAz*fbp_struct.nPolar);
+PP(:,pars.gidx) = P;
+Pela = reshape(PP, [size(P,1), 1, fbp_struct.nAz, fbp_struct.nPolar]);
+$exoff$
+
+$seeon$
+IRADON_GETFBPIMAGETYPE
+iradon_d2d_mstage
+$seeoff$

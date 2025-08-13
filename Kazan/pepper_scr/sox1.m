@@ -1,0 +1,17 @@
+Sys.S = 1
+Sys.g(1:3) = 2.016
+Sys.lw = 28
+Exp.mwFreq = 34.12
+Opt.nKnots = 23
+Exp.Harmonic = 1
+Opt.unit_cnv = .01
+Sys.DD = -0.189
+Sys.EE = 0.23
+Sys.D = Sys.DD*[-.33+Sys.EE -.33-Sys.EE .66] *sm2MHz
+Exp.Range = [400,1600]
+Exp.nPoints = 8000
+Shift.x = 0
+Shift.Scale = 1
+Shift.y = 0
+Shift.wf = 1
+Shift.dx = 0

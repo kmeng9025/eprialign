@@ -1,0 +1,2 @@
+% seed_mask = epr_AutoMask2D(mask_type, original_image, seed_mask, threshold)
+% mask_type  'FloodFillAdjusted' or 'FloodFill' or 'Largest'

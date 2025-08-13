@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<head>
+<title>EPR Imaging Toolbox Help</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="epri.css" type="text/css" />
+
+</head>
+<body>
+<table class="page_header" width = "100%">
+  <tr>
+    <td class="menu_style" width = "260"><img src="images/logo_200.png" alt="Logo" width="100"></td>
+    <td class="menu_style">EPR Imaging Toolbox collection user manual</td>
+  </tr>
+ </table>
+ <table class="page_core" width = "100%"  height="100%">
+  <tr class="page_core_tr">
+    <td class="page_navigation" width = "260"><table width="100%" class="page_navigation">
+<tr><td class="menu_group0">&nbsp;</td></tr>
+<tr><td class="menu_group0"><a href='index.html'>About</a></td></tr>
+<tr><td class="menu_group0"><a href='general_contribution.html'>Contributions</a></td></tr>
+<tr><td class="menu_group0"><a href='general_installation.html'>Installation</a></td></tr>
+<tr><td class="menu_group0"><a href='sample_data.html'>Sample data</a></td></tr>
+<tr><td class="menu_group0"><a href='radon_toolbox.html'>Radon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='iradon_toolbox.html'>Iradon toolbox</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_d2d_mstage.html'>iradon_d2d_mstage</a></td></tr>
+<tr><td class="menu_group1 menu_selected"><a href='iradon_qiao_fbp3d.html'>iradon_qiao_fbp3d</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_getcoordpole.html'>iradon_GetCoordPole</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_getfbpimagetype.html'>iradon_GetFBPImageType</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_fbpgradtable.html'>iradon_FBPGradTable</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_interptouniformangle.html'>iradon_InterpToUniformAngle</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_vor_area_3d.html'>iradon_vor_area_3d</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox.html'>Common toolbox: Algebra</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox_other.html'>Common toolbox: Other</a></td></tr>
+<tr><td class="menu_group0"><a href='epri_toolbox.html'>EPRI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='ibgui_toolbox.html'>ibGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='arbuzgui_toolbox.html'>ArbuzGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='processgui_toolbox.html'>ProcessGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='utilities.html'>Useful utilities</a></td></tr>
+<tr><td class="menu_group0"><a href='used_toolboxes.html'>Toolboxes used</a></td></tr>
+<tr><td class="menu_group0"><a href='helpmanual.html'>This help</a></td></tr>
+</table>
+</td>
+    <td class="page_content text_main" ><p class="func_name">iradon_qiao_fbp3d</p><hr><p class="func_descript">3D filtered backprojection single stage image reconstruction from an arbitrary set of 1D projections</p>
+
+<p class="matlab_syntax_caption">Syntax:</p>
+<p class="matlab_syntax">image = <b>iradon_qiao_fbp3d</b>(P, radon_pars, recon_pars)</p>
+
+ 
+<p class="matlab_desc_caption">Description:</p>
+<p class="matlab_description"><span class="structure_field">P</span> - projections (float, MxN, M - points in projection, N - number of projections)
+<span class="structure_field">radon_pars</span> - Radon transformation parameters (structure)
+  ~.<span class="structure_field">G</span> - gradient vector (float, G/cm, Nx3, N - number of projections)
+  ~.<span class="structure_field">w</span> - projection weight factor (float, Nx1, N - number of projections)
+<span class="structure_field">recon_pars</span> - reconstruction parameters (structure)
+  ~.<span class="structure_field">nBins</span>  - image size in voxels (int)
+  ~.<span class="structure_field">Filter</span> - projection filtration
+      1: 2rd derivative
+      2: 3-points derivative method
+      3: 5-points derivative method
+      4: RL filter
+      5: SL filter,
+      6: hamming filter
+      7: two-ramp filters method
+  ~.<span class="structure_field">FilterCutOff</span>  - Filter cut off, part of full bandwidth (float, 0 to 1)
+  ~.<span class="structure_field">Interpolation</span> - interpolation method, (int, 0/1/2)
+     0: zero-rank interpolation method;
+     1: linear interpolation method;
+     2: spline interpolation method.
+     Note that for GPU reconstruction, you can select only 0 or 1.
+  ~.<span class="structure_field">zeropadding_times</span>   - zeropadding factor for two-ramp filter (int, >= 1)
+  ~.<span class="structure_field">CodeFlag</span>      - reconstruction code (string, <span class="description_literal">'CPU'</span>/<span class="description_literal">'GPU'</span>)
+  ~.<span class="structure_field">display</span>       - verbosity settings (int, 0/1, 0: no display, 1: intermediate results);
+  ~.<span class="structure_field">tasksliced</span>    - break task in multiple executions to save memory, GPU only (int, 0/1)
+<span class="structure_field">image</span> - reconstructed object (float, NxNxN, N - number of voxels in each dimension)</p>
+
+ 
+<p class="matlab_example_caption">Example:</p>
+<p class="matlab_code"><span class="matlab_comment">% Generate equal solid angle layout of projections</span>
+fbp_struct.nAz = <span class="matlab_value">36</span>;
+fbp_struct.nPolar = <span class="matlab_value">36</span>;
+fbp_struct.imtype = <a href="iradon_getfbpimagetype.html" class="eprit_function">iradon_GetFBPImageType</a>(<span class="matlab_literal">'XYZ'</span>);
+fbp_struct.MaxGradient = <span class="matlab_value">1</span>;     <span class="matlab_comment">% maximum gradient (G/cm)</span>
+fbp_struct.angle_sampling = <span class="matlab_literal">'UNIFORM_SPATIAL_FLIP'</span>;
+pars = <a href="iradon_fbpgradtable.html" class="eprit_function">iradon_FBPGradTable</a>(fbp_struct);
+
+<span class="matlab_comment">% Radon transformation parameters</span>
+radon_pars.un = pars.G;    <span class="matlab_comment">% unit vectors of the gradients</span>
+radon_pars.size = <span class="matlab_value">5</span>;       <span class="matlab_comment">% projection spatial support (cm)</span>
+radon_pars.nBins = <span class="matlab_value">64</span>;     <span class="matlab_comment">% length of the projection spatial support</span>
+
+<span class="matlab_comment">% Phantom parameters</span>
+phantom.r = <span class="matlab_value">2.2</span>;               <span class="matlab_comment">% radius of the sphere (cm)</span>
+phantom.offset = [<span class="matlab_value">0.1</span>,<span class="matlab_value">-0.1</span>,<span class="matlab_value">0</span>]; <span class="matlab_comment">% offset of the sphere (cm)</span>
+
+<span class="matlab_comment">% use radon_c2d_sphere to generate analytic projections</span>
+P = <a href="radon_c2d_sphere.html" class="eprit_function">radon_c2d_sphere</a>(phantom, radon_pars);
+
+radon_pars.G = pars.G;
+<span class="matlab_comment">% determine projection weights</span>
+radon_pars.w = <a href="iradon_vor_area_3d.html" class="eprit_function">iradon_vor_area_3d</a>(radon_pars.G);
+
+recon_pars.size = <span class="matlab_value">5</span>;     <span class="matlab_comment">% reconstructed image size (cm)</span>
+recon_pars.nBins = <span class="matlab_value">128</span>;  <span class="matlab_comment">% reconstructed image dimensions 128x128x128</span>
+recon_pars.Filter = <span class="matlab_value">6</span>;   <span class="matlab_comment">% hamming filter</span>
+recon_pars.FilterCutOff = <span class="matlab_value">1.0</span>;
+recon_pars.Interpolation = <span class="matlab_value">1</span>; <span class="matlab_comment">% 1 is linear interpolation method</span>
+recon_pars.InterpFactor = <span class="matlab_value">2</span>;
+recon_pars.CodeFlag = <span class="matlab_literal">'GPU'</span>;
+
+recon_pars.display=<span class="matlab_value">0</span>;
+recon_pars.tasksliced=<span class="matlab_value">1</span>;    <span class="matlab_comment">% [0/1] use 1 to break task in multiple executions</span>
+
+
+<span class="matlab_comment">% call the reconstruction program and display result</span>
+image = <a href="iradon_qiao_fbp3d.html" class="eprit_function">iradon_qiao_fbp3d</a>(P, radon_pars, recon_pars);
+<a href="ibgui.html" class="eprit_function">ibGUI</a>(image);</p>
+<p class="matlab_example_legend">Legend: <span class="eprit_function">EPR-IT functions</span>; <span class="matlab_function">MATLAB functions</span>; <span class="matlab_comment">comments</span>.</p>
+
+
+<p>
+[1] Z.W. Qiao, G. Redler, B. Epel, H.J. Halpern, Comparison of parabolic filtration methods for 3D filtered back projection in pulsed EPR imaging, J. Magn. Reson., 248 (2014) 42-53 DOI 10.1016/j.jmr.2014.08.010.<br>
+[2] Z.W. Qiao, G.G. Redler, B. Epel, Y.H. Qian, H. Halpern, Implementation of GPU-accelerated back projection for EPR imaging, J X-Ray Sci Technol, 23 (2015) 423-433 10.3233/Xst-150498.
+</p>
+
+<p class="see_also">See also:</p>
+<p class="see_also_list"><a href='radon_c2d_sphere.html'>radon_c2d_sphere</a>, <a href='iradon_interptouniformangle.html'>iradon_InterpToUniformAngle</a>, <a href='iradon_vor_area_3d.html'>iradon_vor_area_3d</a></p>
+</td>
+  </tr>
+ </table> 
+</body>
+</html>

@@ -1,0 +1,7 @@
+% res = epr_minmax(data <, method_str>)
+% Get minimum/maximum of data
+%   data - any data
+%   method_str - 'all' for [min(data(:)), max(data(:))]
+%              - 'n%'  for boundaries that exclude 3% of data highest and
+%              lowest values.
+% Example: epr_minmax(1:100, '3%') -> [4,96]

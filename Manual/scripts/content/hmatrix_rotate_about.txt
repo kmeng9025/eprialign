@@ -1,0 +1,14 @@
+<p class="func_descript">Create rotation matrix</p>
+
+$syntaxon$
+A = hmatrix_rotate_about(direction, angle)
+A = hmatrix_rotate_about(direction, angle, center)
+$syntaxoff$
+
+$descon$
+Create matrix for rotation by angle degrees about the specified direction
+direction - rotation axis (float, 1x3)
+angle - rotation angle (float, degrees)
+center - rotation center (float, 1x3)
+A - transformation matrix (float, 4x4)
+$descoff$

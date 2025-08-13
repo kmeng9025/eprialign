@@ -1,0 +1,23 @@
+% ARBUZ_FINDIMAGE  find image in the project
+% output_list = arbuz_FindImage(hGUI, input_list, criterion, arg, output_fields)
+% hGUI              - application handle
+% input_list        - the scope of the search [string, array or cell array]
+%   all/master/slave/+/v   - all/master images/slave images/ SELECTED images/ images SHOWN
+%   [MasterIdx, SlaveIdx]  - indexes of an image [int]
+%   cell array of element [structure]
+%      [].ImageIdx - master image index
+%      [].Image    - master image name
+%      [].SlaveIdx - slave image index (-1 for master)
+%      [].Slave    - slave image name
+%   either ImageIdx or Image has to be provided
+%   either SlaveIdx or Slave has to be provided 
+% criterion         - search criterion
+%      Highlighted/Selected/Visible/Name/ImageType or '' [string]
+% arg               - value of the field or '' [string]
+% output_fields     - cell array of field names to be included into output_list [cell array of strings]
+%                     NAME/FULLNAME/FILENAME/IMAGETYPE/SELECTED/DATA/MASK/SLAVELIST/BBOX/
+%                     COLOR/SELCTEDCOLOR/NOTSELECTEDCOLOR/MasterType
+%                     A/Apre/Aprime/Anext/Acurrent/Ashow/Anative/
+% output_list       - cell array that has structure (see input_list:5)
+%                     fields 'ImageType' and 'Selected' are returned by default
+% EXAMPLE: output_list = arbuz_FindImage(hh, 'all', 'ImageType', '2D', {'A'})

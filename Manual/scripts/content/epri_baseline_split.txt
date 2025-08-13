@@ -1,0 +1,26 @@
+<p class="func_descript">Split dataset into data traces and base line traces.</p>
+
+$syntaxon$
+[data, baseline, out_idx, pars_out, bl_info] = ...
+  epri_baseline_split(data_and_baseline, service_idx, pars)
+$syntaxoff$
+
+$descon$
+data_and_baseline - experimental traces (float, MxN, N = number of traces, M = trace length)
+service_idx       - description of traces (int, Nx1, N = number of traces)
+  PROJECTION_INDEX=1   projection
+  BASELINE_INDEX=0     baseline trace
+  NAVIGATOR_INDEX=100  navigator trace
+pars              -  experimental parameters (structure)
+  ~.G - gradient vector (float, G/cm, Nx3, N - number of gradients)
+  ~.nP - number of projections (int)
+  ~.nTrace - overall number of traces, including baselines, zero gradients etc (int)
+data - traces belong to data (float, MxN, N = number of traces, M = trace length)
+baseline - traces belong to baseline (float, MxN, N = number of traces, M = trace length)
+pars_out          -  experimental parameters with baseline removed (structure)
+  see the description of pars
+$descoff$
+
+$seeon$
+epri_baseline
+$seeoff$

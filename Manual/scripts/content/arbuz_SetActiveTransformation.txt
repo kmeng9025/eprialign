@@ -1,0 +1,5 @@
+% ARBUZ_SETACTIVETRANSFORMATION recalculates image transformations
+% status = arbuz_SetActiveTransformation(hGUI, ActiveSequence, ActiveTransformation);
+% status = arbuz_SetActiveTransformation(hGUI, ActiveSequence);
+% status = arbuz_SetActiveTransformation(hGUI);
+% hGUI - handle to the object that holds the project [double]

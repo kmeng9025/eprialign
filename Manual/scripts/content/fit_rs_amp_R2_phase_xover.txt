@@ -1,0 +1,7 @@
+% [out_pars, out_errs] = fit_cw_amp_R2_phase_xover(B, yy, mat_fit_info)
+% 4 parameters fit of spectral data
+% B :  magnetic field
+% yy:  spectra in 2D array, first dimension is spectral
+% mat_fit_info.spin_probe: spin probe
+% mat_fit_info.ModFrequency: modulation frequency
+% mat_fit_info.ModAmplitude: modualtion amplitude

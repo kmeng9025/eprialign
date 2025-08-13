@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<head>
+<title>EPR Imaging Toolbox Help</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="epri.css" type="text/css" />
+
+</head>
+<body>
+<table class="page_header" width = "100%">
+  <tr>
+    <td class="menu_style" width = "260"><img src="images/logo_200.png" alt="Logo" width="100"></td>
+    <td class="menu_style">EPR Imaging Toolbox collection user manual</td>
+  </tr>
+ </table>
+ <table class="page_core" width = "100%"  height="100%">
+  <tr class="page_core_tr">
+    <td class="page_navigation" width = "260"><table width="100%" class="page_navigation">
+<tr><td class="menu_group0">&nbsp;</td></tr>
+<tr><td class="menu_group0"><a href='index.html'>About</a></td></tr>
+<tr><td class="menu_group0"><a href='general_contribution.html'>Contributions</a></td></tr>
+<tr><td class="menu_group0"><a href='general_installation.html'>Installation</a></td></tr>
+<tr><td class="menu_group0"><a href='sample_data.html'>Sample data</a></td></tr>
+<tr><td class="menu_group0"><a href='radon_toolbox.html'>Radon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='iradon_toolbox.html'>Iradon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox.html'>Common toolbox: Algebra</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox_other.html'>Common toolbox: Other</a></td></tr>
+<tr><td class="menu_group0"><a href='epri_toolbox.html'>EPRI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='ibgui_toolbox.html'>ibGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='arbuzgui_toolbox.html'>ArbuzGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='processgui_toolbox.html'>ProcessGUI toolbox</a></td></tr>
+<tr><td class="menu_group1"><a href='processgui.html'>ProcessGUI</a></td></tr>
+<tr><td class="menu_group1"><a href='processloadscenario.html'>ProcessLoadScenario</a></td></tr>
+<tr><td class="menu_group1"><a href='processgetdefinition.html'>ProcessGetDefinition</a></td></tr>
+<tr><td class="menu_group1 menu_selected"><a href='processformcontroller.html'>ProcessFormController</a></td></tr>
+<tr><td class="menu_group1"><a href='processvaluedialogdlg.html'>ProcessValueDialogDLG</a></td></tr>
+<tr><td class="menu_group0"><a href='utilities.html'>Useful utilities</a></td></tr>
+<tr><td class="menu_group0"><a href='used_toolboxes.html'>Toolboxes used</a></td></tr>
+<tr><td class="menu_group0"><a href='helpmanual.html'>This help</a></td></tr>
+</table>
+</td>
+    <td class="page_content text_main" ><p class="func_name">ProcessFormController</p><hr><p class="func_descript">Conversion utility for <a href='processgui.html'>ProcessGUI</a></p>
+
+<p class="matlab_syntax_caption">Syntax:</p>
+<p class="matlab_syntax">[out1, out2] = <b>ProcessFormController</b>(arg1, arg2, fields_definition, action)</p>
+
+
+<p class="matlab_desc_caption">Description:</p>
+<p class="matlab_description">Collection of utilities for interconversion of values within <a href='processgui.html'>ProcessGUI</a>.
+There are three representations of parameters
+  <b>PAR file</b>: the way parameters are stored to PAR file
+  <b>GUI</b>: the way values are displayed in GUI
+  <b>FIELDS</b>: the way parameters are sent out
+For example an array may be presented in GUI and PAR file like a string <span class="description_literal">'1:4'</span> but will be sent out
+as an array [1,2,3,4]
+<span class="structure_field">arg1</span> - input representation in <b>PAR file</b> style
+<span class="structure_field">arg2</span> - input representation in <b>FIELDS</b> style
+<span class="structure_field">fields_definition</span> - cell array of parameter fields description or single parameter field description
+in case of cell array <a href='processformcontroller.html'>ProcessFormController</a> calls itself for each parameter in the array
+<span class="structure_field">fields_definition</span> - single parameter (structure)
+  ~.<span class="structure_field">Name</span>
+  ~.<span class="structure_field">Field</span>
+  ~.<span class="structure_field">Value</span>
+  ~.<span class="structure_field">Type</span> - field type (string, <span class="description_literal">'IDXS'</span>/<span class="description_literal">'D'</span>/<span class="description_literal">'S'</span>/<span class="description_literal">'F'</span>)
+    <span class="description_literal">'IDXS'</span>: string choice
+	<span class="description_literal">'IDX'</span>,<span class="description_literal">'IDX0'</span>,<span class="description_literal">'IDX1'</span>,<span class="description_literal">'IDX1+'</span>:
+	<span class="description_literal">'D'</span>: double value
+	<span class="description_literal">'S'</span>: string value
+	<span class="description_literal">'F'</span>: file name
+  ~.<span class="structure_field">AutoSave</span> - save field (int 0/1, 1 = save)
+  ~.<span class="structure_field">Options</span> - for IDXS field (cell array of strings)
+  ~.<span class="structure_field">Flags</span> - use pop-up dialog (int 0/1, 1 = show dialog)
+  ~.<span class="structure_field">Show</span> - for IDXS field (cell array of strings)
+  ~.<span class="structure_field">Group</span> - structure field name of the corresponding group (string)
+<span class="structure_field">action</span> - name of utility to execute (string <span class="description_literal">'INI2FIELDS'</span>/<span class="description_literal">'INI2GUI'</span>/<span class="description_literal">'FIELDS2INI'</span>/<span class="description_literal">'FIELDS2GUI'</span>/<span class="description_literal">'GUI2FIELDS'</span>/<span class="description_literal">'GUI2INI'</span>)
+  <span class="description_literal">'INI2FIELDS'</span>: converts fields as loaded from PAR file to output representation
+  <span class="description_literal">'INI2GUI'</span>: converts fields from <b>PAR file</b> representation to <b>GUI</b> representation
+  <span class="description_literal">'FIELDS2INI'</span>: converts fields from <b>FIELDS</b> representation to <b>PAR file</b> representation
+  <span class="description_literal">'FIELDS2GUI'</span>: converts fields from <b>FIELDS</b> representation to <b>GUI</b> representation
+  <span class="description_literal">'GUI2FIELDS'</span>: converts fields from <b>GUI</b> representation to <b>FIELDS</b> representation
+  <span class="description_literal">'GUI2INI'</span>: converts fields from <b>GUI</b> representation to PAR file representation
+<span class="structure_field">out1</span> - output representation in <b>PAR file</b> style
+<span class="structure_field">out2</span> - output representation in <b>FIELDS</b> style</p>
+</td>
+  </tr>
+ </table> 
+</body>
+</html>

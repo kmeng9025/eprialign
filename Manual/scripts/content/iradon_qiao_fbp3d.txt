@@ -1,0 +1,86 @@
+<p class="func_descript">3D filtered backprojection single stage image reconstruction from an arbitrary set of 1D projections</p>
+
+$syntaxon$
+image = iradon_qiao_fbp3d(P, radon_pars, recon_pars)
+$syntaxoff$
+ 
+$descon$
+P - projections (float, MxN, M - points in projection, N - number of projections)
+radon_pars - Radon transformation parameters (structure)
+  ~.G - gradient vector (float, G/cm, Nx3, N - number of projections)
+  ~.w - projection weight factor (float, Nx1, N - number of projections)
+recon_pars - reconstruction parameters (structure)
+  ~.nBins  - image size in voxels (int)
+  ~.Filter - projection filtration 
+      1: 2rd derivative
+      2: 3-points derivative method
+      3: 5-points derivative method
+      4: RL filter
+      5: SL filter, 
+      6: hamming filter
+      7: two-ramp filters method
+  ~.FilterCutOff  - Filter cut off, part of full bandwidth (float, 0 to 1)
+  ~.Interpolation - interpolation method, (int, 0/1/2)
+     0: zero-rank interpolation method; 
+     1: linear interpolation method;
+     2: spline interpolation method.
+     Note that for GPU reconstruction, you can select only 0 or 1.
+  ~.zeropadding_times   - zeropadding factor for two-ramp filter (int, >= 1)
+  ~.CodeFlag      - reconstruction code (string, 'CPU'/'GPU')
+  ~.display       - verbosity settings (int, 0/1, 0: no display, 1: intermediate results);
+  ~.tasksliced    - break task in multiple executions to save memory, GPU only (int, 0/1)
+image - reconstructed object (float, NxNxN, N - number of voxels in each dimension)
+$descoff$
+ 
+$exon$
+% Generate equal solid angle layout of projections
+fbp_struct.nAz = 36;
+fbp_struct.nPolar = 36;
+fbp_struct.imtype = iradon_GetFBPImageType('XYZ');
+fbp_struct.MaxGradient = 1;     % maximum gradient (G/cm)
+fbp_struct.angle_sampling = 'UNIFORM_SPATIAL_FLIP';
+pars = iradon_FBPGradTable(fbp_struct);
+
+% Radon transformation parameters
+radon_pars.un = pars.G;    % unit vectors of the gradients
+radon_pars.size = 5;       % projection spatial support (cm)
+radon_pars.nBins = 64;     % length of the projection spatial support
+
+% Phantom parameters
+phantom.r = 2.2;               % radius of the sphere (cm)
+phantom.offset = [0.1,-0.1,0]; % offset of the sphere (cm)
+
+% use radon_c2d_sphere to generate analytic projections
+P = radon_c2d_sphere(phantom, radon_pars);
+
+radon_pars.G = pars.G;
+% determine projection weights
+radon_pars.w = iradon_vor_area_3d(radon_pars.G);
+
+recon_pars.size = 5;     % reconstructed image size (cm)
+recon_pars.nBins = 128;  % reconstructed image dimensions 128x128x128
+recon_pars.Filter = 6;   % hamming filter
+recon_pars.FilterCutOff = 1.0;
+recon_pars.Interpolation = 1; % 1 is linear interpolation method
+recon_pars.InterpFactor = 2;
+recon_pars.CodeFlag = 'GPU';
+
+recon_pars.display=0;
+recon_pars.tasksliced=1;    % [0/1] use 1 to break task in multiple executions
+
+
+% call the reconstruction program and display result
+image = iradon_qiao_fbp3d(P, radon_pars, recon_pars);
+ibGUI(image);
+$exoff$
+
+<p>
+[1] Z.W. Qiao, G. Redler, B. Epel, H.J. Halpern, Comparison of parabolic filtration methods for 3D filtered back projection in pulsed EPR imaging, J. Magn. Reson., 248 (2014) 42-53 DOI 10.1016/j.jmr.2014.08.010.<br>
+[2] Z.W. Qiao, G.G. Redler, B. Epel, Y.H. Qian, H. Halpern, Implementation of GPU-accelerated back projection for EPR imaging, J X-Ray Sci Technol, 23 (2015) 423-433 10.3233/Xst-150498.
+</p>
+
+$seeon$
+radon_c2d_sphere
+iradon_InterpToUniformAngle
+iradon_vor_area_3d
+$seeoff$

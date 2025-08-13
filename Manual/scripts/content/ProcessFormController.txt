@@ -1,0 +1,43 @@
+<p class="func_descript">Conversion utility for $processgui$</p>
+
+$syntaxon$
+[out1, out2] = ProcessFormController(arg1, arg2, fields_definition, action)
+$syntaxoff$
+
+$descon$
+Collection of utilities for interconversion of values within $processgui$.
+There are three representations of parameters
+  <b>PAR file</b>: the way parameters are stored to PAR file
+  <b>GUI</b>: the way values are displayed in GUI
+  <b>FIELDS</b>: the way parameters are sent out
+For example an array may be presented in GUI and PAR file like a string '1:4' but will be sent out
+as an array [1,2,3,4]
+arg1 - input representation in <b>PAR file</b> style
+arg2 - input representation in <b>FIELDS</b> style
+fields_definition - cell array of parameter fields description or single parameter field description
+in case of cell array $processformcontroller$ calls itself for each parameter in the array
+fields_definition - single parameter (structure) 
+  ~.Name
+  ~.Field
+  ~.Value
+  ~.Type - field type (string, 'IDXS'/'D'/'S'/'F')
+    'IDXS': string choice
+	'IDX','IDX0','IDX1','IDX1+':
+	'D': double value
+	'S': string value
+	'F': file name
+  ~.AutoSave - save field (int 0/1, 1 = save)
+  ~.Options - for IDXS field (cell array of strings)
+  ~.Flags - use pop-up dialog (int 0/1, 1 = show dialog)
+  ~.Show - for IDXS field (cell array of strings)
+  ~.Group - structure field name of the corresponding group (string)
+action - name of utility to execute (string 'INI2FIELDS'/'INI2GUI'/'FIELDS2INI'/'FIELDS2GUI'/'GUI2FIELDS'/'GUI2INI')
+  'INI2FIELDS': converts fields as loaded from PAR file to output representation
+  'INI2GUI': converts fields from <b>PAR file</b> representation to <b>GUI</b> representation
+  'FIELDS2INI': converts fields from <b>FIELDS</b> representation to <b>PAR file</b> representation
+  'FIELDS2GUI': converts fields from <b>FIELDS</b> representation to <b>GUI</b> representation
+  'GUI2FIELDS': converts fields from <b>GUI</b> representation to <b>FIELDS</b> representation
+  'GUI2INI': converts fields from <b>GUI</b> representation to PAR file representation
+out1 - output representation in <b>PAR file</b> style
+out2 - output representation in <b>FIELDS</b> style
+$descoff$

@@ -1,0 +1,3 @@
+% ARBUZ_REDRAWALL draw all the viewes registered
+% arbuz_RedrawAll(hGUI);
+% hGUI - handle to the object that holds the project [double]

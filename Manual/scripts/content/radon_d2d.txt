@@ -1,0 +1,80 @@
+
+<p class="func_descript">3D Radon transformation</p>
+
+$syntaxon$
+[P] = radon_d2d(M, object_size, radon_pars)
+[l, P] = radon_d2d(M, object_size, radon_pars)
+$syntaxoff$
+
+$descon$
+M - matrix of an object (float, NxNxN, N - matrix dimension)
+object_size - matrix size (float, cm)
+radon_pars - Radon transformation parameters (structure)
+    ~.un     - unit vectors of directions (float, Nx2 or Nx3, N-number of projection)
+    ~.size   - projection length (float, cm)
+    ~.nBins  - projection array length (int)
+    ~.l      - projection spatial support (float, cm, Mx1, M - projection length)
+    (size, nBins) and l are mutually exclusive definitions	
+P - projection data (float, MxN, M - projection length, N-number of projection)
+l - axis of projection (float, cm, Mx1, M - projection length)
+$descoff$
+
+$exon$
+sphere.r=3;               % radius of the sphere
+sphere.offset=[-.5,1,0];  % offset of the sphere
+sphere.size=10;		      % size of imaged area
+sphere.nBins=64;	      % matrix size
+phantom = radon_phantom(sphere);
+
+% Generate equal solid angle layout of projections
+fbp_struct.nAz = 12;
+fbp_struct.nPolar = 12;
+fbp_struct.imtype = iradon_GetFBPImageType('XYZ');
+fbp_struct.MaxGradient = 1;     % maximum gradient (G/cm)
+fbp_struct.angle_sampling = 'UNIFORM_SPATIAL_FLIP';
+pars = iradon_FBPGradTable(fbp_struct);
+
+% Radon transformation parameters
+radon_pars.un = pars.G;    % unit vectors of the gradients
+radon_pars.size = 10;       % projection spatial support (cm)
+radon_pars.nBins = 64;     % length of the projection spatial support
+
+P = radon_d2d(phantom, sphere.size, radon_pars);
+MatrixGUI(P);
+$exoff$
+
+<p>Reconstruction of the obtained projections</p>
+
+$exon$
+% convert serial projection layout into iradon_d2d_mstage layout
+PP = zeros(size(P,1), fbp_struct.nAz*fbp_struct.nPolar);
+PP(:,pars.gidx) = P;
+Pela = reshape(PP, [size(P,1), 1, fbp_struct.nAz, fbp_struct.nPolar]);
+
+% Interpolate projections to the uniform angular scheme
+switch fbp_struct.angle_sampling
+  case {'UNIFORM_SPATIAL_FLIP', 'UNIFORM_SPATIAL'}
+    Pela=iradon_InterpToUniformAngle(Pela, 'imgData');
+end
+
+radon_pars.ELA =  fbp_struct;
+
+recon_pars.size = 5;     % ignored, radon_pars.size is used instead
+recon_pars.nBins = 128;  % ignored, radon_pars.nBins is used instead
+recon_pars.Filter = 'ram-lak';
+recon_pars.FilterCutOff = 1.0;
+recon_pars.Interpolation = 'spline';
+recon_pars.InterpFactor = 2;
+recon_pars.CodeFlag = 'C';
+recon_pars.zeropadding = 2; % any number >= 1
+
+% call the reconstruction program and display result
+image = iradon_d2d_mstage(Pela, radon_pars, recon_pars);
+ibGUI(image);
+$exoff$
+
+$seeon$
+RADON_ANGLE2XYZ
+radon_c2d_sphere
+radon_c2d_cube
+$seeoff$

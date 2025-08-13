@@ -1,0 +1,6 @@
+% [taus,TRs] = epr_DelaySpace(630e-9,2.4e-6,5,'log',14e-6,6e-6)
+% methods:
+%  lin_sat - delays linearly spaced; TRs have ESE saturation correction
+%  log_sat - delays log spaced; TRs have ESE saturation correction
+%  lin_lin - delays linearly spaced; TRs linearly correced
+%  log_lin - delays log spaced; TRs linearly correced

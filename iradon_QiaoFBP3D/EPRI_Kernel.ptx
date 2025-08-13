@@ -1,0 +1,293 @@
+	.version 1.4
+	.target sm_10, map_f64_to_f32
+	// compiled with ./../open64/lib//be.exe
+	// nvopencc 4.1 built on 2012-09-25
+
+	//-----------------------------------------------------------
+	// Compiling C:/Users/zqiao/AppData/Local/Temp/tmpxft_00001a54_00000000-11_EPRI_Kernel.cpp3.i (C:/Users/zqiao/AppData/Local/Temp/ccBI#.a03412)
+	//-----------------------------------------------------------
+
+	//-----------------------------------------------------------
+	// Options:
+	//-----------------------------------------------------------
+	//  Target:ptx, ISA:sm_10, Endian:little, Pointer Size:64
+	//  -O3	(Optimization level)
+	//  -g0	(Debug level)
+	//  -m2	(Report advisories)
+	//-----------------------------------------------------------
+
+	.file	1	"C:/Users/zqiao/AppData/Local/Temp/tmpxft_00001a54_00000000-10_EPRI_Kernel.cudafe2.gpu"
+	.file	2	"g:\program files (x86)\microsoft visual studio 10.0\vc\include\codeanalysis\sourceannotations.h"
+	.file	3	"device_runtime.h"
+	.file	4	"include\host_defines.h"
+	.file	5	"include\builtin_types.h"
+	.file	6	"c:\cuda\v5.0\include\device_types.h"
+	.file	7	"c:\cuda\v5.0\include\host_defines.h"
+	.file	8	"c:\cuda\v5.0\include\driver_types.h"
+	.file	9	"c:\cuda\v5.0\include\surface_types.h"
+	.file	10	"c:\cuda\v5.0\include\texture_types.h"
+	.file	11	"c:\cuda\v5.0\include\vector_types.h"
+	.file	12	"c:\cuda\v5.0\include\builtin_types.h"
+	.file	13	"include\device_launch_parameters.h"
+	.file	14	"c:\cuda\v5.0\include\crt\storage_class.h"
+	.file	15	"EPRI_Kernel.cu"
+	.file	16	"include\common_functions.h"
+	.file	17	"c:\cuda\v5.0\include\math_functions.h"
+	.file	18	"c:\cuda\v5.0\include\math_constants.h"
+	.file	19	"c:\cuda\v5.0\include\device_functions.h"
+	.file	20	"c:\cuda\v5.0\include\sm_11_atomic_functions.h"
+	.file	21	"c:\cuda\v5.0\include\sm_12_atomic_functions.h"
+	.file	22	"c:\cuda\v5.0\include\sm_13_double_functions.h"
+	.file	23	"c:\cuda\v5.0\include\sm_20_atomic_functions.h"
+	.file	24	"c:\cuda\v5.0\include\sm_35_atomic_functions.h"
+	.file	25	"c:\cuda\v5.0\include\sm_20_intrinsics.h"
+	.file	26	"c:\cuda\v5.0\include\sm_30_intrinsics.h"
+	.file	27	"c:\cuda\v5.0\include\sm_35_intrinsics.h"
+	.file	28	"c:\cuda\v5.0\include\surface_functions.h"
+	.file	29	"c:\cuda\v5.0\include\texture_fetch_functions.h"
+	.file	30	"c:\cuda\v5.0\include\texture_indirect_functions.h"
+	.file	31	"c:\cuda\v5.0\include\surface_indirect_functions.h"
+	.file	32	"c:\cuda\v5.0\include\math_functions_dbl_ptx1.h"
+
+
+	.entry _Z14EPRI_3D_kernelPdS_S_S_S_dddddd (
+		.param .u64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_object,
+		.param .u64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_projection,
+		.param .u64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_GX,
+		.param .u64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_GY,
+		.param .u64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_GZ,
+		.param .f64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_length_of_finalcube,
+		.param .f64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_finalimage,
+		.param .f64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_length_of_projection,
+		.param .f64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_angle,
+		.param .f64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_projection,
+		.param .f64 __cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_interp_method)
+	{
+	.reg .u32 %r<26>;
+	.reg .u64 %rd<28>;
+	.reg .f32 %f<28>;
+	.reg .f64 %fd<76>;
+	.reg .pred %p<11>;
+	.loc	15	1	0
+$LDWbegin__Z14EPRI_3D_kernelPdS_S_S_S_dddddd:
+	.loc	15	15	0
+	ld.param.f64 	%fd1, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_angle];
+	mov.f64 	%fd2, 0d3ff0000000000000;	// 1
+	setp.ge.f64 	%p1, %fd1, %fd2;
+	@!%p1 bra 	$Lt_0_6658;
+	cvt.s32.u16 	%r1, %ctaid.x;
+	ld.param.f64 	%fd3, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_finalimage];
+	cvt.rn.f32.f64 	%f1, %fd3;
+	mov.f32 	%f2, 0f3f000000;     	// 0.5
+	mul.f32 	%f3, %f1, %f2;
+	cvt.f64.f32 	%fd4, %f3;
+	ld.param.f64 	%fd5, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_length_of_finalcube];
+	add.s32 	%r2, %r1, 1;
+	cvt.rn.f64.s32 	%fd6, %r2;
+	sub.f64 	%fd7, %fd6, %fd4;
+	mul.f64 	%fd8, %fd5, %fd7;
+	cvt.rn.f32.f64 	%f4, %fd8;
+	div.full.f32 	%f5, %f4, %f1;
+	cvt.f64.f32 	%fd9, %f5;
+	cvt.s32.u16 	%r3, %tid.x;
+	add.s32 	%r4, %r3, 1;
+	cvt.rn.f64.s32 	%fd10, %r4;
+	sub.f64 	%fd11, %fd10, %fd4;
+	mul.f64 	%fd12, %fd5, %fd11;
+	cvt.rn.f32.f64 	%f6, %fd12;
+	div.full.f32 	%f7, %f6, %f1;
+	cvt.f64.f32 	%fd13, %f7;
+	cvt.s32.u16 	%r5, %ctaid.y;
+	add.s32 	%r6, %r5, 1;
+	cvt.rn.f64.s32 	%fd14, %r6;
+	sub.f64 	%fd15, %fd14, %fd4;
+	mul.f64 	%fd16, %fd5, %fd15;
+	cvt.rn.f32.f64 	%f8, %fd16;
+	div.full.f32 	%f9, %f8, %f1;
+	cvt.f64.f32 	%fd17, %f9;
+	ld.param.f64 	%fd18, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_interp_method];
+	cvt.rzi.s32.f64 	%r7, %fd18;
+	ld.param.f64 	%fd19, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_length_of_projection];
+	cvt.rn.f32.f64 	%f10, %fd19;
+	ld.param.f64 	%fd20, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_projection];
+	cvt.rn.f32.f64 	%f11, %fd20;
+	mov.s32 	%r8, 0;
+	setp.eq.s32 	%p2, %r7, %r8;
+	mov.s64 	%rd1, 8;
+	div.full.f32 	%f12, %f10, %f11;
+	mov.f32 	%f13, 0f3f000000;    	// 0.5
+	mul.f32 	%f14, %f11, %f13;
+	cvt.f64.f32 	%fd21, %f14;
+	ld.param.u64 	%rd2, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_GZ];
+	ld.param.u64 	%rd3, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_GX];
+	ld.param.u64 	%rd4, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_GY];
+	mov.s32 	%r9, 1;
+$Lt_0_7170:
+ //<loop> Loop body line 15, nesting depth: 1, estimated iterations: unknown
+	ld.param.u64 	%rd4, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_GY];
+	add.u64 	%rd5, %rd1, %rd4;
+	ld.global.f64 	%fd22, [%rd5+-8];
+	ld.param.u64 	%rd3, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_GX];
+	add.u64 	%rd6, %rd1, %rd3;
+	ld.global.f64 	%fd23, [%rd6+-8];
+	ld.param.u64 	%rd2, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_GZ];
+	add.u64 	%rd7, %rd1, %rd2;
+	ld.global.f64 	%fd24, [%rd7+-8];
+	mul.f64 	%fd25, %fd22, %fd9;
+	mad.rn.f64 	%fd26, %fd23, %fd13, %fd25;
+	mad.rn.f64 	%fd27, %fd24, %fd17, %fd26;
+	@!%p2 bra 	$Lt_0_7682;
+	.loc	15	26	0
+	cvt.rn.f32.f64 	%f15, %fd27;
+	div.full.f32 	%f16, %f15, %f12;
+	abs.f32 	%f17, %f16;
+	mov.b32 	%r10, %f16;
+	and.b32 	%r11, %r10, -2147483648;
+	or.b32 	%r12, %r11, 1056964608;
+	mov.b32 	%f18, %r12;
+	add.f32 	%f19, %f16, %f18;
+	cvt.rzi.f32.f32 	%f20, %f19;
+	mov.f32 	%f21, 0f4b000000;    	// 8.38861e+006
+	setp.gt.f32 	%p3, %f17, %f21;
+	selp.f32 	%f22, %f16, %f20, %p3;
+	mov.f32 	%f23, 0f3f000000;    	// 0.5
+	setp.lt.f32 	%p4, %f17, %f23;
+	@!%p4 bra 	$Lt_0_7938;
+	.loc	17	10798	0
+	cvt.rzi.f32.f32 	%f22, %f16;
+$Lt_0_7938:
+	.loc	17	10799	0
+	cvt.f64.f32 	%fd28, %f22;
+	add.f64 	%fd29, %fd28, %fd21;
+	mov.f64 	%fd30, 0d0000000000000000;	// 0
+	setp.ge.f64 	%p5, %fd29, %fd30;
+	@!%p5 bra 	$Lt_0_9474;
+	mov.f64 	%fd31, 0dbff0000000000000;	// -1
+	.loc	15	15	0
+	ld.param.f64 	%fd20, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_projection];
+	.loc	17	10799	0
+	add.f64 	%fd32, %fd20, %fd31;
+	setp.le.f64 	%p6, %fd29, %fd32;
+	@!%p6 bra 	$Lt_0_9474;
+	.loc	15	30	0
+	cvt.rn.f64.s32 	%fd33, %r3;
+	cvt.rn.f64.s32 	%fd34, %r5;
+	.loc	15	15	0
+	ld.param.f64 	%fd3, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_finalimage];
+	.loc	15	30	0
+	mul.f64 	%fd35, %fd34, %fd3;
+	mul.f64 	%fd36, %fd3, %fd35;
+	cvt.rn.f64.s32 	%fd37, %r1;
+	mad.rn.f64 	%fd38, %fd37, %fd3, %fd36;
+	add.f64 	%fd39, %fd33, %fd38;
+	cvt.rzi.s32.f64 	%r13, %fd39;
+	ld.param.u64 	%rd8, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_object];
+	cvt.s64.s32 	%rd9, %r13;
+	mul.wide.s32 	%rd10, %r13, 8;
+	add.u64 	%rd11, %rd8, %rd10;
+	ld.global.f64 	%fd40, [%rd11+0];
+	ld.param.u64 	%rd12, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_projection];
+	sub.s32 	%r14, %r9, 1;
+	cvt.rn.f64.s32 	%fd41, %r14;
+	.loc	15	15	0
+	ld.param.f64 	%fd20, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_projection];
+	.loc	15	30	0
+	mad.rn.f64 	%fd42, %fd41, %fd20, %fd29;
+	cvt.rzi.s32.f64 	%r15, %fd42;
+	cvt.s64.s32 	%rd13, %r15;
+	mul.wide.s32 	%rd14, %r15, 8;
+	add.u64 	%rd15, %rd12, %rd14;
+	ld.global.f64 	%fd43, [%rd15+0];
+	add.f64 	%fd44, %fd40, %fd43;
+	st.global.f64 	[%rd11+0], %fd44;
+	bra.uni 	$Lt_0_9474;
+$Lt_0_7682:
+	.loc	15	33	0
+	cvt.rn.f32.f64 	%f24, %fd27;
+	div.full.f32 	%f16, %f24, %f12;
+	cvt.rmi.f32.f32 	%f25, %f16;
+	cvt.f64.f32 	%fd45, %f25;
+	cvt.rzi.s32.f64 	%r16, %fd45;
+	cvt.rn.f64.s32 	%fd46, %r16;
+	add.f64 	%fd47, %fd46, %fd21;
+	cvt.rzi.s32.f64 	%r17, %fd47;
+	mov.u32 	%r18, 0;
+	setp.lt.s32 	%p7, %r17, %r18;
+	@%p7 bra 	$Lt_0_9474;
+	cvt.rpi.f32.f32 	%f26, %f16;
+	cvt.f64.f32 	%fd48, %f26;
+	cvt.rzi.s32.f64 	%r19, %fd48;
+	cvt.rn.f64.s32 	%fd49, %r19;
+	add.f64 	%fd50, %fd49, %fd21;
+	cvt.rzi.s32.f64 	%r20, %fd50;
+	cvt.rn.f64.s32 	%fd51, %r20;
+	mov.f64 	%fd52, 0dbff0000000000000;	// -1
+	.loc	15	15	0
+	ld.param.f64 	%fd20, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_projection];
+	.loc	15	33	0
+	add.f64 	%fd53, %fd20, %fd52;
+	setp.le.f64 	%p8, %fd51, %fd53;
+	@!%p8 bra 	$Lt_0_9474;
+	.loc	15	42	0
+	sub.s32 	%r21, %r9, 1;
+	cvt.rn.f64.s32 	%fd54, %r21;
+	cvt.rn.f64.s32 	%fd55, %r17;
+	ld.param.u64 	%rd16, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_projection];
+	.loc	15	15	0
+	ld.param.f64 	%fd20, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_projection];
+	.loc	15	42	0
+	mad.rn.f64 	%fd56, %fd54, %fd20, %fd55;
+	cvt.rzi.s32.f64 	%r22, %fd56;
+	cvt.s64.s32 	%rd17, %r22;
+	mul.wide.s32 	%rd18, %r22, 8;
+	add.u64 	%rd19, %rd16, %rd18;
+	ld.global.f64 	%fd57, [%rd19+0];
+	.loc	15	43	0
+	mad.rn.f64 	%fd58, %fd54, %fd20, %fd51;
+	cvt.rzi.s32.f64 	%r23, %fd58;
+	cvt.s64.s32 	%rd20, %r23;
+	mul.wide.s32 	%rd21, %r23, 8;
+	add.u64 	%rd22, %rd16, %rd21;
+	ld.global.f64 	%fd59, [%rd22+0];
+	.loc	15	44	0
+	cvt.rn.f64.s32 	%fd60, %r3;
+	cvt.rn.f64.s32 	%fd61, %r5;
+	.loc	15	15	0
+	ld.param.f64 	%fd3, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_finalimage];
+	.loc	15	44	0
+	mul.f64 	%fd62, %fd61, %fd3;
+	mul.f64 	%fd63, %fd3, %fd62;
+	cvt.rn.f64.s32 	%fd64, %r1;
+	mad.rn.f64 	%fd65, %fd64, %fd3, %fd63;
+	add.f64 	%fd66, %fd60, %fd65;
+	cvt.rzi.s32.f64 	%r24, %fd66;
+	ld.param.u64 	%rd23, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_object];
+	cvt.s64.s32 	%rd24, %r24;
+	mul.wide.s32 	%rd25, %r24, 8;
+	add.u64 	%rd26, %rd23, %rd25;
+	ld.global.f64 	%fd67, [%rd26+0];
+	cvt.f64.f32 	%fd68, %f16;
+	add.f64 	%fd69, %fd68, %fd21;
+	sub.f64 	%fd70, %fd69, %fd55;
+	sub.f64 	%fd71, %fd59, %fd57;
+	mad.rn.f64 	%fd72, %fd70, %fd71, %fd57;
+	add.f64 	%fd73, %fd67, %fd72;
+	st.global.f64 	[%rd26+0], %fd73;
+$Lt_0_9474:
+$L_0_6146:
+$Lt_0_7426:
+	.loc	15	23	0
+	add.s32 	%r9, %r9, 1;
+	add.u64 	%rd1, %rd1, 8;
+	cvt.rn.f64.s32 	%fd74, %r9;
+	.loc	15	15	0
+	ld.param.f64 	%fd1, [__cudaparm__Z14EPRI_3D_kernelPdS_S_S_S_dddddd_number_of_angle];
+	.loc	15	23	0
+	setp.le.f64 	%p9, %fd74, %fd1;
+	@%p9 bra 	$Lt_0_7170;
+$Lt_0_6658:
+	.loc	15	59	0
+	exit;
+$LDWend__Z14EPRI_3D_kernelPdS_S_S_S_dddddd:
+	} // _Z14EPRI_3D_kernelPdS_S_S_S_dddddd
+

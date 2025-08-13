@@ -1,0 +1,13 @@
+function plot_points_3d(endpoints,varargin)
+
+color = 'r';
+linestyle = '-';
+if (nargin > 1), color = varargin{1}; end
+if (nargin > 2), linestyle = varargin{2}; end
+
+nvecs=size(endpoints,1);
+x=squeeze(endpoints(:,1),:,:);
+y=squeeze(endpoints(:,2),:,:);
+z=squeeze(endpoints(:,3),:,:);
+
+plot3(x,y,z, color,'linestyle', linestyle);

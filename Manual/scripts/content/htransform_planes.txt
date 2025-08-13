@@ -1,0 +1,13 @@
+<p class="func_descript">Apply transformation to points located in a set of planes</p>
+
+$syntaxon$
+newpoints = htransform_planes(pointlist, Alist)
+$syntaxoff$
+
+$descon$
+Takes a list of points and a list of transformations and applies the respective transformation to
+the points on each plane.
+pointlist - list of points (float, Nx3xM, N - number of planes, M - number of points)
+Alist - transformation matrix (float, 4x4xN, N - number of planes)
+newpoints - translation vector (float, Nx3xM, N - number of planes, M - number of points)
+$descoff$

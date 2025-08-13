@@ -1,0 +1,3 @@
+% function output_list = arbuz_GetSaveParList(hh, plugin_name)
+% hh          - handle or handles structure of ArbuzGUI
+% plugin_name - name of the plugin or empty for all

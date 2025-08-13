@@ -1,0 +1,28 @@
+<p class="func_descript">Load scenario and parameter files.</p>
+
+$syntaxon$
+[pars] = ProcessLoadScenario(scenario_file, parameter_file)
+[pars, scenario] = ProcessLoadScenario(scenario_file, parameter_file)
+[pars, scenario, ini] = ProcessLoadScenario(scenario_file, parameter_file)
+$syntaxoff$
+
+$descon$
+See $processgui_toolbox$ for description of file formats.
+scenario_file - SCN file that contains MATLAB script (string) 
+parameter_file - PAR file with INI internal structure (string) 
+pars - (structure) of fields
+scenario - (cell array) of field description, similar to inistruct of $inimanage$.
+ini - parameters, as loaded from PAR file (struct)
+$descoff$
+
+$exon$
+% Load parameters
+pars = ProcessLoadScenario('PulseRecon.scn', 'Pulse T1inv.par');
+% Modify some parameters
+pars.prc.save_data = 0;
+pars.fbp.projection_order = 'msps';
+
+% Image processing and visualizaation
+res = ese_fbp_InvRec('test_t1_image.tdms', '', '', pars);
+ibGUI(res)
+$exoff$

@@ -1,0 +1,20 @@
+<p class="func_descript">Reslice one image volume along the planes of another.</p>
+
+$syntaxon$
+resliced_volume=reslice_volume(A1, A2, IM1, IM2, padvalue, direction)
+$syntaxoff$
+
+$descon$
+Reslices one image volume along the planes of another, using transformation matrices.
+The transformation can be used in a "forward" or a "reverse" direction.  
+
+A1 - transformation matrix from IM1 coordinate frame to common coordinate frame (float, 4x4)
+A2 - transformation matrix from IM2 coordinate frame to common coordinate frame (float, 4x4)
+IM1 - image 1 (float, 2D or 3D)
+IM2 - image 2 (float, 2D or 3D)
+padvalue  - the value to use for padding non-overlapped regions during re-slicing (float)
+direction - directions of transformation (int, >=0 / <0)
+  >=0: "forward" reslicing, resliced_volume = IM2 -> IM1, transformation A = inv(A1)*A2
+   <0: "reverse" reslicing resliced_volume = IM1 -> IM2, transformation A = inv(A2)*A1
+resliced_volume - resulting image (float, 2D or 3D) 
+$descoff$

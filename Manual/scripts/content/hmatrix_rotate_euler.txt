@@ -1,0 +1,12 @@
+<p class="func_descript">Create Euler rotation matrix</p>
+
+$syntaxon$
+A = hmatrix_rotate_euler(angles)
+$syntaxoff$
+
+$descon$
+Create matrix for euler angle rotation
+angles - alpha, beta, gamma (float, 1xN, in degrees)
+<img src="images/euler_angles.png"><br>
+A - transformation matrix (float, 4x4)
+$descoff$

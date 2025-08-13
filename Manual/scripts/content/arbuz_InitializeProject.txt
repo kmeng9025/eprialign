@@ -1,0 +1,3 @@
+% ARBUZ_INITIALIZEPROJECT  prepare project data structures
+% arbuz_InitializeProject(hGUI);
+% hGUI - handle to the object that holds the project [double]

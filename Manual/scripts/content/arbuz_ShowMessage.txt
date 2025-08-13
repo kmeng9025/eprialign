@@ -1,0 +1,4 @@
+% ARBUZ_SHOWMESSAGE  display message in the standart dispaly areas
+% arbuz_ShowMessage(hGUI, the_message);
+% hGUI - handle to the object that holds the project [double]
+% the_message - message [string]

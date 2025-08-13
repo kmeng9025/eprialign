@@ -1,0 +1,20 @@
+<p class="func_descript">Return 3D arrays of x, y and z coordinates of image voxels</p>
+
+$syntaxon$
+[xout, yout, zout] = generate_image_coordinates(xlo, xhi, xcount, ylo, yhi, ycount, zlo, zhi, zcount)
+$syntaxoff$
+
+$descon$
+Returns 3D arrays of x, y and z coordinates of image voxels.
+xlo - minimum X coordinate
+xhi - maximum X coordinate
+xcount - number of voxels in X direction
+similar definitions are for Y and Z coordinates with ylo, yhi, ycount and zlo, zhi, zcount parameters
+xout  - X coordinates for image voxels (float, MxNxL, N = xcount, M = ycount, L = zcount)
+yout  - Y coordinates for image voxels (float, MxNxL, N = xcount, M = ycount, L = zcount)
+zout  - Z coordinates for image voxels (float, MxNxL, N = xcount, M = ycount, L = zcount)
+x is assumed to lie across image ROWS (second array index)
+y down image COLUMNS (first array index)
+z along image PAGE direction (third array index)
+$generate_image_coordinates$ provides input to interp3 functions used for image re-sampling.
+$descoff$

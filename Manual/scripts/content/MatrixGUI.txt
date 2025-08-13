@@ -1,0 +1,11 @@
+<p class="func_descript">MATLAB GUI for matrix visualization. Provides 1D visualizer along any matrix dimension</p>
+
+$syntaxon$
+MatrixGUI(matrix)
+$syntaxoff$
+
+$descon$
+matrix - any matrix with up to 4 dimensions
+$descoff$
+
+<p><img src="images/matrixgui.png"></p>

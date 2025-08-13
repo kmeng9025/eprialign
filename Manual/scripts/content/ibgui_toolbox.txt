@@ -1,0 +1,11 @@
+<p>An orthoslice viewer with elements of statistics for up to 4D images</p>
+
+<p>
+	<li>Orthographic slice display
+	<li>Statistics display
+	<li>Supports multiple masks for statistics
+	<li>Mask drawing tools
+	<li>Stereotactic localization tools
+</p>
+
+<p><img height = "300" src="images/ibgui.png"></p>

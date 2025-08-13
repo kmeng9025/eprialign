@@ -1,0 +1,29 @@
+<p class="func_descript">Convert relaxation rate to oxygen concentration.</p>
+
+$syntaxon$
+pO2 = epr_R2_PO2(R2)
+pO2 = epr_R2_PO2(R2, Amp, mask, probe_info)
+$syntaxoff$
+
+$descon$
+Converts relaxation time to oxygen concentration for the given parameters.
+<img height = "60" src="images/epr_r2_po2.png">
+<strong><i>&gamma;</i></strong> is the gyromagnetic ratio of electron, 2.802 MHz/G.
+Other parameters are described below.
+R2    - matrix of relaxation times <strong><i>R<sub>2</sub></i></strong> (float, x10<sup>6</sup>s<sup>-1</sup>)
+Amp   - matrix of spin probe concentration <strong><i>I</i></strong> (float, a.u.)
+probe_info - (structure) of spin probe parameters
+  ~.LLW_zero_po2    - Lorentzian line width <strong>LLW<sub>pO<sub>2</sub>=0</sub></strong> at 0 torr (float, mG, default is 10.2)
+  ~.Torr_per_mGauss - proportionality coefficient <strong>&kappa;</strong> (float, torr/mG, default is 1.84)
+  ~.mG_per_mM       - self broadening coefficient <strong><i>a</i></strong> (float, mG/mM, default is 0)
+  ~.MDNmG_per_mM    - self broadening coefficient for median spin-probe concentration (float, mG/mM, default is 0)
+  ~.amp1mM          - intensity <strong><i>I<sub>1mM</sub></i></strong> corresponding to 1 mM (float, a.u.)
+mask  - mask to select values for conversion, use true(size(T2)) to select all (boolean)
+pO2   - matrix of oxygen concentrations (float, torr)
+size(R2)=size(Amp)=size(mask)=size(pO2)
+$descoff$
+
+$exon$
+R2 = 0.25;  % [us]
+sprintf('%4.1f torr',epr_R2_PO2(R2))
+$exoff$

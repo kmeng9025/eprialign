@@ -1,0 +1,96 @@
+<p class="func_descript">3D and 4D filtered backprojection image reconstruction from 1D projections. Sequential 2D reconstructions (multi-stage) are employed.</p>
+
+$syntaxon$
+image = iradon_d2d_mstage(Pela, radon_pars, recon_pars)
+$syntaxoff$
+
+
+$descon$
+3D and 4D filtered backprojection image reconstruction from 1D projections. 
+Sequential 2D reconstructions (multi-stage) are employed.
+Equal angular projection scheme is required.
+Definition of angles is shown in the figure below.
+<img height = "140" src="images/polar_coordinates.png">
+<img height = "120" src="images/iradon_mstage.png"><br>
+<strong><i>&Theta;</i></strong> and <strong><i>&phi;</i></strong> are spatial angles. <strong><i>&alpha;</i></strong> is spectral angle discussed in $iradon_toolbox$.</br>
+Pela - equal linear angle sampled projections (float)
+  for 3D: size(Pela)=[points_in_projection, 1, <strong><i>N<sub>&Theta;</sub></i></strong>, <strong><i>N<sub>&phi;</sub></i></strong>]
+  for 4D: size(Pela)=[points_in_projection, <strong><i>N<sub>&Theta;</sub></i></strong>, <strong><i>N<sub>&phi;</sub></i></strong>, <strong><i>N<sub>&alpha;</sub></i></strong>]
+radon_pars - projection parameters (structure)
+  ~.ELA - equal angle gradient scheme parameters (structure)
+     ~.imtype - Image type (int, 1 for 4D, 14 for 3D)
+     ~.nPolar - Number of polar (<strong><i>N<sub>&Theta;</sub></i></strong>) angles (int)
+     ~.nAz    - Number of azimuthal (<strong><i>N<sub>&phi;</sub></i></strong>) angles (int)
+     ~.nSpec  - Number of spectral (<strong><i>N<sub>&alpha;</sub></i></strong>) angles (int)
+     ~.size - length of the spacial projection (float, in cm)
+recon_pars - reconstruction parameters (structure)
+  ~.nBins  - Image size in all dimensions (int, in voxels)
+  ~.Filter - (string, 'ram-lak'/'shepp-logan'/'cosine'/'hamming'/'hann')
+  ~.FilterCutOff  - Filter cut off, part of full bandwidth (float, 0 to 1)
+  ~.InterpFactor  - Projection interpolation factor, (int, 1/2/4/etc)
+  ~.Interpolation - Inerpolation method, (string, 'none'/'sinc'/'spline'/'linear')
+  ~.CodeFlag      - Reconstruction code (string, 'C'/'MATLAB'/'FORTRAN')
+  ~.zeropadding   - zeropadding factor (int, >= 1)
+image - reconstructed object
+Number of bins in reconstructed matrix in all dimensions is equal to the number of points in projections
+$descoff$
+
+$exon$
+% Generate equal solid angle layout of projections
+fbp_struct.nAz = 36;
+fbp_struct.nPolar = 36;
+fbp_struct.imtype = iradon_GetFBPImageType('XYZ');
+fbp_struct.MaxGradient = 1;     % maximum gradient (G/cm)
+fbp_struct.angle_sampling = 'UNIFORM_SPATIAL_FLIP'; 
+pars = iradon_FBPGradTable(fbp_struct);
+ 
+% Radon transformation parameters 
+radon_pars.un = pars.G;    % unit vectors of the gradients
+radon_pars.size = 5;       % projection spatial support (cm)
+radon_pars.nBins = 64;     % length of the projection spatial support
+ 
+% Phantom parameters
+phantom.r = 2.2;               % radius of the sphere (cm)
+phantom.offset = [0.1,-0.1,0]; % offset of the sphere (cm)
+
+% use radon_c2d_sphere to generate analytic projections
+P = radon_c2d_sphere(phantom, radon_pars);
+
+% convert serial projection layout into iradon_d2d_mstage layout
+PP = zeros(size(P,1), fbp_struct.nAz*fbp_struct.nPolar);
+PP(:,pars.gidx) = P;
+Pela = reshape(PP, [size(P,1), 1, fbp_struct.nAz, fbp_struct.nPolar]);
+ 
+% Interpolate projections to the uniform angular scheme
+switch fbp_struct.angle_sampling
+  case {'UNIFORM_SPATIAL_FLIP', 'UNIFORM_SPATIAL'}
+    Pela=iradon_InterpToUniformAngle(Pela, 'imgData');
+end
+ 
+radon_pars.ELA =  fbp_struct;
+
+recon_pars.size = 5;     % ignored, radon_pars.size is used instead
+recon_pars.nBins = 128;  % ignored, radon_pars.nBins is used instead
+recon_pars.Filter = 'ram-lak';
+recon_pars.FilterCutOff = 1.0;
+recon_pars.Interpolation = 'spline';
+recon_pars.InterpFactor = 2;
+recon_pars.CodeFlag = 'C';
+recon_pars.zeropadding = 2; % any number >= 1
+ 
+% call the reconstruction program and display result
+image = iradon_d2d_mstage(Pela, radon_pars, recon_pars);
+ibGUI(image);
+$exoff$
+
+<p>
+[1] K.H. Ahn, H.J. Halpern, Spatially uniform sampling in 4-D EPR spectral-spatial imaging, J. Magn. Reson., 185 (2007) 152-158 DOI 10.1016/j.jmr.2006.12.007.<br>
+[2] K.H. Ahn, H.J. Halpern, Simulation of 4D spectral-spatial EPR images, J. Magn. Reson., 187 (2007) 1-9 DOI 10.1016/j.jmr.2007.02.013.<br>
+[3] K.H. Ahn, H.J. Halpern, Comparison of local and global angular interpolation applied to spectral-spatial EPR image reconstruction, Medical Physics, 34 (2007) 1047-1052 Doi 10.1118/1.2514090.
+</p>
+
+$seeon$
+radon_c2d_sphere
+iradon_InterpToUniformAngle
+$seeoff$
+

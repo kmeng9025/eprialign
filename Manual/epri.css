@@ -1,0 +1,260 @@
+
+html, body {
+	margin: 0px;
+	height: 100%;
+}
+
+a{
+	color : #336799;
+}
+
+.page_header {
+	background-color: #7A0403; 
+	font: 12pt Verdana;
+	border: none;
+}
+
+.menu_style {
+	color : #FFFFFF;
+	font-weight: bold;
+	height: 26px;
+}
+
+.menu_group0 a{
+	text-decoration: none;
+	color : #000000;
+	margin-left: 5px;
+}
+
+.menu_group1 a{
+	text-decoration: none;
+	color : #000000;
+	margin-left: 20px;
+	font-size: 90%;
+	font-weight: bolder;
+}
+
+.menu_group2 a{
+	text-decoration: none;
+	color : #000000;
+	margin-left: 35px;
+}
+
+.menu_group3 a{
+	text-decoration: none;
+	color : #000000;
+	margin-left: 50px;
+}
+
+.menu_group4 a{
+	text-decoration: none;
+	color : #000000;
+	margin-left: 70px;
+}
+
+.menu_group5 a{
+	text-decoration: none;
+	color : #000000;
+	margin-left: 80px;
+}
+	
+.menu_selected {
+	background-color: #7A0403; 
+	color : #FFFFFF;
+	font-weight: bold;
+}
+
+.menu_selected a{
+	background-color: #7A0403; 
+	color : #FFFFFF;
+	text-decoration: none;
+}
+
+.page_core {
+	border: none;
+}
+
+.page_navigation {
+	border-width: 0pt;
+	border-spacing: 0pt;
+}
+
+.page_core_tr {
+	border-width: 0pt;
+	border-spacing: 0pt;
+}
+
+.page_navigation {
+	vertical-align:top;
+	font: 11pt Verdana;
+}
+
+.text_main {
+	text-align: justify;
+}
+
+.page_content{
+	vertical-align:top;
+	font: 11pt Verdana;
+    border-left: thin double #8CBDBC;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+/************* TITLE PAGE **********************/
+.slogan{
+	font: 14pt Verdana;
+	font-weight: bold;
+	font-style: italic;
+	text-align : center;
+	color: #336799;
+}
+
+.company{
+	font: 14pt Verdana;
+	font-weight: bold;
+	text-align : center;
+}
+
+.authors{
+	font: 11pt Verdana;
+	font-weight: bold;
+	text-align : center;
+}
+
+.concept{
+	font-weight: bold;
+}
+
+.term_definition{
+    padding-left: 0.5em;
+	padding-right: 0.5em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+	background-color: #FFF9E3;
+	border-radius: 6px;
+	font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+	font-style: italic;
+}
+
+.func_name{
+  font-weight: bold;
+  font-size:	+1.2em;
+  padding: 0px 15px 0px 15px;
+  margin-bottom: 0px;
+  color : #DA6411;
+}
+
+.func_descript{
+font-family: "futura-pt-n4","futura-pt","Arial","Helvetica",sans-serif;
+letter-spacing: -.02em;
+font-size: 1em;
+padding: 0px 15px 0px 15px;
+}
+
+.matlab_example_caption{
+	font-weight: bold;
+	font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+	margin-bottom: 0px;
+}
+
+.matlab_example_legend{
+	font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+	margin-top: 0px;
+}
+
+.matlab_syntax_caption{
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+.matlab_syntax{
+	white-space: pre;
+	padding-left: 3em;
+	font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+}
+
+.matlab_desc_caption{
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+.matlab_description{
+	white-space: pre;
+	padding-left: 3em;
+}
+
+.matlab_code {
+	white-space: pre;
+	background-color: #f0f0f0;
+	display: block;
+    overflow-x: auto;
+    padding-left: 3em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+	border-radius: 6px;
+	font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.matlab_function{
+	font-weight: bold;
+}
+
+.eprit_function {
+	font-weight: bold;
+	color: #7A0403;
+	text-decoration: none;
+}
+
+
+.matlab_literal{
+	color: #E607DD;
+}
+
+.matlab_value{
+	color: #0C41DE;
+}
+
+.matlab_comment{
+	color: #247512;
+}
+
+/************* DESCRIPTION COLORING **********************/
+
+.structure_field{
+  color : #7A0403;
+ font-weight: bold; 
+}
+
+.description_literal{
+	color: #E607DD;
+}
+
+/************* SEE ALSO **********************/
+
+.see_also{
+margin-bottom: 0px;
+font-weight: bold;
+}
+
+.see_also_list{
+margin-top: 0px;
+}
+
+/************* SCENARIO box **********************/
+
+.scenario_box {
+	white-space: pre;
+	background-color: #f0f0f0;
+	display: block;
+    overflow-x: auto;
+    padding-left: 3em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+	border-radius: 6px;
+	font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}

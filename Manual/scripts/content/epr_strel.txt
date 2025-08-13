@@ -1,0 +1,4 @@
+% st_elm = epr_strel(el_type, el_sz)
+% 3D structural element
+%  el_type  'cube' or 'sphere'
+%  el_sz    number of layers to erode

@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<head>
+<title>EPR Imaging Toolbox Help</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="epri.css" type="text/css" />
+
+</head>
+<body>
+<table class="page_header" width = "100%">
+  <tr>
+    <td class="menu_style" width = "260"><img src="images/logo_200.png" alt="Logo" width="100"></td>
+    <td class="menu_style">EPR Imaging Toolbox collection user manual</td>
+  </tr>
+ </table>
+ <table class="page_core" width = "100%"  height="100%">
+  <tr class="page_core_tr">
+    <td class="page_navigation" width = "260"><table width="100%" class="page_navigation">
+<tr><td class="menu_group0">&nbsp;</td></tr>
+<tr><td class="menu_group0"><a href='index.html'>About</a></td></tr>
+<tr><td class="menu_group0"><a href='general_contribution.html'>Contributions</a></td></tr>
+<tr><td class="menu_group0"><a href='general_installation.html'>Installation</a></td></tr>
+<tr><td class="menu_group0"><a href='sample_data.html'>Sample data</a></td></tr>
+<tr><td class="menu_group0"><a href='radon_toolbox.html'>Radon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='iradon_toolbox.html'>Iradon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox.html'>Common toolbox: Algebra</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox_other.html'>Common toolbox: Other</a></td></tr>
+<tr><td class="menu_group0"><a href='epri_toolbox.html'>EPRI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='ibgui_toolbox.html'>ibGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='arbuzgui_toolbox.html'>ArbuzGUI toolbox</a></td></tr>
+<tr><td class="menu_group0 menu_selected"><a href='processgui_toolbox.html'>ProcessGUI toolbox</a></td></tr>
+<tr><td class="menu_group1"><a href='processgui.html'>ProcessGUI</a></td></tr>
+<tr><td class="menu_group1"><a href='processloadscenario.html'>ProcessLoadScenario</a></td></tr>
+<tr><td class="menu_group1"><a href='processgetdefinition.html'>ProcessGetDefinition</a></td></tr>
+<tr><td class="menu_group1"><a href='processformcontroller.html'>ProcessFormController</a></td></tr>
+<tr><td class="menu_group1"><a href='processvaluedialogdlg.html'>ProcessValueDialogDLG</a></td></tr>
+<tr><td class="menu_group0"><a href='utilities.html'>Useful utilities</a></td></tr>
+<tr><td class="menu_group0"><a href='used_toolboxes.html'>Toolboxes used</a></td></tr>
+<tr><td class="menu_group0"><a href='helpmanual.html'>This help</a></td></tr>
+</table>
+</td>
+    <td class="page_content text_main" ><p class="func_name">ProcessGUI toolbox</p><hr><p>Many data processing protocols, e.g. image reconstruction, require large number of input parameters.
+We utilize a scheme in which these parameters are organized as a fields of structures, 
+which are themselves the fields of the root structure.</p>
+
+<p>In the case when the processing function supports such an input the whole system of parameters of 
+any complexity can be loaded directly from files and conveniently edited similar to:</p>
+
+<p class="matlab_example_caption">Example:</p>
+<p class="matlab_code"><span class="matlab_comment">% Load parameters</span>
+[pars, definition, ini_pars] = <a href="processloadscenario.html" class="eprit_function">ProcessLoadScenario</a>(<span class="matlab_literal">'PulseRecon.scn'</span>, <span class="matlab_literal">'Pulse T1inv.par'</span>);
+<span class="matlab_comment">% Modify some parameters</span>
+pars.prc.save_data = <span class="matlab_literal">'no'</span>;
+pars.fbp.projection_order = <span class="matlab_literal">'msps'</span>;
+
+<span class="matlab_comment">% save modified parameters</span>
+ini_pars.prc.save_data = <span class="matlab_literal">'no'</span>;
+<span class="matlab_comment">% or</span>
+ini_pars.prc.save_data = ProcessFormController('', <span class="matlab_function">struct</span>(<span class="matlab_literal"><span class="matlab_literal">'save_data'</span></span>, <span class="matlab_literal">'no'</span>), <a href="processgetdefinition.html" class="eprit_function">ProcessGetDefinition</a>(definition, <span class="matlab_literal">'prc'</span>, <span class="matlab_literal"><span class="matlab_literal">'save_data'</span></span>), <span class="matlab_literal">'fields2ini'</span>);
+ini_pars.fbp.projection_order = <span class="matlab_literal">'msps'</span>;
+<a href="inimanage.html" class="eprit_function">inimanage</a>(<span class="matlab_literal">'Pulse T1inv mod.par'</span>, ini_pars);
+
+<span class="matlab_comment">% Image processing (ese_fbp_InvRec - processing function)</span>
+res = <span class="matlab_function">ese_fbp_InvRec</span>(<span class="matlab_literal">'test_t1_image.tdms'</span>, '<span class="matlab_literal">', '</span>', pars);</p>
+<p class="matlab_example_legend">Legend: <span class="eprit_function">EPR-IT functions</span>; <span class="matlab_function">MATLAB functions</span>; <span class="matlab_comment">comments</span>.</p>
+
+
+<p>Note that there could be multiple sets of parameters that have exactly the same structure. <a href='processgui.html'>ProcessGUI</a> encapsulates parameter management and provides easy access to all parameters.</p>
+
+The parameters can be as follows:
+<p class="matlab_desc_caption">Description:</p>
+<p class="matlab_description"><span class="structure_field">par</span> - root of the parameters (structure)
+  ~.<span class="structure_field">fbp</span> - fbp group (structure)
+    ~.<span class="structure_field">scheme</span> - value
+    ~.<span class="structure_field">npolar</span> - value
+  ~.<span class="structure_field">td</span> - td group (structure)
+    ~.<span class="structure_field">awin</span> - value
+    ~.<span class="structure_field">profile_file</span> - value</p>
+
+
+<p>The scheme is fully customizable and it's definition (called scenario) can be loaded from a scenario (SCN) file that contains a MATLAB script. The parameter values are stored in INI-style (PAR) files. The files with scenarios and parameters of EPRI 
+toolbox are located in the 'epri/scenario' folder.</p>
+
+<p> <b>Parameter definition</b>. Scenario (SCN) file is a MATLAB script. Two MATLAB macros are used to define groups and fields: <b>get_group</b> and <b>get_input_fields</b>, correspondingly. <b>get_group</b> macro has two arguments: Group name to diplay and name of the group, which become a field of <b>fields</b> structure. There are four types of fields that can be defined: string choice, code "IDXS"; double value, code "D"; a string with code "S"; and file name with code "F". <b>get_input_fields</b> macro has four parameters: Parameter's name to display, parameter's field to be added to <b>fields</b> structure, default value and parameter code.</p>
+<p>For "IDXS" field the list of choices has to be added to the field using structure fields <b>Show</b> and <b>Options</b> (see below). Definition of <b>Flag</b> structure field and se`ting Flag to 1 causes <a href='processgui.html'>ProcessGUI</a> to display pop-up window with this parameter.</p>
+
+<p class="matlab_desc_caption">Description:</p>
+<p class="matlab_description">Description of <b>parameter definition</b> data structure
+Group (structure)
+  ~.<span class="structure_field">Name</span> - name of the group (string)
+  ~.<span class="structure_field">Field</span> - structure field name (string)
+  ~.<span class="structure_field">Parameters</span> - (cell array) of parameters
+Parameters (structure)
+  ~.<span class="structure_field">Name</span>
+  ~.<span class="structure_field">Field</span>
+  ~.<span class="structure_field">Value</span>
+  ~.<span class="structure_field">Type</span> - field type (string, <span class="description_literal">'IDXS'</span>/<span class="description_literal">'D'</span>/<span class="description_literal">'S'</span>/<span class="description_literal">'F'</span>)
+    <span class="description_literal">'IDXS'</span>: string choice
+	<span class="description_literal">'D'</span>: double value
+	<span class="description_literal">'S'</span>: string value
+	<span class="description_literal">'F'</span>: file name
+  ~.<span class="structure_field">AutoSave</span> - save field (int 0/1, 1 = save)
+  ~.<span class="structure_field">Options</span> - for IDXS field (cell array of strings)
+  ~.<span class="structure_field">Flags</span> - use pop-up dialog (int 0/1, 1 = show dialog)
+  ~.<span class="structure_field">Show</span> - for IDXS field (cell array of strings)
+  ~.<span class="structure_field">Group</span> - structure field name of the corresponding group (string)</p>
+
+
+<p class="matlab_example_caption">Example:</p>
+<p class="matlab_code"><span class="matlab_comment">% SCN file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="matlab_comment">% Name for scenario</span>
+scenario = <span class="matlab_literal">'Pulse image reconstruction'</span>;
+
+<span class="matlab_comment">% <b>get_group</b> is the macro for group creation</span>
+groups{<span class="matlab_value">1</span>} = <span class="matlab_function">get_group</span>(<span class="matlab_literal">'Data load parameters'</span>, <span class="matlab_literal">'fbp'</span>);
+groups{<span class="matlab_value">2</span>} = <span class="matlab_function">get_group</span>(<span class="matlab_literal">'Time domain'</span>, <span class="matlab_literal">'td'</span>);
+
+<span class="matlab_comment">% fields for the group "fbp" will be "fields_FBP"</span>
+<span class="matlab_comment">% fields for the group "td" will be "fields_TD"</span>
+<span class="matlab_comment">% <b>get_input_fields</b> is the macro for field creation</span>
+<span class="matlab_comment">% IDXS "string choice" field</span>
+fields_FBP{<span class="matlab_value">1</span>} = <span class="matlab_function">get_input_fields</span>(<span class="matlab_literal">'Scheme'</span>, <span class="matlab_literal">'scheme'</span>, <span class="matlab_literal">'single_b'</span>, <span class="matlab_literal">'IDXS'</span>);
+fields_FBP{end}<span class="matlab_value">.</span>Show = {<span class="matlab_literal">'SB'</span>, <span class="matlab_literal">'MB'</span>};
+fields_FBP{end}<span class="matlab_value">.</span>Options = {<span class="matlab_literal">'single_b'</span>, <span class="matlab_literal">'multi_b'</span>};
+<span class="matlab_comment">% D "double" value field, the Flag will force a dialog window to pop up</span>
+fields_FBP{end+<span class="matlab_value">1</span>} = <span class="matlab_function">get_input_fields</span>(<span class="matlab_literal">'Polar angles'</span>, <span class="matlab_literal">'nPolar'</span>, <span class="matlab_value">18</span>, <span class="matlab_literal">'D'</span>);
+fields_FBP{end}<span class="matlab_value">.</span>Flag = <span class="matlab_value">1</span>;
+<span class="matlab_comment">% S "string" field</span>
+fields_TD{<span class="matlab_value">1</span>} = <span class="matlab_function">get_input_fields</span>(<span class="matlab_literal"><span class="matlab_literal">'awin'</span></span>, <span class="matlab_literal"><span class="matlab_literal">'awin'</span></span>, <span class="matlab_literal">'none'</span>, <span class="matlab_literal">'S'</span>);
+<span class="matlab_comment">% F "file name" field</span>
+fields_TD{end+<span class="matlab_value">1</span>} = <span class="matlab_function">get_input_fields</span>(<span class="matlab_literal">'Profile correction file'</span>, <span class="matlab_literal">'profile_file'</span>, <span class="matlab_literal">'ffff'</span>, <span class="matlab_literal">'F'</span>);</p>
+<p class="matlab_example_legend">Legend: <span class="eprit_function">EPR-IT functions</span>; <span class="matlab_function">MATLAB functions</span>; <span class="matlab_comment">comments</span>.</p>
+
+
+<p>
+<b>Parameter values.</b> Parameter's PAR file is, structure wise, an INI file, a result of saving scenario using <a href='inimanage.html'>inimanage</a> utility.
+Upon loading <a href='processloadscenario.html'>ProcessLoadScenario</a> ensures exact correspondence of loading fields to the scenario.
+Fields that are not part of scenario will not be loaded.
+</p>
+
+<p class="matlab_example_caption">Example:</p>
+<p class="matlab_code">; PAR file <span class="matlab_comment">%%%%%%%%%%%%%%%%%%%%%%%%</span>
+[fbp]
+scheme = single_b
+nPolar = <span class="matlab_value">13</span>
+
+[td]
+awin = none
+profile_file = V:\data\Imagnet_PULSE\<span class="matlab_value">14</span>\<span class="matlab_value">08</span>\<span class="matlab_value">14</span>0814\cavity_profile.mat</p>
+<p class="matlab_example_legend">Legend: <span class="eprit_function">EPR-IT functions</span>; <span class="matlab_function">MATLAB functions</span>; <span class="matlab_comment">comments</span>.</p>
+
+</td>
+  </tr>
+ </table> 
+</body>
+</html>

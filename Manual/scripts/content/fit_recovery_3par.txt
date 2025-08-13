@@ -1,0 +1,6 @@
+% [fit_amp, fit_t1, fit_inv, fit_err_mask, fit_error, ff] = fit_recovery_3par(fit_y, TT)
+% fit to 'a - b*exp(-TT/T1)' function
+%   fit_y - data,  taus and TT - inversion recovery sequence times
+%   res = ff([fit_amp, fit_t1, fit_inv], TT)
+%   fit_err_mask = index of good and bad fits, good - true, bad - false
+%   fit_error = [error_amp, error_t1, error_inv, residuals]

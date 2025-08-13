@@ -1,0 +1,5 @@
+<p class="func_descript">A pop-up dialog used by $processgui$</p>
+
+<img height = "300" src="images/processguidlg.png">
+
+<p>The dialog appearance is controlled by setting parameter's field Flag to 1 in scenario file (see $processgui_toolbox$).</p>

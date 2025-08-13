@@ -1,0 +1,34 @@
+# ignore MATLAB temporary files
+*.asv
+~*.*
+
+/Arbuz2.0/._*
+/R-scripts/*
+/samples/*
+/Test/*
+/kazan2/*
+
+# exclude standard packages
+/3dparty/easy_spin_2017/*
+/3dparty/easy_spin/*
+/3dparty/easyspin/*
+/3dparty/DeerAnalysis_2016/*
+
+# ignore local version of functions
+# *_local.m
+
+# exclude local version or data
+/pviewer/local/*
+/pviewer/*.doc?
+/pviewer/backup/*
+/epri/Scenario/Local/*
+/epri/Scenario/Local/*/*
+
+/3dparty/Dosimetry_functions/*
+
+# Huge matrix
+/SystemMatrix/*
+
+# force inclusion
+!*.example 
+

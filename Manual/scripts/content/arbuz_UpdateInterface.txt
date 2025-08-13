@@ -1,0 +1,3 @@
+% ARBUZ_UPDATEINTERFACE  updates gui interface, reflects changes to the project
+% arbuz_UpdateInterface(hGUI);
+% hGUI - handle to the object that holds the project [double]

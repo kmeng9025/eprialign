@@ -1,0 +1,10 @@
+fft.awin = 'gau'
+fft.awidth = 1.6
+fft.aalpha = 0.6
+fft.ashift = 0
+fft.zerofill = 1
+fft.rshift = 0
+fft.lshift = 0
+fft.opt = 'real'
+fft.xscale = 1
+fft.phase0 = 0

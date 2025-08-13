@@ -1,0 +1,7 @@
+<p>Functions to simplify common programming tasks</p>
+
+$seeon$
+iff
+inimanage
+safeget
+$seeoff$

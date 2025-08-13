@@ -1,0 +1,29 @@
+<p class="func_descript"Find the largest connected component of the thresholded image</p>
+
+$syntaxon$
+component=largest_component(image,threshold)
+$syntaxoff$
+
+$descon$
+Finds the largest connected component of the thresholded image.  
+Can take either a 2D slice or a 3D volume image. In the case of 
+a volume image, uses the largest voxel value in the volume as the 
+basis for thresholding.
+<img height = "150" src="images/largest_component.png">
+image - (matrix, 2D or 3D)
+threshold - a value that separates noise and objects (float)
+component - largest component (boolean, the same dimension as image)
+$descoff$
+
+
+$exon$
+bkg = zeros(200,200);
+[X,Y] = meshgrid(1:200,1:200);
+bkg((X-100).^2 + (Y-100).^2 < 10^2) = 1;
+bkg((X-150).^2 + (Y-150).^2 < 30^2) = 1;
+bkg((X-50).^2 + (Y-100).^2 < 20^2) = 1;
+figure;
+subplot(1,2,1); imagesc(bkg, [0,1]); axis image
+component = largest_component(bkg, 0.5);
+subplot(1,2,2); imagesc(component, [0,1]); axis image
+$exoff$

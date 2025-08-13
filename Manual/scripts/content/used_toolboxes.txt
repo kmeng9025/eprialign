@@ -1,0 +1,19 @@
+$codeon$
+% geom2d toolbox
+% ---------
+% Author: David Legland
+% e-mail: david.legland@grignon.inra.fr
+% created the 02/03/2007.
+% Copyright 2010 INRA - Cepia Software Platform.
+
+% geom3d toolbox
+% ------
+% Author: David Legland
+% e-mail: david.legland@grignon.inra.fr
+% Created: 2008-10-13,    using Matlab 7.4.0.287 (R2007a)
+% Copyright 2008 INRA - BIA PV Nantes - MIAJ Jouy-en-Josas.
+
+% easyspin toolbox
+% Author: Stefan Stoll
+% easyspin.org
+$codeoff$

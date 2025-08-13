@@ -1,0 +1,10 @@
+<p><img src="images/logo_large.png" width = "250"></p>
+
+<p>EPR Imaging Toolbox collection for MATLAB</p>
+
+<p>
+Maintained by Dr. Boris Epel<br>
+Center for EPR imaging in vivo physiology<br>
+University of Chicago, 2008-2015<br>
+WWW: <a href="http://epri.uchicago.edu">epri.uchicago.edu</a>
+</p>

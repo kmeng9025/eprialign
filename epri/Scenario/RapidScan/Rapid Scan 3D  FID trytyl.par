@@ -1,0 +1,138 @@
+[fbp]
+zero_gradient = before_after
+bl_n = 4
+Q = 13
+nPolar = 18
+nAz = 18
+imtype = 14
+MaxGrad = 1.5
+angle_sampling = uniform_spatial_flip
+CoordPole = Z
+baseline = none
+take_param = data
+nSpec = 1
+MaxGradient = 1.5
+split_field = 5
+ 
+[rec]
+x = 18
+Sub_points = 64
+Size = 4.24
+DoublePoints = 0
+InterpFactor = 4
+FilterCutOff = 0.5
+Filter = ram-lak
+Interpolation = spline
+Enabled = on
+recon_echos = []
+CodeFlag = MATLAB
+SubSampling = gaussian
+nBins = 64
+size = 3
+nBinsField = 64
+span = 3
+nHarmonics = 80
+center = [0,0,0]
+tolerance = 200
+ 
+[td]
+baseline_display = none
+phase_display = all
+baseline_algorithm = zero_single
+echo_select_algorithm = statistics
+echo_idx = 18
+phase_algorithm = max_real_single
+phase_zero_order = 0
+baseline_area = 250
+glitch_removal = []
+filt_before = none
+use_echos = []
+dead_time = 510
+acquisition_window = -2200
+acq_window_start = -2208
+ 
+[fft]
+fft_display = all
+awidth = 1
+aalpha = 1
+ashift = 0
+fft = 1
+zerofill = 1
+phase0 = 0
+xshift = 0
+tc = 33
+profile_center_offset = 0
+profile_threshold = 0.25
+profile_threshold_smooth = 0
+opt = imag
+awings = off
+awin = none
+filt = none
+data = 0_
+profile_correction = imager_profile
+profile_file = V:\data\Imagnet_PULSE\09\09\090925\cavity_profile_phantom_PS_81points.mat
+clearence_correction = none
+fft_display_imag = none
+fit_mask_file = ffff
+profile_fwhh = 10
+ 
+[prc]
+recon_data = yes
+fit_data = no
+save_data = yes
+process_method = rs_sfbp
+launch_viewer = yes
+export_prj = no
+ 
+[fit]
+fit_mask = threshold_mask
+fit_mask_file = ffff
+fit_mask_threshold = 0.15
+use_echos = []
+fit_min_amp = 0
+fit_max_amp = 5
+fit_min_T2 = 0
+fit_max_T2 = 20
+fit_errors_kill = yes
+spin_probe = Lorentzian
+fit_amp_min_max = [0, 10]
+fit_ph_min_max = [-10, 10]
+fit_x0_min_max = [-0.2,0.2]
+fit_LW_min_max = [0.2,0.8]
+mask_proc_stage1 = proc_adaptive_threshold
+mask_proc_stage2 = proc_leave_large
+mask_proc_stage3 = proc_fill
+mask_proc_stage4 = proc_none
+fit_mask_fill = 0
+fit_mask_object_size = 3
+fit_mask_max_voxels = 6000
+fit_gauss_LW = 0.5
+fit_method = lookup_general
+ 
+[clb]
+LLW_zero_po2 = 12.4
+mG_per_mM = 2.32
+Torr_per_mGauss = 1.84
+amp1mM = 0.064
+Qcb = 14
+ 
+[MBpars]
+MBprofThresh = .3
+MBProjTrunc = [-10 10]
+MBrecombine_scheme = inv_square
+ 
+[ppr]
+scheme = 0
+Fcut_off = 1
+baseline_harmonics = 2
+scan_phase_algorithm = manual
+field_scan_phase = -2.6
+phase_algorithm = manual
+data_phase = 26.2
+Fconv = 0.1
+up_down = up_down
+display = off
+data_offset = 0.60
+data_span = 20
+field_reference = 0
+ 

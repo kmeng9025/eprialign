@@ -1,0 +1,7 @@
+% Rotation toolbar.
+% create:
+%     FigureNavigationPanelPNL
+%     FigureNavigationPanelPNL('create')
+%     FigureNavigationPanelPNL('create', figure_number)
+% destroy:
+%     FigureNavigationPanelPNL('destroy', figure_number)

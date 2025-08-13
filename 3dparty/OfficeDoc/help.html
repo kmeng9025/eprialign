@@ -1,0 +1,112 @@
+<HTML><HEAD>
+<TITLE>OfficeDoc Full Help Text</TITLE>
+<META NAME='description' CONTENT="OfficeDoc full help text">
+<META NAME='copyright' CONTENT='OfficeDoc copyright 2007 YMA Software. All Rights Reserved. Designated trademarks and brands are the property of their respective owners.'>
+<META NAME='copyright' CONTENT='ProStores technology portions copyright 1997-2007 ProStores, Inc. All Rights Reserved. Designated trademarks and brands are the property of their respective owners.'>
+</HEAD>
+<BODY BGCOLOR='#FFFFFF'>
+<h1><u><center>OfficeDoc full help text</center></u></h1>
+<p>
+<h3>OFFICEDOC read/write/append/format/display data in Microsoft Office documents (XLS/DOC/PPT)</h3>
+<p>
+<h3>Syntax:</h3><pre>
+  [file,status,errMsg] = officedoc(fileName, 'open',   propName,propValue,...)
+  [data,status,errMsg] = officedoc(file,     'read',   propName,propValue,...)
+       [status,errMsg] = officedoc(file,     'write',  propName,propValue,...)
+       [status,errMsg] = officedoc(file,     'format', propName,propValue,...)
+       [status,errMsg] = officedoc(file,     'close',  propName,propValue,...)
+                         officedoc(file,     'display', visibleFlag)
+
+              helpText = officedoc('help', helpType)
+</pre><p>
+<b>officedoc</b> reads/writes/appends and formats data, images and screenshots
+in Microsoft Office documents. Supported formats include XLS (Excel),
+DOC (Word) and PPT (PowerPoint). Opening/closing COM server connection
+and files is user-controllable, enabling very fast sequential writes.
+Numerous format properties enable highly-customizable output.
+<p>
+[FILE, STATUS, ERRMSG] = <b>officedoc</b>(FILENAME, 'open', ...) opens the
+specified FILENAME for later reading/writing. The returned FILE struct
+may be used later to read/write/format file data. The optional STATUS
+output argument is 0 in case of sucess or -1 in case of error, when
+the error message is specified in another optional argument ERRMSG.
+The document format is determined from the FILENAME extension (xls,
+doc or ppt). Use the <a href="props.html">optional properties</a> to set open mode etc.
+<p>
+[DATA, STATUS, ERRMSG] = <b>officedoc</b>(FILE, 'read', ...) reads DATA from
+specified FILE, a struct that was returned from <b>officedoc</b>(...,'open').
+The basic DATA format is a structure based on the top-level division
+of the document (worksheets, chapters or slides, depending on file
+format). The structure fields are the division names and the field
+contents is the data within them. If only a single division was found
+or requested, then DATA contains the division's data immediately (not
+contained within a structure). STATUS is -1 in case of error, or the
+actual number of data elements/characters read in case of success.
+<p>
+<b>officedoc</b>(FILE, 'write', ...) writes data to the specified FILE.
+Use the <a href="props.html">optional properties</a> to specify range and data. If no range is
+specified, then the last file position (before file was last closed)
+will be used (XLS/DOC only, not PPT). STATUS is -1 in case of error,
+or actual number of data elements/characters writen in case of success.
+Formating properties may be specified for the written data, saving a
+separate <b>officedoc</b>(FILE, 'format', ...) command.
+<p>
+<b>officedoc</b>(FILE, 'format', ...) formats data in the specified FILE.
+Use the <a href="props.html">optional properties</a> to specify range and format options.
+<p>
+<b>officedoc</b>(FILE, 'close', ...) closes the specified FILE.
+Use the <a href="props.html">optional properties</a> to specify closing properties.
+<p>
+<b>officedoc</b>(FILE, 'display', VISIBLEFLAG) displays the specified FILE in
+a corresponding MS Office application. If FILE is closed, then FILENAME
+should be used instead. VISIBLEFLAG is an optional flag determining
+visibility: true/1/'on' (=default) means display; false/0/'off'=hide.
+You can also specify this as an <b>officedoc</b>(...,'open',...) property.
+Note: PPT should remain visible or some features fail (ok in DOC/XLS)
+<p>
+<b>officedoc</b>(..., propName,propValue, ...) sets the property value(s)
+for the specified file action. Property specification order does
+not matter. PropNames are always case-insensitive, but in a few cases
+propValues might be case-sensitive. Some props are not supported by
+one or more doc types: such properties are simply ignored if irrelevant.
+66 different properties are supported (more in future versions).
+Type "<a href="props.html"><b>officedoc</b> help props</a>" to see the full list of supported properties.
+<p>
+<b>officedoc</b> comes a long way in enabling highly-customizable document
+output. However, there will always be certain unsupported Office features.
+Type "<a href="examples.html">officedoc help examples</a>" to see examples of accessing and
+using such features via direct COM calls.
+<p>
+<b>officedoc</b>('help',HELPTYPE) displays extended help on <b>officedoc</b> usage:
+- <b>officedoc</b>('help') displays this help section (same as "help <b>officedoc</b>")
+- <b>officedoc</b>('help','props') describes all the supported propNames
+- <b>officedoc</b>('help','examples') displays <b>officedoc</b> usage examples
+- <b>officedoc</b>('help','xls') displays only help relevant to XLS (or 'ppt','doc')
+<p>
+<h3>Examples:</h3> type "<a href="examples.html"><b>officedoc</b> help examples</a>"
+<p>
+<h3>Known Limitations:</h3><ol>
+  <li> OPEN:   PPT must remain visible or else some features fail
+  <li> READ:   Missing DivType='headings' (DOC)
+  <li> READ:   Disregards specified page/line/range (DOC)
+  <li> READ:   Cannot read non-text data (images, tables and other complex formats)
+  <li> FORMAT: Edge properties fail in Matlab 6 (R12) due to a bug in
+             Maltab's ActiveX implementation (ok in later versions) (XLS)
+  <li> FORMAT: Lots of missing properties that could be added (XLS/DOC/PPT)
+  <li> <b>officedoc</b> is designed to work on Windows machines (might work on Macs)
+</ol><p>
+<h3>Bugs and suggestions:</h3>
+  <b>officedoc</b> was tested on Office 11 (XP) and Matlab 6.0 (R12) - 7.4 (R2007a)
+  but might also work on earlier versions of Matlab and Office.
+  Please report any incompatibilities or other bugs/suggestions to:
+  <a href="mailto:YMASoftware@gmail.com">YMASoftware@gmail.com</a>
+<p>
+<h3>Change log:</h3><ul>
+  <li>2007-May-29: First version posted on <a href="http://www.mathworks.com/matlabcentral/fileexchange/loadAuthor.do?objectType=author&mfx=1&objectId=1096533#">MathWorks File Exchange</a>
+</ul>
+<p>
+<h3>See also:</h3>
+  xlsread, xlswrite, xlswrite1, docSave, pptSave (last 3 on the File Exchange - ids 340,3149,10465)
+<p>
+<a href="http://www.ymasoftware.com/servlet/Detail?no=1">Back to OfficeDoc product page</a>
+</BODY></HTML>

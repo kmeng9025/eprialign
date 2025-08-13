@@ -1,0 +1,19 @@
+<p class="func_descript">Resample 2D image to different boundaries given by new image corners.</p>
+
+$syntaxon$
+[IMfinal, xp, yp] = resample_plane(IM, corners, ncolumns, nrows)  
+$syntaxoff$
+
+$descon$
+Resamples 2D image to different boundaries given by image corners.
+New boundaries may be rotated relative to the original boundaries.
+<img height = "200" src="images/resample_plane.jpg">
+IM - an image (float, 2D)
+corners - coordinates of new image corners (float 4x3, 3rd coordinate is ignores)
+  corner's order: upper left, upper right, lower right, lower left, see $generate_slice_coordinates$
+ncolumns - number of points along X direction (int)
+nrows - number of points along Y direction (int)
+IMfinal - resulting image (float, NxM, N = ncolumns, M = nrows)
+xp - voxel coordinates of new image in IM coordinate frame (float, 1xN, N = ncolumns)
+yp - voxel coordinates of new image in IM coordinate frame (float, 1xM, M = nrows)
+$descoff$

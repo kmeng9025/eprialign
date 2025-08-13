@@ -1,0 +1,4 @@
+% [fdate, fnewpath] = epr_DateFromPath(fpath, path_style)
+% Convert LFEPR style file path to date in YYMMDD style
+% Back conversion to directory path of other style is optional
+% path_style can be: 'Boris_G', 'root_new', 'root_old'

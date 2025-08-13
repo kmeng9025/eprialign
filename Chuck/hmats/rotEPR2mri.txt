@@ -1,0 +1,26 @@
+0.00000 -0.00000 1.00000 0.00000
+0.00000 -1.00000 -0.00000 64.00000
+1.00000 0.00000 -0.00000 0.00000
+0.00000 0.00000 0.00000 1.00000
+
+0.00000 -0.00000 1.00000 0.00000
+0.00000 -1.00000 -0.00000 0.00000
+1.00000 0.00000 -0.00000 0.00000
+0.00000 0.00000 0.00000 1.00000
+
+1.00000 0.00000 0.00000 0.00000
+0.00000 1.00000 0.00000 0.00000
+0.00000 0.00000 1.00000 0.00000
+0.00000 0.00000 0.00000 1.00000
+
+above are state{nimages}.hmat, state{nimages}.hrotmat,state{1}.hmat
+to reslice, we use mymat=inv(state{1}.hmat)*state{nimages}.hmat
+-------
+First, second images were epr fid , epr fid transformed to mri
+Forward transformation reslices mri image along epr image planes
+-------
+This matrix in the reverse direction, will make an EPR image 'axial' in MRI coord.
+min, max values for image 1: -0.011570 0.106141
+lo, hilim for image 1: 0.009000 0.106000
+min, max values for image 2: -0.011570 0.106141
+lo,hilim values for image 2: 0.009000 0.106000

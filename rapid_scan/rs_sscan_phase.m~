@@ -1,0 +1,51 @@
+function [x_ss,AB,fp_absolute] = rs_sscan_phase(rs, sweep, Fm, dt, pars)
+
+sz = size(rs);
+
+par.dt = dt;
+par.Vm = Fm;
+par.hm = sweep;
+par.N_iter = 3;
+
+% Average projections
+par.fwhm = safeget(pars, 'Fconv', 0.001); % Post-filtering with Gaussian profile
+up_down = safeget(pars, 'up_down', 'up_down');
+if strcmp(up_down, 'down_up')
+  par.up = -1;   %
+else
+  par.up = 1;   %
+end
+display_level =  safeget(pars, 'display', 'off');
+switch display_level
+  case 'all'
+    par.fig=1;             % ON/OFF figure
+    par.msg=1;             % ON/OFF message
+  case 'message'
+    par.fig=0;             % ON/OFF figure
+    par.msg=1;             % ON/OFF message
+  case 'figure'
+    par.fig=1;             % ON/OFF figure
+    par.msg=0;             % ON/OFF message
+  otherwise 
+    par.fig=0;             % ON/OFF figure
+    par.msg=0;             % ON/OFF message
+end
+
+par.ph=90;
+par.bw = 0;
+par.fp=pars.field_scan_phase;
+par.method='fast';
+
+par_im = par;
+par_im.ph = 0;
+
+phase_absolute=zeros(1, sz(2));
+for ii=1:sz(2)
+    par.rs = rs(:,ii);
+    [h, A, B, fp_corr_total]=sinDecoBG(par);
+    phase_absolute(ii)=par.fp-fp_corr_total;
+    x_ss = h;
+    [h, A1, B1, fp_corr_total]=sinDecoBG(par);
+    AB(:,ii)=A+B;
+end
+fp_absolute = mean(phase_absolute);

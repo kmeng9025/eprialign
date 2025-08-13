@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<head>
+<title>EPR Imaging Toolbox Help</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="epri.css" type="text/css" />
+
+</head>
+<body>
+<table class="page_header" width = "100%">
+  <tr>
+    <td class="menu_style" width = "260"><img src="images/logo_200.png" alt="Logo" width="100"></td>
+    <td class="menu_style">EPR Imaging Toolbox collection user manual</td>
+  </tr>
+ </table>
+ <table class="page_core" width = "100%"  height="100%">
+  <tr class="page_core_tr">
+    <td class="page_navigation" width = "260"><table width="100%" class="page_navigation">
+<tr><td class="menu_group0">&nbsp;</td></tr>
+<tr><td class="menu_group0"><a href='index.html'>About</a></td></tr>
+<tr><td class="menu_group0"><a href='general_contribution.html'>Contributions</a></td></tr>
+<tr><td class="menu_group0"><a href='general_installation.html'>Installation</a></td></tr>
+<tr><td class="menu_group0"><a href='sample_data.html'>Sample data</a></td></tr>
+<tr><td class="menu_group1"><a href='sample_dataset1.html'>Dataset 1</a></td></tr>
+<tr><td class="menu_group1"><a href='sample_dataset2.html'>Dataset 2</a></td></tr>
+<tr><td class="menu_group1 menu_selected"><a href='sample_dataset3.html'>Dataset 3</a></td></tr>
+<tr><td class="menu_group1"><a href='sample_dataset4.html'>Dataset 4</a></td></tr>
+<tr><td class="menu_group0"><a href='radon_toolbox.html'>Radon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='iradon_toolbox.html'>Iradon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox.html'>Common toolbox: Algebra</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox_other.html'>Common toolbox: Other</a></td></tr>
+<tr><td class="menu_group0"><a href='epri_toolbox.html'>EPRI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='ibgui_toolbox.html'>ibGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='arbuzgui_toolbox.html'>ArbuzGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='processgui_toolbox.html'>ProcessGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='utilities.html'>Useful utilities</a></td></tr>
+<tr><td class="menu_group0"><a href='used_toolboxes.html'>Toolboxes used</a></td></tr>
+<tr><td class="menu_group0"><a href='helpmanual.html'>This help</a></td></tr>
+</table>
+</td>
+    <td class="page_content text_main" ><p class="func_name">Dataset 3</p><hr>Pulse EPR image of tumor bearing leg of a mouse</br>
+Deuterated OX063 spin probe.</br>
+Acquisition protocol MSPS ESA 18x18 0.75 G/cm<br>
+Inversion recovery spin echo sequence for T1 relaxation</br>
+Delays:  0.43, 0.66, 1.0, 1.54, 2.35, 3.60, 5.50, 30.0 &mu;s</br>
+<img height = "200" src="samples/epri3.png">
+
+<ul>
+<li><a href="samples/pData3.mat">pData3.mat</a></li>
+<li><a href="samples/Data3.mat">Data3.mat</a></li>
+<li><a href="samples/prjData3.mat">prjData3.mat</a></li>
+</ul>
+
+<p class="matlab_example_caption">Example:</p>
+<p class="matlab_code"><span class="matlab_comment">% load projections</span>
+s = <span class="matlab_function">open</span>([<span class="matlab_literal">' path to sample data '</span>,<span class="matlab_literal">'\prjData3.mat'</span>]);
+
+<span class="matlab_comment">% get projection information</span>
+FBP = s.raw_info.data.FBP;
+radon_pars.nBins = <span class="matlab_value">64</span>;
+radon_pars.size = <span class="matlab_value">4</span>;
+
+<span class="matlab_comment">% use only real part of 8th delay projections</span>
+<span class="matlab_function">P</span> = real(s.<span class="matlab_function">P</span>(:,<span class="matlab_value">8</span>,:));
+
+<span class="matlab_comment">% remove MSPS scrambling</span>
+FBP.msps = <span class="matlab_literal">'msps'</span>;
+P = <a href="epri_msps_decrypt.html" class="eprit_function">epri_msps_decrypt</a>(P, [], FBP);
+
+<span class="matlab_comment">% resample data to 64 points as required by iradon_d2d_mstage</span>
+P = imre<span class="matlab_function">size</span>(<span class="matlab_function">squeeze</span>(P), [radon_pars.nBins,<span class="matlab_function">size</span>(s.P, <span class="matlab_value">3</span>)]);
+
+<span class="matlab_comment">% convert serial projection layout into iradon_d2d_mstage layout</span>
+PP = zeros(<span class="matlab_function"><span class="matlab_function">size</span></span>(P,<span class="matlab_value">1</span>), <span class="matlab_function"><span class="matlab_function">size</span></span>(P,<span class="matlab_value">2</span>));
+<span class="matlab_function">PP</span>(:,s.raw_info.gidx) = P;
+PP = reshape(PP, [<span class="matlab_function">size</span>(P,<span class="matlab_value">1</span>), <span class="matlab_value">1</span>, FBP.nAz, FBP.nPolar]);
+
+<span class="matlab_comment">% convert uniform solid angle sampling into uniform linear angle sampling</span>
+switch <span class="matlab_function">upper</span>(FBP.angle_sampling)
+  case {<span class="matlab_literal">'UNIFORM_SPATIAL'</span>,<span class="matlab_literal">'UNIFORM_SPATIAL_FLIP'</span>}
+    Pela=<a href="iradon_interptouniformangle.html" class="eprit_function">iradon_InterpToUniformAngle</a>(PP,<span class="matlab_literal">'imgData'</span>);
+end
+
+radon_pars.ELA =  FBP;
+
+recon_pars.size = <span class="matlab_value">4</span>;     <span class="matlab_comment">% ignored, radon_pars.size is used instead</span>
+recon_pars.nBins = <span class="matlab_value">64</span>;  <span class="matlab_comment">% ignored, radon_pars.nBins is used instead</span>
+recon_pars.Filter = <span class="matlab_literal">'ram-lak'</span>;
+recon_pars.FilterCutOff = <span class="matlab_value">0.75</span>;
+recon_pars.Interpolation = <span class="matlab_literal">'spline'</span>;
+recon_pars.InterpFactor = <span class="matlab_value">4</span>;
+recon_pars.CodeFlag = <span class="matlab_literal">'C'</span>;
+recon_pars.zeropadding = <span class="matlab_value">2</span>; <span class="matlab_comment">% any number >= 1</span>
+
+<span class="matlab_comment">% call the reconstruction program and display result</span>
+image = <a href="iradon_d2d_mstage.html" class="eprit_function">iradon_d2d_mstage</a>(Pela, radon_pars, recon_pars);
+<a href="ibgui.html" class="eprit_function">ibGUI</a>(image);</p>
+<p class="matlab_example_legend">Legend: <span class="eprit_function">EPR-IT functions</span>; <span class="matlab_function">MATLAB functions</span>; <span class="matlab_comment">comments</span>.</p>
+</td>
+  </tr>
+ </table> 
+</body>
+</html>

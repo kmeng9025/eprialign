@@ -1,0 +1,6 @@
+% ARBUZ_GETTRANSFORMATION  get transformation
+% A = arbuz_GetTransformation(hGUI, transformation_name, image_name);
+% hGUI - handle to the object that holds the project [double]
+% transformation_name  - transformation name [string]
+% image_name  - image name [string]
+% A - Transformation matrix [double 4x4]

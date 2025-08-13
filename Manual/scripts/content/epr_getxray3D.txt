@@ -1,0 +1,4 @@
+% epr_getxray3D  return three orthogonal slices projected through matrix
+% function [yx, zx, yz]=epr_getxray3D(data, proj)
+% data - 3D matrix
+% proj - [x,y,z] slice coordinates or []

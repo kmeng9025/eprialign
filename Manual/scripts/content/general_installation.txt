@@ -1,0 +1,20 @@
+<p>Download <a href="library/epr-it.zip"><b>epr-it.zip</b></a> to your computer. Unpack it to any convenient directory.</p>
+
+
+<p>Locate <b>toolbox_path.m</b> at the root directory of the toolbox package</p>
+
+<p>Modify line 8: of <b>toolbox_path.m</b> with correct path for the toolbox</p>
+
+$codeon$
+1: % modify line 8 with the actual path to the EPR Imaging toolbox
+2: % statements using "-begin" add to the beginning of the path and
+3: % statements using "-end" append the path
+4: 
+5: fixeprPath = questdlg('Reset EPR/UC path');
+6: if strcmp(fixeprPath,'Yes')
+7:   restoredefaultpath;
+8:   epr_toolbox_path = 'Z:\CenterMATLABweb\epr-it';
+9: %   epr_toolbox_path = '/Users/borisepel/Dropbox/MATLAB';
+$codeoff$
+
+<p>Execute <b>toolbox_path.m</b>. Press 'Yes' button on the pop-up dialog window.</p>

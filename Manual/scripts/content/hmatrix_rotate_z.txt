@@ -1,0 +1,12 @@
+<p class="func_descript">Create a matrix for rotation about Z</p>
+
+$syntaxon$
+A = hmatrix_rotate_z(angle)
+$syntaxoff$
+
+$descon$
+<img height = "90" src="images/hmatrix_rotate_z.png">
+Creates a transformation matrix for rotation about Z axis
+angle - rotation angle (float, in degrees)
+A - transformation matrix (float, 4x4)
+$descoff$

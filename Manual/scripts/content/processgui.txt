@@ -1,0 +1,42 @@
+<p class="func_descript">User interface for multi-parameter data processing</p>
+
+$syntaxon$
+<b>ProcessGUI</b>
+$syntaxoff$
+
+$descon$
+User interface for multi-parameter data processing. $processgui$ can load, display, 
+alter parameters and execute the processing script.
+$descoff$
+
+<p>Parameter definition and value can be loaded using <b>[File/Load Scenario]</b> and <b>[File/Load Parameters]</b> menu choices. Parameters can be saved by selecting <b>[File/Load Parameters]</b> menu. Parameters can be visualized by selecting <b>[File/Export Parameters]</b> menu. This will create a <b>processing_struct</b> in the workspace that can be browsed in MATLAB command window.</p>
+
+<p>Each parameter group is displayed in a separate tab</p>
+<img height = "300" src="images/processgui.png">
+
+<p>Values can be edited in the panel at the left bottom corner. The same panel displays the name of parameter. Data for processing are loaded using <b>[File/Load Data]</b> menu. Multiple data files can be loaded at once. To sum data files prior to processing, <b>[Average all data]</b> checkbox should be selected.</p>
+
+<p>$processgui$ uses two special parameters. The first one is <strong>prc.process_method</strong>. This parameter specifies the evaluation function. Upon pressing [Process] button the <strong>prc.process_method</strong> function with necessary arguments will be passed to MATLAB eval function.</p>
+
+<img height = "300" src="images/processgui2.png">
+
+$syntaxon$
+res = evaluation_function(file_name, file_suffix, output_path, pars)
+res = evaluation_function(file_name_cell, file_suffix, output_path, pars)
+$syntaxoff$
+
+$descon$
+file_name - full name of the data file (string)
+file_name_cell - (cell array) of full names of data files
+file_suffix - string to be added to the output file name (string)
+this option allows to store results of multiple processing of the same data
+output_path - the path where to store file (string) 
+file_name will be preserved, file_suffix will be added
+pars - (structure) of parameter fields, see $processgui_toolbox$
+res  - any results 
+$descoff$
+
+<p>Second special parameter is <strong>prc.launch_viewer</strong>. Setting this parameter to 'yes' will pass result of the processing to $ibgui$ function.</p>
+
+
+<img height = "300" src="images/processgui3.png">

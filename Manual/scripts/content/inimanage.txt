@@ -1,0 +1,27 @@
+<p class="func_descript">INI file utility</p>
+
+$syntaxon$
+inistruct = inimanage(filename)
+inimanage(filename, inistruct)
+$syntaxoff$
+
+$descon$
+Reads from and writes to an INI file.
+The INI file is a text file with section-key-value style:
+[Options]
+    SingleValue1 = 122
+    SingleValue2 = hello
+    Array(1) = 123
+    Array(2) = 321
+Spaces in section and key names are not allowed.
+Single values are stored as strings, arrays are stored as string cell arrays.
+filename  - name of ini file (string)
+inistruct - ini file structure (structure)
+$descoff$
+
+$exon$
+ini = struct('options', struct('a', '1', 'b', '2'));
+ini.options.array = {'A','B','C'};
+inimanage('C:/Temp/myini.ini', ini)
+readini = inimanage('C:/Temp/myini.ini')
+$exoff$

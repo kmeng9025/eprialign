@@ -1,0 +1,367 @@
+<HTML><HEAD>
+<TITLE>OfficeDoc Properties</TITLE>
+<META NAME='description' CONTENT="Accepted OfficeDoc properties">
+<META NAME='copyright' CONTENT='ProStores technology portions copyright 1997-2007 ProStores, Inc. All Rights Reserved.
+ Designated trademarks and brands are the property of their respective owners.'>
+</HEAD>
+<BODY BGCOLOR='#FFFFFF'>
+<ss:value source="$page.header"/>
+<h1><u><center>OfficeDoc properties</center></u></h1>
+<p><pre>
+  <b>+</b> indicates the <font color="green"><b>property</b></font> is supported and relevant in <b>both Demo and Professional</b> versions (property name is <font color="green"><b>green</b></font>)
+  <b>P</b> indicates the property is supported and relevant in the <b>Professional version only</b>
+  <b>x</b> indicates the property is <b>unsupported or irrelevant</b> in this mode or document format
+  
+  All property names are case-<b>in</b>sensitive; a few property values are case-sensitive, depending on Office.
+</pre>
+<font size="-1">
+<table border="1" cellspacing="0">
+  <tr>
+    <th rowspan="2">Property Name</th>
+    <th colspan="5">Action Type</th>
+    <th colspan="3">Doc Type</th>
+    <th rowspan="2">Units</th>
+    <th rowspan="2">Possible values</th>
+    <th rowspan="2">Default value if unused</th>
+    <th rowspan="2">Description</th>
+  </tr>
+  <tr>
+    <th>Open</th>
+    <th>Read</th>
+    <th>Write</th>
+    <th>Format</th>
+    <th>Close</th>
+    <th>XLS</th>
+    <th>DOC</th>
+    <th>PPT</th>
+  </tr>
+  <tr>
+    <td><font color="green"><b>'Mode'</b></font></td><td align="center" bgcolor="lightgreen">+</td><td align="center">x</td><td align="center">x</td><td align="center">x</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td>
+    <td>string</td><td>'read' / 'write' / 'append'</td><td>'read'</td><td>indicates the read/write mode of the opened file</td>
+  </tr>
+  <tr>
+    <td><font color="green"><b>'Display'</b></font></td><td align="center" bgcolor="lightgreen">+</td><td align="center">x</td><td align="center">x</td><td align="center">x</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>indicates whether to display or hide the opened file</td>
+  </tr>
+  <tr>
+    <td>'Sheet'</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>integer or string</td><td>positive integer index or sheet name</td><td>last saved</td><td>indicates the required XLS worksheet</td>
+  </tr>
+  <tr>
+    <td>'Page'</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>integer</td><td>positive integer index</td><td>DOC: last saved;<br> PPT: 1</td><td>indicates the required DOC/PPT page number</td>
+  </tr>
+  <tr>
+    <td>'Slide'</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>integer</td><td>positive integer index</td><td>1</td><td>indicates the required PPT slide number (same as 'Page')</td>
+  </tr>
+  <tr>
+    <td>'Range'</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>XLS: string;<br> DOC/PPT: 2 integers</td><td>XLS: 'A1' or 'A1:C4' format;<br> DOC/PPT: [startChar#,endChar#]</td><td>none</td><td>selected range: absolute (XLS) or relative to current position (DOC/PPT)</td>
+  </tr>
+  <tr>
+    <td>'Line'</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>integer</td><td>positive integer index</td><td>none</td><td>selected line number relative to current position; 0 = start of document</td>
+  </tr>
+  <tr>
+    <td>'DivType'</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>string</td><td>'Characters' / 'Words' / 'Sentences' / 'Paragraphs' / 'Content'</td><td>'Content'</td><td>Defines textual divisions in the returned data</td>
+  </tr>
+  <tr>
+    <td>'Save'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>If true, save the document after modification (false = much faster)</td>
+  </tr>
+  <tr>
+    <td><font color="green"><b>'Title'</b></font></td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">+</td><td align="center">x</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td>
+    <td>string</td><td>anything</td><td>none</td><td>Sheet/page/slide title</td>
+  </tr>
+  <tr>
+    <td><font color="green"><b>'Data'</b></font></td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">+</td><td align="center">x</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td>
+    <td>string/ numeric/ matrix/ cell-array/...</td><td>anything</td><td>none</td><td>data values to be written</td>
+  </tr>
+  <tr>
+    <td><font color="green"><b>'Image' or 'Picture'</b></font></td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">+</td><td align="center">x</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td>
+    <td>string or number</td><td>image filename or figure handle</td><td>none</td><td>image to be inserted</td>
+  </tr>
+  <tr>
+    <td>'Meta'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>indicates that figure image should be pasted as meta-info, not screenshot. Note: this might fail if Adobe Acrobat is installed</td>
+  </tr>
+  <tr>
+    <td>'NewPage'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>indicates that a page-break should be inserted before the data. Also see 'PageBreakBefore' property below</td>
+  </tr>
+  <tr>
+    <td>'HeaderText'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>string</td><td>anything</td><td>'' = empty</td><td>indicates header text for the current worksheet (XLS) or the entire document (DOC). Unavailable in PPT</td>
+  </tr>
+  <tr>
+    <td>'FooterText'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>string</td><td>anything</td><td>filename</td><td>indicates footer text for the current worksheet (XLS), current slide (PPT) or the entire document (DOC)</td>
+  </tr>
+  <tr>
+    <td><font color="green"><b>'Fgcolor' or 'Foreground'</b></font></td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td>
+    <td>string or numeric vector</td><td>all valid Matlab colors (e.g., 'g','green' or [0,1,0])</td><td>'black'</td><td>Font foreground color</td>
+  </tr>
+  <tr>
+    <td>'Bgcolor' or 'Background'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>string or numeric vector</td><td>all valid Matlab colors (e.g., 'g','green' or [0,1,0])</td><td>'white'</td><td>Font background color. PPT: also see 'SlideColor' below</td>
+  </tr>
+  <tr>
+    <td>'FontSize'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>number</td><td>positive number</td><td>none (normally 10 or 12)</td><td>Font size (e.g., 13)</td>
+  </tr>
+  <tr>
+    <td>'FontName'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>string</td><td>valid font name</td><td>none</td><td>Font name (e.g., 'Times New Roman' or 'Arial')</td>
+  </tr>
+  <tr>
+    <td><font color="green"><b>'Bold'</b></font></td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Bold font</td>
+  </tr>
+  <tr>
+    <td>'Italic'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Italic font</td>
+  </tr>
+  <tr>
+    <td>'Underline'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>integer</td><td>XLS: 0-2;<br> DOC: 0-4;<br> PPT: 0/1</td><td>0 = no line</td><td>Underline font (0=none, 1=single, 2=double, 3=thick, 4=words); Matlab7 also accepts strings: 'wdUnderlineWords' etc.</td>
+  </tr>
+  <tr>
+    <td>'Strikethrough'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Strikethrough font</td>
+  </tr>
+  <tr>
+    <td>'AllCaps'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>All-caps font: lowercase 'a' looks exactly like uppercase 'A'</td>
+  </tr>
+  <tr>
+    <td>'SmallCaps'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Small-caps font: lowercase 'a' looks like a small uppercase 'A'</td>
+  </tr>
+  <tr>
+    <td>'Subscript'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Subscript font</td>
+  </tr>
+  <tr>
+    <td>'Superscript'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Superscript font</td>
+  </tr>
+  <tr>
+    <td>'Shadow'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Shadowed font</td>
+  </tr>
+  <tr>
+    <td>'Emboss'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Embossed font</td>
+  </tr>
+  <tr>
+    <td>'WrapText'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Wrap text within cell(s) / box</td>
+  </tr>
+  <tr>
+    <td>'NumberFormat'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>string</td><td>any valid format specifier</td><td>none</td><td>Cell format specifier (e.g., '#,##0_);[Red](#,##0)')</td>
+  </tr>
+  <tr>
+    <td>'TextOrientation'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>degrees</td><td>XLS: -90:90;<br> PPT: 0 or -90</td><td>0 = Eastward</td><td>Indicates text direction: -90=downward, +90=upward. PPT only accepts 0 or -90; XLS accepts full range</td>
+  </tr>
+  <tr>
+    <td>'EdgeLeft'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>number or cell array</td><td>weight (0/0.5/1/1.5/2/3/4) or {weight,color}</td><td>none</td><td>Left border. Set weight to [] or 0 to remove this border. Note: this property fails in Matlab 6 (ok in 7)</td>
+  </tr>
+  <tr>
+    <td>'EdgeRight'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>number or cell array</td><td>weight (0/0.5/1/1.5/2/3/4) or {weight,color}</td><td>none</td><td>Left border. Set weight to [] or 0 to remove this border. Note: this property fails in Matlab 6 (ok in 7)</td>
+  </tr>
+  <tr>
+    <td>'EdgeTop'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>number or cell array</td><td>weight (0/0.5/1/1.5/2/3/4) or {weight,color}</td><td>none</td><td>Left border. Set weight to [] or 0 to remove this border. Note: this property fails in Matlab 6 (ok in 7)</td>
+  </tr>
+  <tr>
+    <td>'EdgeBottom'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>number or cell array</td><td>weight (0/0.5/1/1.5/2/3/4) or {weight,color}</td><td>none</td><td>Left border. Set weight to [] or 0 to remove this border. Note: this property fails in Matlab 6 (ok in 7)</td>
+  </tr>
+  <tr>
+    <td>'Halign'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>string</td><td>'right' / 'center' / 'left' / 'justify'<br> XLS: also 'fill' / 'general'</td><td>'general'</td><td>Horizontal cell/paragraph alignment</td>
+  </tr>
+  <tr>
+    <td>'Valign'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>string</td><td>'top' / 'center' / 'bottom' / 'justify'</td><td>'bottom'</td><td>Vertical cell alignment</td>
+  </tr>
+  <tr>
+    <td>'LineSpacing'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>number</td><td>positive number</td><td>1</td><td>Spacing between lines: 1/1.5/2 indicate single-double spacing; any other value is treated as an exact number of [points]. Matlab7 also accepts strings: 'wdLineSpaceSingle' etc.</td>
+  </tr>
+  <tr>
+    <td>'SpaceBefore'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>number</td><td>positive number</td><td>0.2</td><td>Spacing before selected line(s) in [points]</td>
+  </tr>
+  <tr>
+    <td>'SpaceAfter'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>number</td><td>positive number</td><td>0</td><td>Spacing after selected line(s) in [points]</td>
+  </tr>
+  <tr>
+    <td>'WidowControl'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>DOC paragraph widow/orphan control</td>
+  </tr>
+  <tr>
+    <td>'KeepWithNext'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>DOC paragraph "Keep-with-next" (keep next paragraph on same page)</td>
+  </tr>
+  <tr>
+    <td>'KeepTogether'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>DOC paragraph "Keep-Together" (keep this paragraph on same page)</td>
+  </tr>
+  <tr>
+    <td>'PageBreakBefore'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>DOC paragraph "Page-Break-Before" (start paragraph on top of new page). Also see 'NewPage' property above</td>
+  </tr>
+  <tr>
+    <td>'Bullet'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>string</td><td>'None' / 'Numbered' / 'Unnumbered' or 'Bullet'</td><td>'None'</td><td>Bullet/numberring type (unnumbered = bullet)</td>
+  </tr>
+  <tr>
+    <td>'LeftIndent'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>number</td><td>positive number</td><td>0</td><td>Left paragraph indent in [points]</td>
+  </tr>
+  <tr>
+    <td>'RightIndent'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>number</td><td>positive number</td><td>0</td><td>Right paragraph indent in [points]</td>
+  </tr>
+  <tr>
+    <td>'IndentLevel'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>integer</td><td>positive integer</td><td>1</td><td>Indent level. Default = leftmost indent = 1</td>
+  </tr>
+  <tr>
+    <td>'RowHeight'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>number</td><td>positive number</td><td>system dependent</td><td>XLS row height (e.g., 12.75)</td>
+  </tr>
+  <tr>
+    <td>'ColWidth'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>number</td><td>positive number</td><td>system dependent</td><td>XLS column width (e.g., 8.5)</td>
+  </tr>
+  <tr>
+    <td>'RowAutoFit'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Auto-fit selected XLS row(s) according to the contained value(s)</td>
+  </tr>
+  <tr>
+    <td>'ColAutoFit'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Auto-fit selected XLS column(s) according to the contained value(s)</td>
+  </tr>
+  <tr>
+    <td>'RowHidden'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Hides or unhides the selected XLS row(s)</td>
+  </tr>
+  <tr>
+    <td>'ColHidden'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Hides or unhides the selected XLS column(s)</td>
+  </tr>
+  <tr>
+    <td>'SheetHidden'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Hides or unhides the selected XLS worksheet</td>
+  </tr>
+  <tr>
+    <td>'SheetName'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>string</td><td>almost anything up to 32 chars</td><td>none</td><td>XLS worksheet (tab) name</td>
+  </tr>
+  <tr>
+    <td>'TabColor'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>string or numeric vector</td><td>all valid Matlab colors (e.g., 'g','green' or [0,1,0])</td><td>'white'</td><td>XLS worksheet tab color; ''=white</td>
+  </tr>
+  <tr>
+    <td>'SlideHidden'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>Hides or unhides the selected PPT slide</td>
+  </tr>
+  <tr>
+    <td>'SlideColor'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>string or numeric vector</td><td>all valid Matlab colors (e.g., 'g','green' or [0,1,0])</td><td>'white'</td><td>PPT slide background color; ''=white. Note: 'BgColor' sets the text frame color, not the slide color</td>
+  </tr>
+  <tr>
+    <td>'BgPicture'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>string</td><td>filename</td><td>''</td><td>Background image for the current worksheet/page/slide; Use '' to remove</td>
+  </tr>
+  <tr>
+    <td>'PageOrientation'</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center">x</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td><td align="center" bgcolor="lightgreen">P</td>
+    <td>string</td><td>'Landscape' / 'Portrait'</td><td>none (system dependent)</td><td>Page orientation</td>
+  </tr>
+  <tr>
+    <td><font color="green"><b>'Release'</b></font></td><td align="center">x</td><td align="center">x</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">+</td>
+    <td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td><td align="center" bgcolor="lightgreen">+</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>true = release</td><td>indicates whether or not to release the COM server from memory after closing the file (recommended unless the same server will be reused shortly).</td>
+  </tr>
+  <tr>
+    <td>'DelStd'</td><td align="center">x</td><td align="center">x</td><td align="center">x</td><td align="center">x</td><td align="center" bgcolor="lightgreen">P</td>
+    <td align="center" bgcolor="lightgreen">P</td><td align="center">x</td><td align="center">x</td>
+    <td>boolean</td><td>true/false/1/0/'on'/'off'</td><td>false</td><td>deletes the standard XLS worksheets. Note that XLS files must have at least one sheet, so if the file has only the standard sheets, then the last one will not be deleted.</td>
+  </tr>
+</table></font>
+
+<p>
+<a href="http://www.ymasoftware.com/servlet/Detail?no=1">Back to OfficeDoc product page</a>
+</BODY></HTML>

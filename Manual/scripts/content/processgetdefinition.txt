@@ -1,0 +1,17 @@
+<p class="func_descript">Return definition of a parameter</p>
+
+$syntaxon$
+field_def = ProcessGetDefinition(set_def, group, field)
+$syntaxoff$
+
+$descon$
+set_def - parameter set definition, see $processgui_toolbox$ (structure)
+group - name of the group in the set (string)
+field - name of the field in the set (string)
+field_def - definition of a single parameter, see $processgui_toolbox$ or empty (structure)
+$descoff$
+
+$seeon$
+processgui_toolbox
+processloadscenario
+$seeoff$

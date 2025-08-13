@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<head>
+<title>EPR Imaging Toolbox Help</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="epri.css" type="text/css" />
+
+</head>
+<body>
+<table class="page_header" width = "100%">
+  <tr>
+    <td class="menu_style" width = "260"><img src="images/logo_200.png" alt="Logo" width="100"></td>
+    <td class="menu_style">EPR Imaging Toolbox collection user manual</td>
+  </tr>
+ </table>
+ <table class="page_core" width = "100%"  height="100%">
+  <tr class="page_core_tr">
+    <td class="page_navigation" width = "260"><table width="100%" class="page_navigation">
+<tr><td class="menu_group0">&nbsp;</td></tr>
+<tr><td class="menu_group0"><a href='index.html'>About</a></td></tr>
+<tr><td class="menu_group0"><a href='general_contribution.html'>Contributions</a></td></tr>
+<tr><td class="menu_group0"><a href='general_installation.html'>Installation</a></td></tr>
+<tr><td class="menu_group0"><a href='sample_data.html'>Sample data</a></td></tr>
+<tr><td class="menu_group0"><a href='radon_toolbox.html'>Radon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='iradon_toolbox.html'>Iradon toolbox</a></td></tr>
+<tr><td class="menu_group1 menu_selected"><a href='iradon_d2d_mstage.html'>iradon_d2d_mstage</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_qiao_fbp3d.html'>iradon_qiao_fbp3d</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_getcoordpole.html'>iradon_GetCoordPole</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_getfbpimagetype.html'>iradon_GetFBPImageType</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_fbpgradtable.html'>iradon_FBPGradTable</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_interptouniformangle.html'>iradon_InterpToUniformAngle</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_vor_area_3d.html'>iradon_vor_area_3d</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox.html'>Common toolbox: Algebra</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox_other.html'>Common toolbox: Other</a></td></tr>
+<tr><td class="menu_group0"><a href='epri_toolbox.html'>EPRI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='ibgui_toolbox.html'>ibGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='arbuzgui_toolbox.html'>ArbuzGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='processgui_toolbox.html'>ProcessGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='utilities.html'>Useful utilities</a></td></tr>
+<tr><td class="menu_group0"><a href='used_toolboxes.html'>Toolboxes used</a></td></tr>
+<tr><td class="menu_group0"><a href='helpmanual.html'>This help</a></td></tr>
+</table>
+</td>
+    <td class="page_content text_main" ><p class="func_name">iradon_d2d_mstage</p><hr><p class="func_descript">3D and 4D filtered backprojection image reconstruction from 1D projections. Sequential 2D reconstructions (multi-stage) are employed.</p>
+
+<p class="matlab_syntax_caption">Syntax:</p>
+<p class="matlab_syntax">image = <b>iradon_d2d_mstage</b>(Pela, radon_pars, recon_pars)</p>
+
+
+
+<p class="matlab_desc_caption">Description:</p>
+<p class="matlab_description">3D and 4D filtered backprojection image reconstruction from 1D projections.
+Sequential 2D reconstructions (multi-stage) are employed.
+Equal angular projection scheme is required.
+Definition of angles is shown in the figure below.
+<img height = "140" src="images/polar_coordinates.png">
+<img height = "120" src="images/iradon_mstage.png"><br>
+<strong><i>&Theta;</i></strong> and <strong><i>&phi;</i></strong> are spatial angles. <strong><i>&alpha;</i></strong> is spectral angle discussed in <a href='iradon_toolbox.html'>Iradon toolbox</a>.</br>
+<span class="structure_field">Pela</span> - equal linear angle sampled projections (float)
+  for 3D: size(Pela)=[points_in_projection, 1, <strong><i>N<sub>&Theta;</sub></i></strong>, <strong><i>N<sub>&phi;</sub></i></strong>]
+  for 4D: size(Pela)=[points_in_projection, <strong><i>N<sub>&Theta;</sub></i></strong>, <strong><i>N<sub>&phi;</sub></i></strong>, <strong><i>N<sub>&alpha;</sub></i></strong>]
+<span class="structure_field">radon_pars</span> - projection parameters (structure)
+  ~.<span class="structure_field">ELA</span> - equal angle gradient scheme parameters (structure)
+     ~.<span class="structure_field">imtype</span> - Image type (int, 1 for 4D, 14 for 3D)
+     ~.<span class="structure_field">nPolar</span> - Number of polar (<strong><i>N<sub>&Theta;</sub></i></strong>) angles (int)
+     ~.<span class="structure_field">nAz</span>    - Number of azimuthal (<strong><i>N<sub>&phi;</sub></i></strong>) angles (int)
+     ~.<span class="structure_field">nSpec</span>  - Number of spectral (<strong><i>N<sub>&alpha;</sub></i></strong>) angles (int)
+     ~.<span class="structure_field">size</span> - length of the spacial projection (float, in cm)
+<span class="structure_field">recon_pars</span> - reconstruction parameters (structure)
+  ~.<span class="structure_field">nBins</span>  - Image size in all dimensions (int, in voxels)
+  ~.<span class="structure_field">Filter</span> - (string, <span class="description_literal">'ram-lak'</span>/<span class="description_literal">'shepp-logan'</span>/<span class="description_literal">'cosine'</span>/<span class="description_literal">'hamming'</span>/<span class="description_literal">'hann'</span>)
+  ~.<span class="structure_field">FilterCutOff</span>  - Filter cut off, part of full bandwidth (float, 0 to 1)
+  ~.<span class="structure_field">InterpFactor</span>  - Projection interpolation factor, (int, 1/2/4/etc)
+  ~.<span class="structure_field">Interpolation</span> - Inerpolation method, (string, <span class="description_literal">'none'</span>/<span class="description_literal">'sinc'</span>/<span class="description_literal">'spline'</span>/<span class="description_literal">'linear'</span>)
+  ~.<span class="structure_field">CodeFlag</span>      - Reconstruction code (string, <span class="description_literal">'C'</span>/<span class="description_literal">'MATLAB'</span>/<span class="description_literal">'FORTRAN'</span>)
+  ~.<span class="structure_field">zeropadding</span>   - zeropadding factor (int, >= 1)
+<span class="structure_field">image</span> - reconstructed object
+Number of bins in reconstructed matrix in all dimensions is equal to the number of points in projections</p>
+
+
+<p class="matlab_example_caption">Example:</p>
+<p class="matlab_code"><span class="matlab_comment">% Generate equal solid angle layout of projections</span>
+fbp_struct.nAz = <span class="matlab_value">36</span>;
+fbp_struct.nPolar = <span class="matlab_value">36</span>;
+fbp_struct.imtype = <a href="iradon_getfbpimagetype.html" class="eprit_function">iradon_GetFBPImageType</a>(<span class="matlab_literal">'XYZ'</span>);
+fbp_struct.MaxGradient = <span class="matlab_value">1</span>;     <span class="matlab_comment">% maximum gradient (G/cm)</span>
+fbp_struct.angle_sampling = <span class="matlab_literal">'UNIFORM_SPATIAL_FLIP'</span>;
+pars = <a href="iradon_fbpgradtable.html" class="eprit_function">iradon_FBPGradTable</a>(fbp_struct);
+
+<span class="matlab_comment">% Radon transformation parameters</span>
+radon_pars.un = pars.G;    <span class="matlab_comment">% unit vectors of the gradients</span>
+radon_pars.size = <span class="matlab_value">5</span>;       <span class="matlab_comment">% projection spatial support (cm)</span>
+radon_pars.nBins = <span class="matlab_value">64</span>;     <span class="matlab_comment">% length of the projection spatial support</span>
+
+<span class="matlab_comment">% Phantom parameters</span>
+phantom.r = <span class="matlab_value">2.2</span>;               <span class="matlab_comment">% radius of the sphere (cm)</span>
+phantom.offset = [<span class="matlab_value">0.1</span>,<span class="matlab_value">-0.1</span>,<span class="matlab_value">0</span>]; <span class="matlab_comment">% offset of the sphere (cm)</span>
+
+<span class="matlab_comment">% use radon_c2d_sphere to generate analytic projections</span>
+P = <a href="radon_c2d_sphere.html" class="eprit_function">radon_c2d_sphere</a>(phantom, radon_pars);
+
+<span class="matlab_comment">% convert serial projection layout into iradon_d2d_mstage layout</span>
+PP = zeros(<span class="matlab_function">size</span>(P,<span class="matlab_value">1</span>), fbp_struct.nAz*fbp_struct.nPolar);
+<span class="matlab_function">PP</span>(:,pars.gidx) = P;
+Pela = reshape(PP, [<span class="matlab_function">size</span>(P,<span class="matlab_value">1</span>), <span class="matlab_value">1</span>, fbp_struct.nAz, fbp_struct.nPolar]);
+
+<span class="matlab_comment">% Interpolate projections to the uniform angular scheme</span>
+switch fbp_struct.angle_sampling
+  case {<span class="matlab_literal">'UNIFORM_SPATIAL_FLIP'</span>, <span class="matlab_literal">'UNIFORM_SPATIAL'</span>}
+    Pela=<a href="iradon_interptouniformangle.html" class="eprit_function">iradon_InterpToUniformAngle</a>(Pela, <span class="matlab_literal">'imgData'</span>);
+end
+
+radon_pars.ELA =  fbp_struct;
+
+recon_pars.size = <span class="matlab_value">5</span>;     <span class="matlab_comment">% ignored, radon_pars.size is used instead</span>
+recon_pars.nBins = <span class="matlab_value">128</span>;  <span class="matlab_comment">% ignored, radon_pars.nBins is used instead</span>
+recon_pars.Filter = <span class="matlab_literal">'ram-lak'</span>;
+recon_pars.FilterCutOff = <span class="matlab_value">1.0</span>;
+recon_pars.Interpolation = <span class="matlab_literal">'spline'</span>;
+recon_pars.InterpFactor = <span class="matlab_value">2</span>;
+recon_pars.CodeFlag = <span class="matlab_literal">'C'</span>;
+recon_pars.zeropadding = <span class="matlab_value">2</span>; <span class="matlab_comment">% any number >= 1</span>
+
+<span class="matlab_comment">% call the reconstruction program and display result</span>
+image = <a href="iradon_d2d_mstage.html" class="eprit_function">iradon_d2d_mstage</a>(Pela, radon_pars, recon_pars);
+<a href="ibgui.html" class="eprit_function">ibGUI</a>(image);</p>
+<p class="matlab_example_legend">Legend: <span class="eprit_function">EPR-IT functions</span>; <span class="matlab_function">MATLAB functions</span>; <span class="matlab_comment">comments</span>.</p>
+
+
+<p>
+[1] K.H. Ahn, H.J. Halpern, Spatially uniform sampling in 4-D EPR spectral-spatial imaging, J. Magn. Reson., 185 (2007) 152-158 DOI 10.1016/j.jmr.2006.12.007.<br>
+[2] K.H. Ahn, H.J. Halpern, Simulation of 4D spectral-spatial EPR images, J. Magn. Reson., 187 (2007) 1-9 DOI 10.1016/j.jmr.2007.02.013.<br>
+[3] K.H. Ahn, H.J. Halpern, Comparison of local and global angular interpolation applied to spectral-spatial EPR image reconstruction, Medical Physics, 34 (2007) 1047-1052 Doi 10.1118/1.2514090.
+</p>
+
+<p class="see_also">See also:</p>
+<p class="see_also_list"><a href='radon_c2d_sphere.html'>radon_c2d_sphere</a>, <a href='iradon_interptouniformangle.html'>iradon_InterpToUniformAngle</a></p>
+
+
+</td>
+  </tr>
+ </table> 
+</body>
+</html>

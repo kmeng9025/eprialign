@@ -1,0 +1,34 @@
+<p class="func_descript">An orthoslice viewer for up to 4D images</p>
+
+$syntaxon$
+ibGUI()
+ibGUI(matrix)
+ibGUI(structure)
+$syntaxoff$
+
+$descon$
+matrix - a matrix (float, 2D, 3D or 4D)
+structure - a MATLAB (structure)
+  ~.Mask - an optional mask matrix (boolean, the same dimension as images)
+  use mask for visualization or statistics
+  ~.any_field_name - a matrix (float, 2D, 3D or 4D)
+  there could be multiple matrix fields with different names
+  ~.Size - image size (float, 1xN, N - matrix dimensions, in cm)
+$descoff$
+
+$exon$
+phantom.type = 'sphere';
+phantom.offset=[-.5,1,0];   % offset of the sphere
+phantom.size= 10;           % size of imaged area
+phantom.nBins=64;           % phantom array length
+
+image_structure.ph1 = rand(64,64,64);
+phantom.r=3;                % radius of the sphere
+image_structure.ph2 = radon_phantom(phantom);
+phantom.offset=[0.5,-1,0];   % offset of the sphere
+phantom.r=2;                % radius of the mask
+image_structure.Mask = radon_phantom(phantom) > 0.5;
+
+ibGUI(image_structure)	           % view the phantoms
+$exoff$
+

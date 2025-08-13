@@ -1,0 +1,254 @@
+% RS_SRECONSTRUCT  Reconstruction script for sinusoidal Rapid Scan image
+% [mat_recFXD, rec_info, dsc] = RS_SRECONSTRUCT(rs, raw_info, rec_info);
+% rs         - Projection data, time along columns [array, 2D] 
+% raw_info   - [structure] of raw data parameters
+%     [].FieldSweep  - Array of field sweeps for every projection [array, in G]
+%     [].RSfrequency - Array of RS frequencies for every projection [array, in Hz]
+%     [].sampling - Array of dwell times for every projection [array, in s]
+% rec_info   - [structure] of image parameters
+%     [].ppr - [structure] of data processing parameters
+%         see RS_SDECONVOLVE/par_struct for more details.
+%     [].rec - [structure] of image reconstruction parameters
+%         see IRADON_D2D_MSTAGE/recon_pars for more details.
+% mat_recFXD - Reconstructed image [array, 3D or 4D]
+% See also RS_SFBP, IRADON_D2D_MSTAGE, RS_SDECONVOLVE, RS_SSCAN_PHASE.
+
+% Author: Boris Epel
+% Center for EPR imaging in vivo physiology
+% University of Chicago, 2013
+% Contact: epri.uchicago.edu
+
+function [mat_recFXD, rec_info, dsc] = rs_sreconstruct(in_y, raw_info, rec_info, varargin)
+
+if nargin < 3
+  error('Usage: [out_y, out_pars] = td_reconstruct(in_y, in_opt, raw_info, rec_info, vargin)');
+elseif nargin > 4
+  if ~mod(nargin-1,2)
+    for kk=1:2:nargin-1
+      in_opt=setfield(in_opt, lower(varargin{kk}), varargin{kk+1});
+    end
+  else error('td_reconstruct: Wrong amount of arguments')
+  end
+end
+
+dsc = [];
+fbp_struct = raw_info.data.FBP;
+ppr_struct = rec_info.ppr;
+
+[pars, pars_ext] = iradon_FBPGradTable(fbp_struct);
+
+% complain
+if pars.nTrace ~= size(in_y, 2), error('Wrong number of projections'); end
+
+nBins = rec_info.rec.Sub_points;
+rec_enabled = isequal(safeget(rec_info.rec, 'Enabled','on'), 'on');
+
+% Spatial image reconstruction
+tic
+if pars.nSpec == 1
+
+  % Index of projections (no zero gradients)   
+  ProjectionLayoutIndex = pars.gidx(pars.gidx >= 0);
+  % index that defines zero gradients (==-1) or projections (1...pars.nP)
+  zero_g = pars.gidx == -1;
+   
+  % separate data and zero gradient projections
+  out_data  = in_y(:,~zero_g);
+  out_zerog = in_y(:,zero_g);
+  nZG = size(out_zerog, 2);
+  out_freq  = mean(raw_info.RSfrequency(~zero_g));
+  out_sweep = mean(raw_info.FieldSweep(~zero_g));
+  out_sample = mean(raw_info.sampling(~zero_g));
+
+  deconpars = ppr_struct;
+  [x_ss,out_y, deconpars.field_scan_phase]=rs_sscan_phase(out_zerog, out_sweep, out_freq, out_sample, deconpars);
+  fprintf('Scan phase: %5.3f\n', deconpars.field_scan_phase);
+  [c_field, phase] = rs_get_field_phase(x_ss,out_y);
+  fprintf('Center field: %5.3f G. Phase %5.3f.\n', mean(c_field), mean(phase));
+  % deconvolve spectra using scan_phase determined earlier
+  deconpars.scan_phase_algorithm = 'manual';
+%   deconpars.field_scan_phase = scan_phase;
+  deconpars.N_iter = 1;
+  [x_ss,out_y]=rs_sdeconvolve(out_data, out_sweep, out_freq, out_sample, deconpars);
+  
+  rec_y = zeros(rec_info.rec.Sub_points, pars.nP);
+   
+  % Filter projections
+  %   Fcut_off = safeget(rec_info.ppr,'Fcut_off', 0)*1E6;
+  %   if Fcut_off > 1e3
+  %     fs = raw_info.RSfrequency(1) * Npt;
+  %     [B,A] = butter(5,2*Fcut_off/fs);
+  %     out_y = filter(B,A,out_y);
+  %   end
+  
+  % Determine zero gradient resonance field 
+  %   c_shifts = zeros(nZG, 1);
+  %
+  %   for ii=1:size(zero_gradients, 2)
+  %     c_shifts(ii) = rs_get_zero_field(x_ss', zero_gradients(:,ii));
+  %   end
+  %   c_shift = fix(mean(c_shifts));
+  %
+  %   [out_ys(:,1,:), out_ys(:,2,:)] = rs_split_trace(out_y, c_shift);
+  %   out_y = squeeze(sum(out_ys, 2));
+  
+  % Interpolate zero field through all projections
+  reference_idx  = find(pars.gidx == -1);
+  zero_field_prj = interp1(reference_idx,c_field(:,1),1:pars.nTrace);
+
+  % Phase the data
+  if strcmp(safeget(ppr_struct, 'phase_algorithm', 'auto'), 'auto')
+    %     phases = zeros(nZG, 1);
+    %
+    %     for ii=1:size(zero_gradients, 2)
+    %       %     [tr1, tr2] = rs_split_trace(zero_gradients(:,ii), c_shift, isflip);
+    %       [phases(ii), zero_fields_fit(ii)] = rs_get_phase(x_ss, zero_gradients(:,ii), fit_info);
+    %     end
+    %     the_phase = mean(phases);
+    %     disp(sprintf('EPR phase: %4.2f degree', the_phase));
+  else
+    %     the_phase = safeget(ppr_struct, 'data_phase', 0);
+    %     zero_gradients = zero_gradients *exp(-1i*the_phase*pi/180);
+    %     for ii=1:size(zero_gradients, 2)
+    %       [m,fidx] = max(zero_gradients(:,ii));
+    %       zero_fields_fit(ii) = x_ss(fidx);
+    %     end
+  end
+  %   out_y = out_y *exp(-1i*the_phase*pi/180);
+  %   figure; plot(1:2048, real( out_y(:,1)), 1:2048, imag( out_y(:,1)))
+  
+  out_y = real(out_y);
+  
+  deltaB = fbp_struct.MaxGradient*mean(rec_info.rec.Size);
+  
+  x_prime  = (1:nBins)/(nBins-1) * deltaB; x_prime = x_prime - mean(x_prime);
+  for ii=1:pars.nP
+    rec_y(:,ii) = interp1(x_ss - zero_field_prj(ii), out_y(:,ii), x_prime, '', 0);
+  end
+    
+  %   needs_flip = rs_get_sweep_dir(zero_gradients);
+  %   if any(needs_flip)
+%   rec_y = flipud(rec_y);
+  %   end
+else
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%  4D imaging  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  rec_y = zeros(rec_info.rec.nBins, pars.nP);
+  x_ss = zeros(rec_info.rec.nBins, pars.nP);
+  
+  % Index of projections (no zero gradients)   
+  ProjectionLayoutIndex = pars.gidx(pars.gidx >= 0);
+  % index that defines zero gradients (==-1) or projections (1...pars.nP)
+  zero_g = pars.gidx == -1;
+  
+  % separate data and zero gradient projections
+  out_data  = in_y(:,~zero_g);
+  out_zerog = in_y(:,zero_g);
+  out_freq  = raw_info.RSfrequency(~zero_g);
+  out_sweep = raw_info.FieldSweep(~zero_g);
+  out_sample = raw_info.sampling(~zero_g);
+  UnitSweep = pars.UnitSweep(~zero_g);
+  cos_alpha = cos(pars_ext.alpha);
+  
+  % determine image dimensions
+  tan_alpha = max(tan(pars_ext.alpha));
+  deltaB =  pars.data.FBP.MaxGradient * rec_info.rec.size / tan_alpha;
+  ReconSweep = UnitSweep * deltaB;
+  
+  for ii=1:pars.nSpec
+    % select data for particular spectral angle
+    idxSpec = pars_ext.k == ii;
+    data4sweep  = out_data(:, idxSpec);
+    data4zerog = out_zerog(:,  [ii, pars.nSpec-ii+1]);
+    RSfrequency = mean(out_freq(idxSpec));
+    RSsweep =  mean(out_sweep(idxSpec));
+    RSsample = mean(out_sample(idxSpec));
+    image_sweep = mean(ReconSweep(idxSpec));
+    cos_sweep = mean(cos_alpha(idxSpec));
+    nSpecPrj = numel(find(idxSpec));
+    
+    % use zero gradient traces to determine scan phase
+    deconpars = ppr_struct;
+    scan_phase=rs_sscan_phase(data4zerog, RSsweep, RSfrequency, RSsample, deconpars);
+    
+    % deconvolve spectra using scan_phase determined earlier
+    deconpars.scan_phase_algorithm = 'manual';
+    deconpars.field_scan_phase = scan_phase;
+    [x_ss_scan,out_y_scan]=rs_sdeconvolve(data4sweep, RSsweep, RSfrequency, RSsample, deconpars);
+    
+    % field axis for projections with correct sweep and number of points    
+    x_ss_sw = linspace(-image_sweep/2, image_sweep/2, rec_info.rec.nBins);
+    
+    % interpolate trace to get correct number of points and 
+    % normalize spectral intensity 
+    rec_y(:, idxSpec) = interp1(x_ss_scan, out_y_scan, x_ss_sw, '', 0) / cos_sweep;
+    x_ss(:,  idxSpec) = repmat(x_ss_sw', 1, nSpecPrj);
+  end
+  
+  % Image field axis
+  rec_info.rec.deltaH = deltaB;
+  
+  % compensate for the down-up field scan
+  rec_y = flip(rec_y, 1);
+end
+
+if ~rec_enabled
+  mat_recFXD = [];
+  dsc.prj = rec_y(:, ProjectionLayoutIndex >= 0);
+  return;
+end
+
+sz = size(rec_y);
+% remove zero gradient traces and use only real part of projections
+mat = zeros([sz(1), prod(pars.Dim)]);
+rem_idx = ProjectionLayoutIndex >= 0;
+mat(:, ProjectionLayoutIndex(rem_idx)) = real(single(rec_y(:,rem_idx)));
+mat_out = reshape(mat, [sz(1), pars.Dim]);
+
+% -------------------------------------------------------------------------
+% -------------- R E C O N S T R U C T I O N ----------------------------
+% -------------------------------------------------------------------------
+
+% reshape array for reconstruction
+mat_out = reshape(mat_out, [nBins,fbp_struct.nSpec,fbp_struct.nAz,fbp_struct.nPolar]);
+
+% Interpolate to linear angle
+switch safeget(raw_info.data.FBP,'angle_sampling','uniform_spatial')
+  case {'uniform_spatial','uniform_spatial_flip'}
+    mat_out=iradon_InterpToUniformAngle(mat_out,'imgData');
+end
+
+% MatrixGUI(mat_out)
+
+% Reconstruction
+radon_pars.ELA =  raw_info.data.FBP;
+radon_pars.size = rec_info.rec.Size;
+recon_pars = rec_info.rec;
+mat_recFXD = iradon_d2d_mstage(mat_out, radon_pars, recon_pars);
+
+% normalize amplitude on the unit volume/1D
+switch 14
+  case 1, n = 4;
+  case 14, n = 3; % 3D experiment
+end
+
+% Set software scaling factor
+rec_info.ampSS = 1 ./ (rec_info.rec.Size(1)*0.01/nBins)^(n-1); % meters ;)
+
+if safeget(rec_info.rec, 'DoublePoints', 0)
+  switch n
+    case 3
+      mat_recFXD = reshape(mat_recFXD, [2,nBins,2,nBins,2,nBins]);
+      mat_recFXD =  squeeze(sum(sum(sum(mat_recFXD, 1), 3), 5))/8;
+  end
+end
+
+disp('    Reconstruction is finished.');
+rec_info.com = [];
+
+
+
+
+

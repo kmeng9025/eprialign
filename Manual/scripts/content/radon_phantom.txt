@@ -1,0 +1,38 @@
+<p class="func_descript"> Generates a digital sphere or cube phantom </p>
+
+$syntaxon$
+[image] = radon_phantom(phantom)
+$syntaxoff$
+
+$descon$
+phantom - phantom definition (structure)
+   ~.type  - type of phantom (string, 'sphere'/'cube')
+   <b>for sphere phantom</b>
+   ~.r 	- radius of sphere (float, cm)
+   ~.offset - offset of the sphere from the center (float, cm)
+   ~.size   - length of area of interest (float, cm)
+   ~.nBins  - length of array (int)
+   <b>for cube phantom</b>
+   ~.a      - cube side (float, cm)
+   ~.offset - offset of the cube from the center (float, cm)
+   ~.size   - length of area of interest (float, cm)
+   ~.nBins  - length of array (int)
+$descoff$
+
+$exon$
+phantom.type = 'sphere';
+phantom.r=3;                % radius of the sphere
+phantom.offset=[-.5,1,0];   % offset of the sphere
+phantom.size= 10;            % size of imaged area
+phantom.nBins=64;           % phantom array length
+
+image = radon_phantom(phantom);
+
+ibGUI(image)	           % view the phantoms
+$exoff$
+
+$seeon$
+RADON_C2D_SPHERE
+RADON_C2D_CUBE
+radon_d2d
+$seeoff$

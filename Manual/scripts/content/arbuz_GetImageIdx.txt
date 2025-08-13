@@ -1,0 +1,9 @@
+% ARBUZ_GETIMAGEIDX  get image index (both for master and dependent images)
+% midx = arbuz_GetImageIdx(hGUI, image_alias);
+% [midx, sidx, status] = arbuz_GetImageIdx(hGUI, image_alias);
+% hGUI - handle to the object that holds the project [double]
+% image_alias - see arbuz_ImageList(alias), alias parameter
+% midx - index of master image [int]
+% sidx - index of dependent image [int]
+% status - 0/1 for error/OK [int]
+% See also ARBUZ_IMAGELIST.

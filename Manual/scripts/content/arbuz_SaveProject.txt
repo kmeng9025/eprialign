@@ -1,0 +1,3 @@
+% ARBUZ_SAVEPROJECT save projects to the specified file
+% arbuz_SaveProject(hGUI, file_name);
+% hGUI - handle to the object that holds the project [double]

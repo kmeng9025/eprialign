@@ -1,0 +1,374 @@
+Fiducial Dataset Metadata
+==================================================
+
+Total samples: 46
+Target size: (64, 64, 64)
+
+Sample 1:
+  File: ExchangeB6M005.mat
+  Entry: >MRI
+  Fiducial: FID
+  Original image shape: (350, 350, 18)
+  Original mask shape: (350, 350, 18)
+  Mask volume: 674 voxels
+
+Sample 2:
+  File: ExchangeB6M005.mat
+  Entry: >MRI
+  Fiducial: Side_FID
+  Original image shape: (350, 350, 18)
+  Original mask shape: (350, 350, 18)
+  Mask volume: 152 voxels
+
+Sample 3:
+  File: ExchangeB6M005.mat
+  Entry: >MRI_Long
+  Fiducial: FID_L
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 370 voxels
+
+Sample 4:
+  File: ExchangeB6M005.mat
+  Entry: >MRI_Long
+  Fiducial: SFID_L
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 78 voxels
+
+Sample 5:
+  File: ExchangeB6M005.mat
+  Entry: >PreExchAMP
+  Fiducial: E_FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 480 voxels
+
+Sample 6:
+  File: ExchangeB6M005.mat
+  Entry: >PreExchAMP
+  Fiducial: Es_FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 129 voxels
+
+Sample 7:
+  File: ExchangeB6M009.mat
+  Entry: >PE_AMP
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1161 voxels
+
+Sample 8:
+  File: ExchangeB6M009.mat
+  Entry: >PE_AMP
+  Fiducial: SFID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 265 voxels
+
+Sample 9:
+  File: HemoB6M022_better.mat
+  Entry: >PreHemoAMP
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1438 voxels
+
+Sample 10:
+  File: HemoB6M022_better.mat
+  Entry: >PreHemoAMP
+  Fiducial: side_FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 220 voxels
+
+Sample 11:
+  File: HemoB6M022_better.mat
+  Entry: >PreHemo
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1438 voxels
+
+Sample 12:
+  File: HemoB6M022_better.mat
+  Entry: >PreHemo
+  Fiducial: side_FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 220 voxels
+
+Sample 13:
+  File: HemoB6M022_better.mat
+  Entry: >MRI_Short
+  Fiducial: FID_MRI
+  Original image shape: (350, 350, 18)
+  Original mask shape: (350, 350, 18)
+  Mask volume: 650 voxels
+
+Sample 14:
+  File: HemoB6M022_better.mat
+  Entry: >MRI_Short
+  Fiducial: sideFID_MRI
+  Original image shape: (350, 350, 18)
+  Original mask shape: (350, 350, 18)
+  Mask volume: 88 voxels
+
+Sample 15:
+  File: HemoB6M022_better.mat
+  Entry: >MRI_Long
+  Fiducial: FID
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 382 voxels
+
+Sample 16:
+  File: HemoB6M022_better.mat
+  Entry: >MRI_Long
+  Fiducial: Side_FID
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 89 voxels
+
+Sample 17:
+  File: HemoB6M024.mat
+  Entry: >PreHemoAMP
+  Fiducial: SideFID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 217 voxels
+
+Sample 18:
+  File: HemoB6M024.mat
+  Entry: >PreHemoAMP
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1187 voxels
+
+Sample 19:
+  File: HemoB6M024.mat
+  Entry: >PreHemo
+  Fiducial: SideFID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 217 voxels
+
+Sample 20:
+  File: HemoB6M024.mat
+  Entry: >PreHemo
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1187 voxels
+
+Sample 21:
+  File: HemoB6M024.mat
+  Entry: >Hemo1
+  Fiducial: SideFID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 217 voxels
+
+Sample 22:
+  File: HemoB6M024.mat
+  Entry: >Hemo1
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1187 voxels
+
+Sample 23:
+  File: HemoB6M024.mat
+  Entry: >Hemo2
+  Fiducial: SideFID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 217 voxels
+
+Sample 24:
+  File: HemoB6M024.mat
+  Entry: >Hemo2
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1187 voxels
+
+Sample 25:
+  File: HemoB6M024.mat
+  Entry: >Transfus1
+  Fiducial: SideFID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 217 voxels
+
+Sample 26:
+  File: HemoB6M024.mat
+  Entry: >Transfus1
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1187 voxels
+
+Sample 27:
+  File: HemoB6M024.mat
+  Entry: >Transfus2
+  Fiducial: SideFID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 217 voxels
+
+Sample 28:
+  File: HemoB6M024.mat
+  Entry: >Transfus2
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1187 voxels
+
+Sample 29:
+  File: HemoB6M024.mat
+  Entry: >MRI_Short
+  Fiducial: FID
+  Original image shape: (350, 350, 18)
+  Original mask shape: (350, 350, 18)
+  Mask volume: 467 voxels
+
+Sample 30:
+  File: HemoB6M024.mat
+  Entry: >MRI_Short
+  Fiducial: Side_FID
+  Original image shape: (350, 350, 18)
+  Original mask shape: (350, 350, 18)
+  Mask volume: 84 voxels
+
+Sample 31:
+  File: HemoB6M024.mat
+  Entry: >MRI_Long
+  Fiducial: FID
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 399 voxels
+
+Sample 32:
+  File: HemoB6M024.mat
+  Entry: >MRI_Long
+  Fiducial: SideFID
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 71 voxels
+
+Sample 33:
+  File: HemoB6M030.mat
+  Entry: >PreHemoAMP
+  Fiducial: FID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1235 voxels
+
+Sample 34:
+  File: HemoB6M030.mat
+  Entry: >PreHemoAMP
+  Fiducial: SideFID
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 247 voxels
+
+Sample 35:
+  File: HemoM002.mat
+  Entry: >PreHemo
+  Fiducial: Fiducial 1
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1258 voxels
+
+Sample 36:
+  File: HemoM002.mat
+  Entry: >MRI
+  Fiducial: FID_short
+  Original image shape: (350, 350, 18)
+  Original mask shape: (350, 350, 18)
+  Mask volume: 878 voxels
+
+Sample 37:
+  File: HemoM002.mat
+  Entry: >LongMRI
+  Fiducial: FID_Long
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 448 voxels
+
+Sample 38:
+  File: HemoM002.mat
+  Entry: >LongMRI
+  Fiducial: Fiducial 1
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 121 voxels
+
+Sample 39:
+  File: HemoM003.mat
+  Entry: >PreHemo
+  Fiducial: FID_eprPH
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 1300 voxels
+
+Sample 40:
+  File: HemoM003.mat
+  Entry: >MRI
+  Fiducial: Fiducials
+  Original image shape: (350, 350, 18)
+  Original mask shape: (350, 350, 18)
+  Mask volume: 58 voxels
+
+Sample 41:
+  File: HemoM003.mat
+  Entry: >MRI_long
+  Fiducial: FID
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 183 voxels
+
+Sample 42:
+  File: HemoM003.mat
+  Entry: >MRI_long
+  Fiducial: SideFID
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 34 voxels
+
+Sample 43:
+  File: HemoM004.mat
+  Entry: >MRI
+  Fiducial: FID_short
+  Original image shape: (350, 350, 18)
+  Original mask shape: (350, 350, 18)
+  Mask volume: 878 voxels
+
+Sample 44:
+  File: HemoM004.mat
+  Entry: >LongMRI
+  Fiducial: FID_Long
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 448 voxels
+
+Sample 45:
+  File: HemoM004.mat
+  Entry: >LongMRI
+  Fiducial: Fiducial 1
+  Original image shape: (350, 350, 40)
+  Original mask shape: (350, 350, 40)
+  Mask volume: 121 voxels
+
+Sample 46:
+  File: HemoM004.mat
+  Entry: >PreHemo
+  Fiducial: FID_EPR
+  Original image shape: (64, 64, 64)
+  Original mask shape: (64, 64, 64)
+  Mask volume: 408 voxels
+

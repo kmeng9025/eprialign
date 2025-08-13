@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<head>
+<title>EPR Imaging Toolbox Help</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="epri.css" type="text/css" />
+
+</head>
+<body>
+<table class="page_header" width = "100%">
+  <tr>
+    <td class="menu_style" width = "260"><img src="images/logo_200.png" alt="Logo" width="100"></td>
+    <td class="menu_style">EPR Imaging Toolbox collection user manual</td>
+  </tr>
+ </table>
+ <table class="page_core" width = "100%"  height="100%">
+  <tr class="page_core_tr">
+    <td class="page_navigation" width = "260"><table width="100%" class="page_navigation">
+<tr><td class="menu_group0">&nbsp;</td></tr>
+<tr><td class="menu_group0"><a href='index.html'>About</a></td></tr>
+<tr><td class="menu_group0"><a href='general_contribution.html'>Contributions</a></td></tr>
+<tr><td class="menu_group0"><a href='general_installation.html'>Installation</a></td></tr>
+<tr><td class="menu_group0"><a href='sample_data.html'>Sample data</a></td></tr>
+<tr><td class="menu_group0"><a href='radon_toolbox.html'>Radon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='iradon_toolbox.html'>Iradon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox.html'>Common toolbox: Algebra</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox_other.html'>Common toolbox: Other</a></td></tr>
+<tr><td class="menu_group0"><a href='epri_toolbox.html'>EPRI toolbox</a></td></tr>
+<tr><td class="menu_group1"><a href='epri_msps.html'>epri_msps</a></td></tr>
+<tr><td class="menu_group1"><a href='epri_msps_decrypt.html'>epri_msps_decrypt</a></td></tr>
+<tr><td class="menu_group1"><a href='epri_navigator.html'>epri_navigator</a></td></tr>
+<tr><td class="menu_group1"><a href='epri_navigator_split.html'>epri_navigator_split</a></td></tr>
+<tr><td class="menu_group1"><a href='epri_baseline.html'>epri_baseline</a></td></tr>
+<tr><td class="menu_group1"><a href='epri_baseline_split.html'>epri_baseline_split</a></td></tr>
+<tr><td class="menu_group1"><a href='epri_split_field.html'>epri_split_field</a></td></tr>
+<tr><td class="menu_group1 menu_selected"><a href='epr_llw_po2.html'>epr_LLW_PO2</a></td></tr>
+<tr><td class="menu_group1"><a href='epr_t2_po2.html'>epr_T2_PO2</a></td></tr>
+<tr><td class="menu_group1"><a href='epr_r2_po2.html'>epr_R2_PO2</a></td></tr>
+<tr><td class="menu_group0"><a href='ibgui_toolbox.html'>ibGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='arbuzgui_toolbox.html'>ArbuzGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='processgui_toolbox.html'>ProcessGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='utilities.html'>Useful utilities</a></td></tr>
+<tr><td class="menu_group0"><a href='used_toolboxes.html'>Toolboxes used</a></td></tr>
+<tr><td class="menu_group0"><a href='helpmanual.html'>This help</a></td></tr>
+</table>
+</td>
+    <td class="page_content text_main" ><p class="func_name">epr_LLW_PO2</p><hr><p class="func_descript">Convert lorentzian line width to oxygen concentration.</p>
+
+<p class="matlab_syntax_caption">Syntax:</p>
+<p class="matlab_syntax">pO2 = <b>epr_LLW_PO2</b>(LLW)
+pO2 = <b>epr_LLW_PO2</b>(LLW, Amp, mask, probe_info)</p>
+
+
+<p class="matlab_desc_caption">Description:</p>
+<p class="matlab_description">Converts lorentzian line width to oxygen concentration for the given parameters.
+<img height = "32" src="images/epr_llw_po2.png">
+<strong><i>&gamma;</i></strong> is the gyromagnetic ratio of electron, 2.802 MHz/G.
+Other parameters are described below.
+<span class="structure_field">LLW</span>   - matrix of lorentzian line widths <strong><i>LLW</i></strong> (float, mG)
+<span class="structure_field">Amp</span>   - matrix of spin probe concentration <strong><i>I</i></strong> (float, a.u.)
+<span class="structure_field">probe_info</span> - (structure) of spin probe parameters
+  ~.<span class="structure_field">LLW_zero_po2</span>    - Lorentzian line width <strong>LLW<sub>pO<sub>2</sub>=0</sub></strong> at 0 torr (float, mG, default is 10.2)
+  ~.<span class="structure_field">Torr_per_mGauss</span> - proportionality coefficient <strong>&kappa;</strong> (float, torr/mG, default is 1.84)
+  ~.<span class="structure_field">mG_per_mM</span>       - self broadening coefficient <strong><i>a</i></strong> (float, mG/mM, default is 0)
+  ~.<span class="structure_field">MDNmG_per_mM</span>    - self broadening coefficient for median spin-probe concentration (float, mG/mM, default is 0)
+  ~.<span class="structure_field">amp1mM</span>          - intensity <strong><i>I<sub>1mM</sub></i></strong> corresponding to 1 mM (float, a.u.)
+<span class="structure_field">mask</span>  - mask to select values for conversion, use true(size(T2)) to select all (boolean)
+<span class="structure_field">pO2</span>   - matrix of oxygen concentrations (float, torr)
+size(T2)=size(Amp)=size(mask)=size(pO2)</p>
+
+
+<p class="matlab_example_caption">Example:</p>
+<p class="matlab_code">LLW = <span class="matlab_value">22</span>;  <span class="matlab_comment">% [mGauss]</span>
+sprintf('<span class="matlab_comment">%4.1f torr',epr_LLW_PO2(LLW))</span></p>
+<p class="matlab_example_legend">Legend: <span class="eprit_function">EPR-IT functions</span>; <span class="matlab_function">MATLAB functions</span>; <span class="matlab_comment">comments</span>.</p>
+
+</td>
+  </tr>
+ </table> 
+</body>
+</html>

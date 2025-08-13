@@ -1,0 +1,22 @@
+<p class="func_descript">Return 2D arrays of x, y and z coordinates of pixels on a plane</p>
+
+$syntaxon$
+[xout, yout, zout] = generate_slice_coordinates(corners, ncolumns, nrows)
+$syntaxoff$
+
+$descon$
+Returns 2D arrays of x, y and z coordinates of pixels on a plane.
+corners - coordinates of new image corners (float 4x3)
+  corner's order: upper left, upper right, lower right, lower left
+ncolumns - number of columns in 2D plane
+nrows -  number of rows in 2D plane
+xout  - X coordinates for plane pixels (float, MxN, N = ncolumns, M = nrows)
+yout  - Y coordinates for plane pixels (float, MxN, N = ncolumns, M = nrows)
+zout  - Z coordinates for plane pixels (float, MxN, N = ncolumns, M = nrows)
+$generate_slice_coordinates$ provides input to interp2 and interp3 functions used for re-sampling to a plane.
+$descoff$
+
+$seeon$
+resample_plane
+reslice_volume
+$seeoff$

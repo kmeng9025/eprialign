@@ -1,0 +1,26 @@
+<p class="func_descript">Split dataset into data traces and navigator traces.</p>
+
+$syntaxon$
+[data, navigators, out_idx, out_nav_idx, processed_info, pars_out] = ...
+  epri_navigator_split(data_and_navigators, service_idx, pars)
+$syntaxoff$
+
+$descon$
+data_and_navigators - experimental traces (float, MxN, N = number of traces, M = trace length)
+service_idx       - description of traces (int, Nx1, N = number of traces)
+  PROJECTION_INDEX=1   projection
+  BASELINE_INDEX=0     baseline trace
+  NAVIGATOR_INDEX=100  navigator trace
+pars              -  experimental parameters (structure)
+  ~.G  - gradient vector (float, G/cm, Nx3, N - number of gradients)
+  ~.nP - number of projections (int)
+  ~.nTrace - overall number of traces, including baselines, zero gradients etc (int)
+data       - traces belong to data (float, MxN, N = number of traces, M = trace length)
+navigators - traces belong to navigator (float, MxN, N = number of traces, M = trace length)
+pars_out          -  experimental parameters with baseline removed (structure)
+  see description of pars
+$descoff$
+
+$seeon$
+epri_navigator
+$seeoff$

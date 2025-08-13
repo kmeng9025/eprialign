@@ -1,0 +1,28 @@
+<p class="func_descript">Remove MSPS randomization pattern from a gradient scheme.</p>
+
+$syntaxon$
+[data, pars_out] = epri_msps_decrypt(data_msps, pars, FBP)
+$syntaxoff$
+
+$descon$
+Removes maximally spaced projection sequence MSPS randomization pattern from a 
+gradient scheme. Used in conjunction with image reconstruction functions with fixed 
+gradient schemes such as $iradon_d2d_mstage$
+data_msps  - experimental traces scrambled by MSPS (float, MxN, N = number of traces, M = trace length)
+pars              -  experimental parameters (structure)
+  ~.G - gradient vector (float, G/cm, Nx3, N - number of gradients)
+  ~.nP - number of projections (int)
+  ~.nTrace - overall number of traces, including baselines, zero gradients etc (int)
+FBP - gradient scheme parameters (structure)
+  ~.projection_order - order of projections (string, 'asis'/'msps')
+  'msps': apply the randomization pattern  
+data - traces belong to data (float, MxN, N = number of traces, M = trace length)
+baseline - traces belong to baseline (float, MxN, N = number of traces, M = trace length)
+pars_out          -  experimental parameters with MSPS encoding removed (structure)
+  see the description of pars
+$descoff$
+
+$seeon$
+epri_msps
+iradon_d2d_mstage
+$seeoff$

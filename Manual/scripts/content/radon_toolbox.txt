@@ -1,0 +1,10 @@
+<p>Toolbox for generation of digital phantoms in normal and Radon spaces.</p>
+
+<p>Forward Radon transformation for general digital phantom and special cases. Standard phantoms.</p>
+
+$seeon$
+RADON_ANGLE2XYZ
+radon_c2d_sphere
+radon_c2d_cube
+radon_d2d
+$seeoff$

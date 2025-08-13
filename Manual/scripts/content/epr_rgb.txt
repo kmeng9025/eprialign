@@ -1,0 +1,32 @@
+% rgb.m: translates a colour from multiple formats into matlab colour format
+% type 'rgb demo' to get started
+%
+% [matlabcolor]=rgb(col)
+% matlab colors are in the format [R G B]
+%
+% if 'col' is a string, it is interpreted as
+%
+% 	[[modifier] descriptor] colour_name
+%
+% where
+%		modifier is one of   (slightly, normal, very, extremely)
+%		descriptor is one of (light/pale, normal, dark)
+%		colorname is a name of a colour
+%			(type 'rgb list' or 'rgb demo' to see them all)
+%
+% if 'col' is an integer between 0 and &HFFFFFF inclusive,
+% it is interpreted as a double word RGB value in the form
+% [0][R][G][B]
+%
+% if 'col' is a negative integer between -1 and -&HFFFFFF
+% inclusive, it is interpreted as the complement of a double
+% word RGB value in the form [0][B][G][R]
+%
+% if 'col' is a string of the form 'qbX' or 'qbXX' where X
+% is a digit then the number part is interpreted as a qbasic
+% color
+%
+% if 'col' is one of {k,w,r,g,b,y,m,c} a sensible result is
+% returned
+%
+% if 'col' is already in matlab format, it is unchanged

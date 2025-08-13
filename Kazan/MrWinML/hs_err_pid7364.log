@@ -1,0 +1,124 @@
+
+Unexpected Signal : EXCEPTION_ILLEGAL_INSTRUCTION_2 occurred at PC=0x1b97eb1
+Function name=(N/A)
+Library=(N/A)
+
+NOTE: We are unable to locate the function name symbol for the error
+      just occurred. Please refer to release documentation for possible
+      reason and solutions.
+
+
+
+Current Java thread:
+
+Dynamic libraries:
+0x00400000 - 0x005FB000 	D:\Matlab6p5\bin\win32\matlab.exe
+0x7C900000 - 0x7C9B0000 	C:\WINDOWS\system32\ntdll.dll
+0x7C800000 - 0x7C8F4000 	C:\WINDOWS\system32\kernel32.dll
+0x77D40000 - 0x77DD0000 	C:\WINDOWS\system32\USER32.dll
+0x77F10000 - 0x77F56000 	C:\WINDOWS\system32\GDI32.dll
+0x774E0000 - 0x7761C000 	C:\WINDOWS\system32\ole32.dll
+0x77C10000 - 0x77C68000 	C:\WINDOWS\system32\msvcrt.dll
+0x77DD0000 - 0x77E6B000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x77E70000 - 0x77F01000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77C00000 - 0x77C08000 	C:\WINDOWS\system32\VERSION.dll
+0x7A000000 - 0x7A00D000 	D:\Matlab6p5\bin\win32\mwoles05.dll
+0x77120000 - 0x771AC000 	C:\WINDOWS\system32\OLEAUT32.dll
+0x7A710000 - 0x7A7D0000 	D:\Matlab6p5\bin\win32\libut.dll
+0x76C90000 - 0x76CB8000 	C:\WINDOWS\system32\IMAGEHLP.dll
+0x7B110000 - 0x7B138000 	D:\Matlab6p5\bin\win32\libmx.dll
+0x7AF70000 - 0x7AF77000 	D:\Matlab6p5\bin\win32\libmex.dll
+0x7AF80000 - 0x7AF93000 	D:\Matlab6p5\bin\win32\libmwservices.dll
+0x7A630000 - 0x7A644000 	D:\Matlab6p5\bin\win32\mpath.dll
+0x7A7D0000 - 0x7A895000 	D:\Matlab6p5\bin\win32\m_interpreter.dll
+0x7AFA0000 - 0x7AFA9000 	D:\Matlab6p5\bin\win32\libmat.dll
+0x7AAA0000 - 0x7AB2B000 	D:\Matlab6p5\bin\win32\mlib.dll
+0x7AA90000 - 0x7AA9E000 	D:\Matlab6p5\bin\win32\m_pcodeio.dll
+0x7AA10000 - 0x7AA73000 	D:\Matlab6p5\bin\win32\m_ir.dll
+0x7A8A0000 - 0x7AA0F000 	D:\Matlab6p5\bin\win32\m_parser.dll
+0x7AA80000 - 0x7AA8F000 	D:\Matlab6p5\bin\win32\m_pcodegen.dll
+0x7AFE0000 - 0x7AFE6000 	D:\Matlab6p5\bin\win32\m_dispatcher.dll
+0x7A010000 - 0x7A0E8000 	D:\Matlab6p5\bin\win32\hg.dll
+0x7A5E0000 - 0x7A62F000 	D:\Matlab6p5\bin\win32\numerics.dll
+0x7AB50000 - 0x7AB5F000 	D:\Matlab6p5\bin\win32\libmwlapack.dll
+0x7AB60000 - 0x7ABBC000 	D:\Matlab6p5\bin\win32\libmwfftw.dll
+0x7AFB0000 - 0x7AFDB000 	D:\Matlab6p5\bin\win32\libmwumfpack.dll
+0x7A650000 - 0x7A6B2000 	D:\Matlab6p5\bin\win32\udd.dll
+0x7A4F0000 - 0x7A563000 	D:\Matlab6p5\bin\win32\uiw.dll
+0x73000000 - 0x73026000 	C:\WINDOWS\system32\WINSPOOL.DRV
+0x763B0000 - 0x763F9000 	C:\WINDOWS\system32\comdlg32.dll
+0x77F60000 - 0x77FD6000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x5D090000 - 0x5D127000 	C:\WINDOWS\system32\COMCTL32.dll
+0x7C9C0000 - 0x7D1D4000 	C:\WINDOWS\system32\SHELL32.dll
+0x7A570000 - 0x7A5D8000 	D:\Matlab6p5\bin\win32\gui.dll
+0x7A110000 - 0x7A4CD000 	D:\Matlab6p5\bin\win32\simulink.dll
+0x76390000 - 0x763AD000 	C:\WINDOWS\system32\IMM32.dll
+0x7AFF0000 - 0x7B017000 	D:\Matlab6p5\bin\win32\libmwbuiltins.dll
+0x7B020000 - 0x7B075000 	D:\Matlab6p5\bin\win32\cg_ir.dll
+0x7B080000 - 0x7B0A2000 	D:\Matlab6p5\bin\win32\libfixedpoint.dll
+0x7B0B0000 - 0x7B0B8000 	D:\Matlab6p5\bin\win32\glee.dll
+0x7B0C0000 - 0x7B0E7000 	D:\Matlab6p5\bin\win32\jmi.dll
+0x7A0F0000 - 0x7A102000 	D:\Matlab6p5\bin\win32\dastudio.dll
+0x7A4D0000 - 0x7A4ED000 	D:\Matlab6p5\bin\win32\hardcopy.dll
+0x7AB30000 - 0x7AB4A000 	D:\Matlab6p5\bin\win32\sl_solver.dll
+0x79000000 - 0x790F2000 	D:\Matlab6p5\bin\win32\MFC42.DLL
+0x7B140000 - 0x7B155000 	D:\Matlab6p5\bin\win32\mclcom.dll
+0x7A6C0000 - 0x7A704000 	D:\Matlab6p5\bin\win32\udd_mi.dll
+0x7B0F0000 - 0x7B10B000 	D:\Matlab6p5\bin\win32\comcli.dll
+0x5B860000 - 0x5B8B4000 	C:\WINDOWS\system32\NETAPI32.dll
+0x10000000 - 0x10036000 	C:\WINDOWS\system32\sockspy.dll
+0x7AE30000 - 0x7AF30000 	D:\Matlab6p5\bin\win32\atlas_PIII.dll
+0x7ABC0000 - 0x7AE26000 	D:\Matlab6p5\bin\win32\lapack.dll
+0x015A0000 - 0x0160E000 	D:\Matlab6p5\bin\win32\DFORRT.dll
+0x773D0000 - 0x774D2000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.2180_x-ww_a84f1ff9\comctl32.dll
+0x5AD70000 - 0x5ADA8000 	C:\WINDOWS\system32\uxtheme.dll
+0x74720000 - 0x7476B000 	C:\WINDOWS\system32\MSCTF.dll
+0x6D420000 - 0x6D4EE000 	D:\Matlab6p5\sys\java\jre\win32\jre\bin\hotspot\jvm.dll
+0x76B40000 - 0x76B6D000 	C:\WINDOWS\system32\WINMM.dll
+0x5CD70000 - 0x5CD77000 	C:\WINDOWS\system32\serwvdrv.dll
+0x5B0A0000 - 0x5B0A7000 	C:\WINDOWS\system32\umdmxfrm.dll
+0x6D220000 - 0x6D227000 	D:\Matlab6p5\sys\java\jre\win32\jre\bin\hpi.dll
+0x6D3B0000 - 0x6D3BD000 	D:\Matlab6p5\sys\java\jre\win32\jre\bin\verify.dll
+0x6D250000 - 0x6D266000 	D:\Matlab6p5\sys\java\jre\win32\jre\bin\java.dll
+0x6D3C0000 - 0x6D3CD000 	D:\Matlab6p5\sys\java\jre\win32\jre\bin\zip.dll
+0x6D020000 - 0x6D128000 	D:\Matlab6p5\sys\java\jre\win32\jre\bin\awt.dll
+0x6D1E0000 - 0x6D21B000 	D:\Matlab6p5\sys\java\jre\win32\jre\bin\fontmanager.dll
+0x69000000 - 0x694F3000 	C:\WINDOWS\system32\atioglxx.dll
+0x7AF50000 - 0x7AF64000 	D:\Matlab6p5\bin\win32\nativejava.dll
+0x605D0000 - 0x605D9000 	C:\WINDOWS\system32\mslbui.dll
+0x01E10000 - 0x01E19000 	D:\Matlab6p5\bin\win32\nativejmi.dll
+0x7AF30000 - 0x7AF47000 	D:\Matlab6p5\bin\win32\glren.dll
+0x5ED00000 - 0x5EDCC000 	C:\WINDOWS\system32\OPENGL32.dll
+0x68B20000 - 0x68B40000 	C:\WINDOWS\system32\GLU32.dll
+0x73760000 - 0x737A9000 	C:\WINDOWS\system32\DDRAW.dll
+0x73BC0000 - 0x73BC6000 	C:\WINDOWS\system32\DCIMAN32.dll
+0x0FB10000 - 0x0FB1C000 	C:\WINDOWS\System32\spool\DRIVERS\W32X86\3\mdiui.dll
+0x0FB20000 - 0x0FDE6000 	C:\WINDOWS\system32\msi.dll
+0x6D340000 - 0x6D348000 	D:\Matlab6p5\sys\java\jre\win32\jre\bin\net.dll
+0x71AD0000 - 0x71AD9000 	C:\WINDOWS\system32\WSOCK32.dll
+0x71AB0000 - 0x71AC7000 	C:\WINDOWS\system32\WS2_32.dll
+0x71AA0000 - 0x71AA8000 	C:\WINDOWS\system32\WS2HELP.dll
+0x71A50000 - 0x71A8F000 	C:\WINDOWS\System32\mswsock.dll
+0x76F20000 - 0x76F47000 	C:\WINDOWS\system32\DNSAPI.dll
+0x76FB0000 - 0x76FB8000 	C:\WINDOWS\System32\winrnr.dll
+0x76F60000 - 0x76F8C000 	C:\WINDOWS\system32\WLDAP32.dll
+0x76FC0000 - 0x76FC6000 	C:\WINDOWS\system32\rasadhlp.dll
+0x77B40000 - 0x77B62000 	C:\WINDOWS\system32\Apphelp.dll
+0x20000000 - 0x20013000 	C:\Program Files\ABBYY Lingvo 10 Multilingual Dictionary\LvHook.dll
+0x0FED0000 - 0x0FF68000 	D:\programing\Mr2\MrWinML\MrWinML.dll
+0x0FF70000 - 0x0FFE6000 	D:\Matlab6p5\bin\win32\DFORMD.dll
+0x11040000 - 0x110A4000 	C:\WINDOWS\system32\MSVCRTD.dll
+0x110C0000 - 0x11385000 	C:\WINDOWS\system32\xpsp2res.dll
+0x59A60000 - 0x59B01000 	C:\WINDOWS\system32\DBGHELP.dll
+0x76BF0000 - 0x76BFB000 	C:\WINDOWS\system32\PSAPI.DLL
+
+Local Time = Sat Jun 16 22:54:36 2007
+Elapsed Time = 73
+#
+# HotSpot Virtual Machine Error : EXCEPTION_ILLEGAL_INSTRUCTION_2
+# Error ID : 4F530E43505002C4
+# Please report this error at
+# http://java.sun.com/cgi-bin/bugreport.cgi
+#
+# Java VM: Java HotSpot(TM) Client VM (1.3.1_01 mixed mode)
+#

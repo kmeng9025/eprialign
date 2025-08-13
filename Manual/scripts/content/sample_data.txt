@@ -1,0 +1,32 @@
+ <p>Sample data are located in the &quot;/samples&quot; directory.</p>
+ 
+<ol>
+ <li>Pulse EPR image of a partially deuterated 1 mM OX063 phantom</li>
+ <li>Pulse EPR image of a partially deuterated 1 mM OX063 phantom</li>
+ <li>Pulse EPR image of tumor bearing leg of a mouse</li>
+ <li>CW spectral-spatial EPR image of tumor bearing leg of a mouse</li>
+</ol>
+
+ 
+ <p>Pulse EPR data</p>
+ <ul>
+ <li>Data??.mat - MATLAB file that contains unfitted image</li>
+ <li>pData??.mat - MATLAB file that contains fitted image</li>
+ <li>prjData??.mat - MATLAB file that contains projections<br>
+ P - projections(float, MxDxN, M - points in projection, D - number of delays, N - number of projections)<br>
+ B - projection abscissa (float, cm, Mx1, M - points in projection)<br>
+ G - gradient vector (float, G/cm, Nx3, N - number of projections)<br>
+  </li>
+ </ul>
+
+
+$exon$
+% Images can be loaded using ibGUI
+fname = 'p-file filename';
+ibGUI(fname);
+
+% Projections can be loaded using MatrixGUI
+fname = 'prj-file filename';
+s = open(fname);
+MatrixGUI(s.P);
+$exoff$

@@ -1,0 +1,19 @@
+$exon$
+A = eprload('d:\Boris\Docs\Study\Bruker_image_reconstruction\3D Three Fiducials - Nitroxyl\Brukers backprojection\P01b');
+
+n1 = 128;
+n2 = 12;
+n3 = 128;
+n4 = 12;
+
+B = reshape(A,[n1, n2, n3, n4]);
+
+
+im = zeros(n1, n3, n2*n4);
+for ii=1:n2
+  for jj=1:n4
+    im(:,:,(n4-jj)*n2+ii) = squeeze(B(:,ii,:,jj));
+  end
+end
+ibGUI(im)
+$exoff$

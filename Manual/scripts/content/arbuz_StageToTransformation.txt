@@ -1,0 +1,4 @@
+% ARBUZ_STAGETOTRANSFORMATION copies image transformation matrices A & Aprime 
+% into transformation
+% status = arbuz_StageToTransformation(hGUI, the_transformation)
+% hGUI - handle to the object that holds the project [double]

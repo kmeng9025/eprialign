@@ -1,0 +1,5 @@
+% function [fitted] = fit_lookuptable_T1(fit_y,tt,TT)
+% 'fit_y' is MxN matrix with data from voxels to be fit (M = # voxels,
+%    N = # data points for each voxel to be fit
+% 'tt' are 2*taus used
+% 'TT' are T delay values

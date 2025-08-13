@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+  <category>Matlab</category>
+  <title>GetMATLAB</title>
+  <description><![CDATA[Perform a simple image processing and image statistics computation in Matlab.]]></description>
+  <version>0.0.0.1</version>
+  <documentation-url>http://www.slicer.org/slicerWiki/index.php/Documentation/Nightly/Extensions/MatlabBridge</documentation-url>
+  <license/>
+  <contributor>Andras Lasso (PerkLab)</contributor>
+  <acknowledgements><![CDATA[SparKit is a project funded by Cancer Care Ontarioand the Ontario Consortium for Adaptive Interventions in Radiation Oncology (OCAIRO) to provide free, open-source toolset for radiotherapy and related image-guided interventions.]]></acknowledgements>
+  <parameters>
+    <label>Processing Parameters</label>
+    <description><![CDATA[Parameters for the processing]]></description>
+    <string>
+      <label>Image</label>
+      <description><![CDATA[Name of the image in ArbuzGUI]]></description>
+      <longflag>image</longflag>
+      <default>MRI</default>     
+    </string>
+    <string>
+      <label>Mask</label>
+      <description><![CDATA[Name of the mask in ArbuzGUI]]></description>
+      <longflag>mask</longflag>
+      <default></default>     
+    </string>
+  </parameters>
+  <parameters>
+    <label>IO</label>
+    <description><![CDATA[Input/output parameters]]></description>
+    <image>
+      <label>Image Volume</label>
+      <description><![CDATA[Output filtered]]></description>
+      <longflag>imagevolume</longflag>
+      <channel>output</channel>
+    </image>
+    <image>
+      <label>Mask Volume</label>
+      <description><![CDATA[Input volume to be filtered]]></description>
+      <longflag>maskvolume</longflag>
+      <channel>input</channel>
+    </image>
+  </parameters>
+</executable>

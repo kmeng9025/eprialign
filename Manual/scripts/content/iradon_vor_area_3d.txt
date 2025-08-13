@@ -1,0 +1,17 @@
+<p class="func_descript">Calculation of the weight factors for an arbitrary set of gradients using Voronoi sphere decomposition.</p>
+
+$syntaxon$
+areas = iradon_vor_area_3d(vec)
+$syntaxoff$
+
+$descon$
+Reconstruction of correct image from an arbitrary set of projections using backprojection method requires weight coefficients to be assigned to every projection. This functions returns weight factors obtained using Voronoi sphere decomposition.
+
+vec    - vectors of points on a sphere (float, Nx3, N-number of the points on the sphere)
+areas  - surface area on a unit sphere that 'belongs' to the points (float, Nx1, N-number of the points on the sphere)
+
+Algorithm: Find (dtheta)*(dphi) by converting Cartesian points (unx,uny,unz)
+to spherical coordinates, treating points on 2D grid of theta = 0 to pi/2
+and phi = 0 to 2pi, and calculating Voronoi area on grid. Multiply areas
+by sin(theta) to get 'areas' (surface areas on a sphere)
+$descoff$

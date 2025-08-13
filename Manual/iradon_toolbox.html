@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<head>
+<title>EPR Imaging Toolbox Help</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="epri.css" type="text/css" />
+
+</head>
+<body>
+<table class="page_header" width = "100%">
+  <tr>
+    <td class="menu_style" width = "260"><img src="images/logo_200.png" alt="Logo" width="100"></td>
+    <td class="menu_style">EPR Imaging Toolbox collection user manual</td>
+  </tr>
+ </table>
+ <table class="page_core" width = "100%"  height="100%">
+  <tr class="page_core_tr">
+    <td class="page_navigation" width = "260"><table width="100%" class="page_navigation">
+<tr><td class="menu_group0">&nbsp;</td></tr>
+<tr><td class="menu_group0"><a href='index.html'>About</a></td></tr>
+<tr><td class="menu_group0"><a href='general_contribution.html'>Contributions</a></td></tr>
+<tr><td class="menu_group0"><a href='general_installation.html'>Installation</a></td></tr>
+<tr><td class="menu_group0"><a href='sample_data.html'>Sample data</a></td></tr>
+<tr><td class="menu_group0"><a href='radon_toolbox.html'>Radon toolbox</a></td></tr>
+<tr><td class="menu_group0 menu_selected"><a href='iradon_toolbox.html'>Iradon toolbox</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_d2d_mstage.html'>iradon_d2d_mstage</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_qiao_fbp3d.html'>iradon_qiao_fbp3d</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_getcoordpole.html'>iradon_GetCoordPole</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_getfbpimagetype.html'>iradon_GetFBPImageType</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_fbpgradtable.html'>iradon_FBPGradTable</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_interptouniformangle.html'>iradon_InterpToUniformAngle</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_vor_area_3d.html'>iradon_vor_area_3d</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox.html'>Common toolbox: Algebra</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox_other.html'>Common toolbox: Other</a></td></tr>
+<tr><td class="menu_group0"><a href='epri_toolbox.html'>EPRI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='ibgui_toolbox.html'>ibGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='arbuzgui_toolbox.html'>ArbuzGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='processgui_toolbox.html'>ProcessGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='utilities.html'>Useful utilities</a></td></tr>
+<tr><td class="menu_group0"><a href='used_toolboxes.html'>Toolboxes used</a></td></tr>
+<tr><td class="menu_group0"><a href='helpmanual.html'>This help</a></td></tr>
+</table>
+</td>
+    <td class="page_content text_main" ><p class="func_name">Iradon toolbox</p><hr>Inverse Radon transformation image reconstruction toolbox
+
+<p><strong>Relation between Radon transformation and EPRI</strong></p>
+<p>Spatial imaging</p>
+
+<p>Spectral imaging</p>
+<img height = "140" src="images/iradon_epri_relation.png">
+<p>
+Three parameters of spectral imaging are number of spectral angles <strong><i>N<sub>&alpha;</sub></i></strong>, 
+image spatial support <strong><i>&Delta;L</i></strong> and image spectral support <strong><i>&Delta;B</i></strong>. The resulting image has physical dimensions of <strong><i>&Delta;L</i></strong> and <strong><i>&Delta;B</i></strong>. The equal spectral angle gradient scheme given above is not the best and is given as an example. <strong><i>&Delta;B</i></strong> that covers all regions of EPR spectrum with significant intensity is required for proper reconstruction. For a single line spectrum <strong><i>&Delta;B</i></strong> of 5-7 line widths is recommended. <br> 
+Note that the required <strong><i>B<sup>sweep</sup></i></strong> and <strong><i>G</i></strong> are quickly growing with the increase of <strong><i>N<sub>&alpha;</sub></i></strong>. For reconstruction methods that demand equal number of points in all projections (e.g. <a href='iradon_d2d_mstage.html'>iradon_d2d_mstage</a>), the EPR spectra have to be re-sampled to accommodate difference in <strong><i>B<sup>sweep</sup></i></strong>. Correspondingly, the intensity of EPR spectra <strong><i>I</i></strong> has to be renormalized.
+</p>
+</td>
+  </tr>
+ </table> 
+</body>
+</html>

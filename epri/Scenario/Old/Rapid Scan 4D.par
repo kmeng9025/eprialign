@@ -1,0 +1,102 @@
+[fbp]
+zero_gradient = before_after
+bl_n = 4
+Q = 13
+nPolar = 10
+nAz = 10
+imtype = 1
+MaxGrad = 3.0294
+angle_sampling = uniform_spatial_flip
+CoordPole = Z
+baseline = none
+nSpec = 14
+MaxGradient = 3.0294
+ 
+[rec]
+x = 18
+Sub_points = 64
+Size = 4.5
+DoublePoints = 0
+InterpFactor = 4
+FilterCutOff = 0.5
+Filter = ram-lak
+Interpolation = spline
+Enabled = on
+recon_echos = []
+CodeFlag = C
+SubSampling = gaussian
+ 
+[td]
+baseline_display = none
+phase_display = all
+baseline_algorithm = zero_single
+echo_select_algorithm = statistics
+echo_idx = 18
+phase_algorithm = max_real_single
+phase_zero_order = 0
+baseline_area = 250
+glitch_removal = []
+filt_before = none
+use_echos = []
+dead_time = 510
+acquisition_window = -2200
+acq_window_start = -2208
+ 
+[fft]
+fft_display = all
+awidth = 1
+aalpha = 1
+ashift = 0
+fft = 1
+zerofill = 1
+phase0 = 0
+xshift = 0
+tc = 33
+profile_center_offset = 0
+profile_threshold = 0.25
+profile_threshold_smooth = 0
+opt = imag
+awings = off
+awin = none
+filt = none
+data = 0_
+profile_correction = imager_profile
+profile_file = V:\data\Imagnet_PULSE\09\09\090925\cavity_profile_phantom_PS_81points.mat
+clearence_correction = none
+fft_display_imag = none
+fit_mask_file = ffff
+profile_fwhh = 10
+ 
+[prc]
+recon_data = yes
+fit_data = no
+save_data = yes
+process_method = rs_fbp
+ 
+[fit]
+fit_mask = threshold_mask
+fit_mask_file = ffff
+fit_mask_threshold = 0.5
+use_echos = []
+fit_min_amp = 0
+fit_max_amp = 5
+fit_min_T2 = 0
+fit_max_T2 = 20
+fit_errors_kill = yes
+spin_probe = OX063D24
+ 
+[clb]
+LLW_zero_po2 = 12.4
+mG_per_mM = 2.32
+Torr_per_mGauss = 1.84
+amp1mM = 0.064
+Qcb = 14
+ 
+[MBpars]
+MBprofThresh = .3
+MBProjTrunc = [-10 10]
+MBrecombine_scheme = inv_square
+ 
+[ppr]
+scheme = 0
+ 

@@ -1,0 +1,12 @@
+<p class="func_descript">Create a matrix for scaling transformation</p>
+
+$syntaxon$
+A = hmatrix_scale(scales)
+$syntaxoff$
+
+$descon$
+<img height = "90" src="images/hmatrix_scale.png">
+Creates a matrix for scaling transformation.
+scales - scaling factors along X,Y and Z (float, 1x3)
+A - transformation matrix (float, 4x4)
+$descoff$

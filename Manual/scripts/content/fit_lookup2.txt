@@ -1,0 +1,23 @@
+% FIT_LOOKUP2 - lookup dictionary fitting to a function with 2 parameters
+% function [res, pars] = FIT_LOOKUP2(y, pars, what_to_do)
+% y     - data array, M traces, N points each [double NxM]
+% pars  - [structure] of parameters for dictionary generation   
+%   [].func - Function of 3 arguments [f.e. @(x, A, B) (1 - A*exp(-x/B))]
+%   [].par1 - Array of first argument values [double array]
+%   [].par2 - Array of second argument values [double array]
+%   [].x    - Array of function arguments [double array, Nx1]
+%   [].ndict - Normalized dictionary array
+%   [].normV - Norm of dictionary
+% what_to_do  - Generate dictionary/fit data using dictionary/both [0 | 1 | 2]
+% res   - Results [double array, Mx4]
+%   1 - amplitude; 2 - parameter 1; 3 - parameter 2; 4 - fit error
+% See also FIT_LOOKUP1, FIT_LOOKUP3
+% 
+% Example:
+% y = rand(100, 16);
+% pars.func = @(x, A, B) (1 - A*exp(-x/B));
+% pars.par1 = linspace(0.3, 1.1, 200);
+% pars.par2 = linspace(1, 5, 200);
+% pars.x  =  linspace(0, 10, 16)';
+% [~, pars] = fit_lookup2(y, pars, 0);
+% [res] = fit_lookup2(y, pars, 1);

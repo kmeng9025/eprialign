@@ -1,0 +1,19 @@
+<p class="func_descript">Apply transformation to an array of vectors</p>
+
+$syntaxon$
+rprime = htransform_vectors(A, r)
+$syntaxoff$
+
+$descon$
+Applies the transformation A to input vectors. 
+htransform_vectors calls $hmatrix_augment$ to convert 3-element to 
+4-element vector notation and then applies the transformation.
+r - input vectors (float, Nx3, N - number of vectors)
+A - transformation matrix (float, 4x4)
+rprime - transformed vectors (float, Nx3, N - number of vectors)
+$descoff$
+
+$seeon$
+common_toolbox
+hmatrix_augment
+$seeoff$

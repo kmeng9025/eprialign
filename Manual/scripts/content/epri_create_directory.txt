@@ -1,0 +1,14 @@
+<p class="func_descript">Create all directories that are given in the path.</p>
+
+$syntaxon$
+epri_create_directory(fpath)
+$syntaxoff$
+
+$descon$
+Creates all directories that are given in the path. Can be used in conjunction with file saving command.
+$descoff$
+
+$exon$
+fpath = 'C:\Temp\150504\04\myfile.mat';
+epri_create_directory(fpath)
+$exoff$

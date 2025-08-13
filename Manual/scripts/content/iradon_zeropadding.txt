@@ -1,0 +1,5 @@
+% IRADON_ZEROPADDING   zeropadding of the data first dimension
+% function [Pzp, zeropadding] = iradon_zeropadding(P, zeropadding)
+% P           - Data, [array, any dimensions]
+% zeropadding - Zeropadding factor [int, >= 1]
+% Pzp         - Output data [array, any dimensions]

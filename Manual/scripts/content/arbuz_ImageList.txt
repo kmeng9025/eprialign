@@ -1,0 +1,13 @@
+% ARBUZ_IMAGELIST  find image in the project
+% image_list = arbuz_ImageList(alias)
+% hGUI              - application handle
+% alias             - image request [string, int array or cell of strings/int]
+%   all/master/slave/+/v   - all/master images/slave images/ SELECTED images/ images SHOWN [string]
+%   [MasterIdx] or [MasterIdx, SlaveIdx]  - indexes of an image [int]
+%   {Master} or {Master, Slave}  - name of an image [string]
+% image_list        - the result [cell array]
+%   element of array [structure]
+%      [].ImageIdx - master image index
+%      [].Image    - master image name
+%      [].SlaveIdx - slave image index (-1 for master)
+%      [].Slave    - slave image name

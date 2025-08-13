@@ -1,0 +1,107 @@
+<HTML><HEAD>
+<TITLE>OfficeDoc Usage Examples</TITLE>
+<META NAME='description' CONTENT="OfficeDoc usage examples">
+<META NAME='copyright' CONTENT='OfficeDoc copyright 2007 YMA Software. All Rights Reserved. Designated trademarks and brands are the property of their respective owners.'>
+<META NAME='copyright' CONTENT='ProStores technology portions copyright 1997-2007 ProStores, Inc. All Rights Reserved. Designated trademarks and brands are the property of their respective owners.'>
+</HEAD>
+<BODY BGCOLOR='#FFFFFF'>
+<h1><u><center>OfficeDoc usage examples</center></u></h1>
+<p>
+<h2>Basic Example: <font size="-1">(works on all formats: XLS/DOC/PPT)</font></h2><pre>
+     [file,status,errMsg] = officedoc(fileName, 'open', 'mode','append');
+     status = officedoc(file, 'write', 'title','My data', 'data',[1,2,3;4,5,6], 'image',gcf, 'bold',1,'fgcolor','b');
+     status = officedoc(file, 'close');
+
+</pre><h2>XLS-specific Example:</h2><pre>
+   % Open document in 'append' mode:
+     [file,status,errMsg] = officedoc('test.xls', 'open', 'mode','append');
+
+   % Write a header line to the document at a specific position:
+     status = officedoc(file, 'write', 'sheet','newSheet','Range','A2','data',{'A','B','C'});
+
+   % Format the header line (font, color, alignment, borders/edges):
+   % Note: we could also append these properties to the end of the 'write' command above
+     status = officedoc(file, 'format', 'bold','on','italic',1,'fgcolor',[1,0,0],'bgcolor','y','halign','center','EdgeBottom',{4,'b'});
+
+   % Some specific formatting not <a href="props.html">currently supported</a> by officedoc:
+     set(file.fid.ActiveSheet.PageSetup, 'FirstPageNumber',5, 'CenterHeader','&"Arial,Bold"- Confidential -');
+
+   % Display the document in Excel application:
+     officedoc(file, 'display');
+
+   % Loop many times and append data to the bottom of the open document:
+     for index = 1 : 10
+       data = someComputation();  % e.g., magic(3) or {1,2,3; 'a','b','c'}
+       status = officedoc(file, 'write', 'data',data);
+     end
+
+   % Close the document, deleting standard sheets and releasing COM server:
+     status = officedoc(file, 'close', 'release',1,'delStd','on');
+
+   % Re-display document; file is no longer valid so we must use file name:
+     officedoc('test.xls', 'display');
+
+</pre><h2>DOC-specific Example:</h2><pre>
+   % Open document in 'write' mode:
+     [file,status,errMsg] = officedoc('test.doc', 'open', 'mode','write');
+
+   % Write a title line at a specific position:
+     status = officedoc(file, 'write', 'title','My magic data','page',3,'line',4,'PageBreakBefore',1);
+
+   % Write data beneath the header:
+     status = officedoc(file, 'write', 'line',1,'data',magic(6),'halign','center');
+
+   % Format the data (font, color, alignment, borders/edges):
+   % Note: we could also append these properties to the end of the 'write' command above
+     status = officedoc(file, 'format', 'bold','on','italic',1,'fgcolor',[1,0,0],'bgcolor','y','EdgeBottom',{4,'b'});
+
+   % Some specific formatting not <a href="props.html">currently supported</a> by officedoc:
+     set(file.fid.PageSetup.LineNumbering,'Active',1);
+
+   % Display the document in Word application:
+     officedoc(file, 'display');
+
+   % Loop many times and append data to the bottom of the open document page:
+     for index = 1 : 10
+       data = someComputation();  % e.g., magic(3) or {1,2,3; 'a','b','c'}
+       status = officedoc(file, 'write', 'data',data);
+     end
+
+   % Close the document, releasing COM server:
+     status = officedoc(file, 'close', 'release',1);
+
+   % Re-display document; file is no longer valid so we must use file name:
+     officedoc('test.doc', 'display');
+
+</pre><h2>PPT-specific Example:</h2><pre>
+   % Open document in 'append' mode:
+     [file,status,errMsg] = officedoc('test.ppt', 'open', 'mode','append');
+
+   % Write a new slide with title and figure screenshot (taken via clipboard):
+     status = officedoc(file, 'write', 'title','Nice plot data','image',gcf,'meta','on');
+
+   % Format the slide footer and orientation
+   % Note: we could also append these properties to the end of the 'write' command above
+     status = officedoc(file, 'format', 'FooterText','copyright a@b.c','PageOrientation','landscape');
+
+   % Some specific formatting not <a href="props.html">currently supported</a> by officedoc:
+     set(file.fid.Application.ActivePresentation.PageSetup,'FirstSlideNumber',5);
+
+   % Display the document in PowerPoint application (un-minimize and bring to front):
+     officedoc(file, 'display');
+
+   % Loop many times and append data to the bottom of slide #5:
+     for index = 1 : 10
+       data = someComputation();  % e.g., magic(3) or {1,2,3; 'a','b','c'}
+       status = officedoc(file, 'write', 'slide',5,'data',data);
+     end
+
+   % Close the document, releasing COM server:
+     status = officedoc(file, 'close', 'release',1);
+
+   % Re-display document; file is no longer valid so we must use file name:
+     officedoc('test.ppt', 'display');
+</pre>
+<p>
+<a href="http://www.ymasoftware.com/servlet/Detail?no=1">Back to OfficeDoc product page</a>
+</BODY></HTML>

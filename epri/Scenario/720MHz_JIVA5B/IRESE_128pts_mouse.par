@@ -1,0 +1,124 @@
+[fbp]
+nPolar = 18
+nAz = 18
+imtype = 14
+MaxGradient = 1.5
+angle_sampling = uniform_spatial_flip
+CoordPole = Z
+baseline = every_n
+bl_n = 4
+scheme = single_b
+Q = 13
+sequence = 2pECHO
+projection_order = default
+ 
+[rec]
+x = 18
+Sub_points = 128
+Size = 4.2426
+DoublePoints = 0
+InterpFactor = 2
+FilterCutOff = 0.6
+Filter = ram-lak
+Interpolation = spline
+Enabled = on
+recon_echos = []
+CodeFlag = MATLAB
+projection_index = []
+ 
+[td]
+baseline_display = none
+phase_display = all
+baseline_algorithm = zero_single
+echo_select_algorithm = statistics
+echo_idx = 18
+phase_algorithm = max_real_single
+phase_zero_order = 0
+baseline_area = 250
+glitch_removal = []
+filt_before = none
+use_echos = [100]
+dead_time = 380
+acq_window_start = -400
+off_res_baseline = yes
+prj_transpose = no
+ 
+[fft]
+fft_display = all
+awidth = 1
+aalpha = 1
+ashift = 0
+fft = 1
+zerofill = 1
+phase0 = 0
+xshift = 0
+tc = 33
+profile_center_offset = 0
+profile_threshold = 0.25
+profile_threshold_smooth = 0
+opt = imag
+awings = off
+awin = none
+filt = none
+data = 0_
+profile_correction = imager_profile
+profile_file = E:\Data\20\05\200520\cavity_profile.mat
+clearence_correction = none
+fft_display_imag = none
+fit_mask_file = ffff
+profile_fwhh = 10
+fft_export_clearence = no
+xshift_mode = manual
+ 
+[prc]
+recon_data = yes
+fit_data = yes
+save_data = yes
+process_method = ese_fbp_InvRec
+launch_viewer = yes
+export_prj = no
+export_raw = no
+ 
+[fit]
+fit_mask = threshold_mask
+fit_mask_file = ffff
+fit_mask_threshold = 0.1
+use_echos = []
+fit_min_amp = 0
+fit_max_amp = 50
+fit_min_T2 = 0
+fit_max_T2 = 7.0
+fit_errors_kill = yes
+fit_function = fit_exp_recovery
+sat_correction = none
+T1 = 6
+use_echosT2 = []
+use_echosT1 = []
+fit_mask_fill = 1
+fit_mask_object_size = 100
+fit_method = default
+fit_min_T1 = 0.56
+fit_max_T1 = 15
+mask_proc_stage1 = proc_leave_large
+mask_proc_stage2 = proc_none
+mask_proc_stage3 = proc_none
+mask_proc_stage4 = proc_fill
+fit_mask_max_voxels = 64000
+fit_par_inv = linspace(0.85, 1.35, 25)
+fit_par_R1 = linspace(1/0.55, 1/9.0, 1200)
+fit_par_R2 = linspace(1/0.55, 1/9.0, 1200)
+ 
+[clb]
+LLW_zero_po2 = 6.53
+mG_per_mM = 0.0
+Torr_per_mGauss = 2.193
+amp1mM = 0.075
+Qcb = -1
+ 
+[img]
+reg_method = none
+sigma = 0.002
+tau = 0.125
+lambda0 = 1
+mirror_image = [1,1,1]
+ 

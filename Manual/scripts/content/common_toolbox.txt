@@ -1,0 +1,28 @@
+<p>Contribution of Dr. Charles Pelizzari.</p>
+
+<b>Linear Algebra</b>
+
+<p>Functions for linear coordinate transformations. Linear transformation 
+describes the relations between original and prime 3D point coordinates.
+4-element vector notation encapsulating coordinate rotation, translation 
+ and scaling is used.</p>
+<p><img src="images/linear_transformation.png" height = "90"></p>
+
+$seeon$
+hmatrix_rotate_x
+hmatrix_rotate_y
+hmatrix_rotate_z
+hmatrix_scale
+hmatrix_translate
+htransform_vectors
+$seeoff$
+
+<b>Image transformation</b>
+
+<p>Functions for re-sampling images from one coordinate frame to another</p>
+
+$seeon$
+resample_plane
+reslice_volume
+$seeoff$
+

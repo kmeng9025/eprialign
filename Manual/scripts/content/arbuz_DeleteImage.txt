@@ -1,0 +1,6 @@
+% ARBUZ_DELETEIMAGE  deletes an image to the project
+% status = arbuz_DeleteImage(hGUI, image_list);
+% hGUI - handle to the object that holds the project [double]
+% image_name  - master image name or index (for dependent images only) [string or int]
+% slave_image - slave image name or index (for dependent images only) [string or int]
+% status - -1/0/1 for error/image deleted [int]

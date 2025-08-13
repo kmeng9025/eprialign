@@ -1,0 +1,27 @@
+<p class="func_descript">Convert equal solid angle projection scheme into equal linear angle scheme</p>
+
+$syntaxon$
+Pela=iradon_InterpToUniformAngle(Pesa, options);
+$syntaxoff$
+
+
+$descon$
+To be used in conjunction with $iradon_d2d_mstage$.
+<img height = "120" src="images/iradon_mstage.png"><br>
+Pesa - equal solid angle scheme projections  (float, see below)
+  for 3D: size(Pela)=[points_in_projection, 1, <strong><i>N<sub>&Theta;</sub></i></strong>, <strong><i>N<sub>&phi;</sub></i></strong>]
+  for 4D: size(Pela)=[points_in_projection, <strong><i>N<sub>&Theta;</sub></i></strong>, <strong><i>N<sub>&phi;</sub></i></strong>, <strong><i>N<sub>&alpha;</sub></i></strong>]
+  Number of <strong><i>N<sub>&phi;</sub><sup>s</sup></i></strong>&#8804;<strong><i>N<sub>&phi;</i></strong> angles for each <strong><i>N<sub>&Theta;</sub></i></strong> is given by the formula: <strong><i>N<sub>&phi;</sub></sub><sup>s</sup></i></strong>=round(abs(<strong><i>N<sub>&Theta;</sub></i></strong>*sin(<strong><i>&Theta;</i></strong>)))
+  Missing projections (<strong><i>N<sub>&phi;</sub><sup>s</sup></i></strong>+1 ... <strong><i>N<sub>&phi;</sub></i></strong>) are padded with zeros.
+options - options (string, 'imgData'/'timeStamp')
+  'timeStamp' : do spline interpolation and then extrapolation
+  'imgData' : do interpolation using azimuthal symmetry
+Pela - equal linear angle scheme projections (float, see below)
+  for 3D: size(Pela)=[points_in_projection, 1, <strong><i>N<sub>&Theta;</sub></i></strong>, <strong><i>N<sub>&phi;</sub></i></strong>]
+  for 4D: size(Pela)=[points_in_projection, <strong><i>N<sub>&Theta;</sub></i></strong>, <strong><i>N<sub>&phi;</sub></i></strong>, <strong><i>N<sub>&Theta;</sub></i></strong>]
+$descoff$
+
+$seeon$
+iradon_d2d_mstage
+$seeoff$
+

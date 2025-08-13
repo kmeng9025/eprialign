@@ -1,0 +1,26 @@
+-0.00924 0.00058 0.29448 -30.92221
+0.01850 0.29404 0.00000 -7.24484
+-0.29390 0.01849 -0.00925 70.82306
+0.00000 0.00000 0.00000 1.00000
+
+-0.03135 0.00197 0.99951 0.00000
+0.06279 0.99803 0.00000 0.00000
+-0.99753 0.06276 -0.03141 0.00000
+0.00000 0.00000 0.00000 1.00000
+
+1.00000 0.00000 0.00000 0.00000
+0.00000 1.00000 0.00000 0.00000
+0.00000 0.00000 0.11719 -8.50000
+0.00000 0.00000 0.00000 1.00000
+
+above are state{nimages}.hmat, state{nimages}.hrotmat,state{1}.hmat
+to reslice, we use mymat=inv(state{1}.hmat)*state{nimages}.hmat
+-------
+First, second images were fidOrient_Flash5AxImg , fidOrient3_eprImg
+Forward transformation reslices fidOrient3_eprImg along fidOrient_Flash5AxImg planes
+-------
+Ax MRI has permute X-Y when loaded into Matlab
+min, max values for image 1: 79.000000 32766.000000
+lo, hilim for image 1: 4990.000000 32800.000000
+min, max values for image 2: -0.009480 0.067300
+lo,hilim values for image 2: 0.020800 0.067300

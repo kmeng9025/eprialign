@@ -1,0 +1,59 @@
+# Enter The dosimetry and description information
+# for a specific collimator ("Single") or "Multiple"
+# collimators if interpolation is allowed.  
+#
+# Note anything after a pound "#" sign is a comment
+# and not read.
+# Note also "#" MUST be present on blank lines.
+#
+# First enter type of collimator (Circular/Rectangular)
+#
+Circular
+#
+# Next enter if this is for a single collimator or 
+# multiple collimators (Single/Multiple)
+#
+Multiple
+#
+# Enter tube potential (kVp) at which dosimetry was done.
+#
+kVp=225
+#
+# Enter tube current (mA) at which dosimetry was done.
+#
+mA=13
+#
+# Enter filter used to do dosimetry.
+#
+Filter=0.3mm Cu Filter
+#
+# Enter depths at which dosimetry was done for this collimator.
+# Depths:
+0	0.2	0.4	0.9	1.4	1.9	2.4	3.4  4.4  5.4
+#
+# Enter field size(s) at which dose information was done.  
+# "Single" - enter z,x dimensions (eg. 2.2    1.1)
+# "Multiple" - enter field sizes (1 number, radii of field size
+# (eg. 8.7    4.4    4    2.8    2.2    1.8)
+#
+3.5 2.5 1.85 1.5 0.75 0.5
+#
+# Next enter dose rates.  
+# "Single" - will be one column
+# "Multiple" - will be one column/field sizes entered above
+#
+   2.8573    2.8528    2.8156    2.7195    2.5826    2.3633
+   2.8627    2.8074    2.7721    2.6452    2.5210    2.2472
+   2.7594    2.6760    2.6443    2.5718    2.4358    2.1475
+   2.4992    2.4738    2.4476    2.2953    2.1203    1.8792
+   2.2771    2.2409    2.1112    2.0143    1.9209    1.6607
+   2.0641    1.9626    1.8982    1.8157    1.6870    1.4205
+   1.8583    1.7758    1.6643    1.5782    1.4404    1.2591
+   1.5066    1.3706    1.3244    1.2673    1.0887    0.9591
+   1.1068    1.1884    1.0135    0.9890    0.8639         0
+   0.9092    0.9663    0.7578    0.7878    0.6772         0
+# Finally, enter measured end effect for this kV, mA setting.
+EndEffect=2.20675
+#
+Circular 225kVp 13mA, norm 2.23 Gy/min June 2016
+#

@@ -1,0 +1,107 @@
+<p>Many data processing protocols, e.g. image reconstruction, require large number of input parameters.
+We utilize a scheme in which these parameters are organized as a fields of structures, 
+which are themselves the fields of the root structure.</p>
+
+<p>In the case when the processing function supports such an input the whole system of parameters of 
+any complexity can be loaded directly from files and conveniently edited similar to:</p>
+
+$exon$
+% Load parameters
+[pars, definition, ini_pars] = ProcessLoadScenario('PulseRecon.scn', 'Pulse T1inv.par');
+% Modify some parameters
+pars.prc.save_data = 'no';
+pars.fbp.projection_order = 'msps';
+
+% save modified parameters
+ini_pars.prc.save_data = 'no';
+% or
+ini_pars.prc.save_data = ProcessFormController('', struct('save_data', 'no'), ProcessGetDefinition(definition, 'prc', 'save_data'), 'fields2ini');
+ini_pars.fbp.projection_order = 'msps';
+inimanage('Pulse T1inv mod.par', ini_pars);
+
+% Image processing (ese_fbp_InvRec - processing function)
+res = ese_fbp_InvRec('test_t1_image.tdms', '', '', pars);
+$exoff$
+
+<p>Note that there could be multiple sets of parameters that have exactly the same structure. $processgui$ encapsulates parameter management and provides easy access to all parameters.</p>
+
+The parameters can be as follows:
+$descon$
+par - root of the parameters (structure)
+  ~.fbp - fbp group (structure)
+    ~.scheme - value
+    ~.npolar - value
+  ~.td - td group (structure)
+    ~.awin - value
+    ~.profile_file - value	
+$descoff$
+
+<p>The scheme is fully customizable and it's definition (called scenario) can be loaded from a scenario (SCN) file that contains a MATLAB script. The parameter values are stored in INI-style (PAR) files. The files with scenarios and parameters of EPRI 
+toolbox are located in the 'epri/scenario' folder.</p>
+
+<p> <b>Parameter definition</b>. Scenario (SCN) file is a MATLAB script. Two MATLAB macros are used to define groups and fields: <b>get_group</b> and <b>get_input_fields</b>, correspondingly. <b>get_group</b> macro has two arguments: Group name to diplay and name of the group, which become a field of <b>fields</b> structure. There are four types of fields that can be defined: string choice, code "IDXS"; double value, code "D"; a string with code "S"; and file name with code "F". <b>get_input_fields</b> macro has four parameters: Parameter's name to display, parameter's field to be added to <b>fields</b> structure, default value and parameter code.</p>
+<p>For "IDXS" field the list of choices has to be added to the field using structure fields <b>Show</b> and <b>Options</b> (see below). Definition of <b>Flag</b> structure field and se`ting Flag to 1 causes $processgui$ to display pop-up window with this parameter.</p>
+
+$descon$
+Description of <b>parameter definition</b> data structure
+Group (structure)
+  ~.Name - name of the group (string)
+  ~.Field - structure field name (string)
+  ~.Parameters - (cell array) of parameters
+Parameters (structure) 
+  ~.Name
+  ~.Field
+  ~.Value
+  ~.Type - field type (string, 'IDXS'/'D'/'S'/'F')
+    'IDXS': string choice
+	'D': double value
+	'S': string value
+	'F': file name
+  ~.AutoSave - save field (int 0/1, 1 = save)
+  ~.Options - for IDXS field (cell array of strings)
+  ~.Flags - use pop-up dialog (int 0/1, 1 = show dialog)
+  ~.Show - for IDXS field (cell array of strings)
+  ~.Group - structure field name of the corresponding group (string)
+$descoff$
+
+$exon$
+% SCN file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Name for scenario
+scenario = 'Pulse image reconstruction';
+
+% <b>get_group</b> is the macro for group creation
+groups{1} = get_group('Data load parameters', 'fbp');
+groups{2} = get_group('Time domain', 'td');
+
+% fields for the group "fbp" will be "fields_FBP"
+% fields for the group "td" will be "fields_TD"
+% <b>get_input_fields</b> is the macro for field creation
+% IDXS "string choice" field
+fields_FBP{1} = get_input_fields('Scheme', 'scheme', 'single_b', 'IDXS');
+fields_FBP{end}.Show = {'SB', 'MB'};
+fields_FBP{end}.Options = {'single_b', 'multi_b'};
+% D "double" value field, the Flag will force a dialog window to pop up
+fields_FBP{end+1} = get_input_fields('Polar angles', 'nPolar', 18, 'D');
+fields_FBP{end}.Flag = 1;
+% S "string" field
+fields_TD{1} = get_input_fields('awin', 'awin', 'none', 'S');
+% F "file name" field
+fields_TD{end+1} = get_input_fields('Profile correction file', 'profile_file', 'ffff', 'F');
+$exoff$
+
+<p>
+<b>Parameter values.</b> Parameter's PAR file is, structure wise, an INI file, a result of saving scenario using $inimanage$ utility.
+Upon loading $processloadscenario$ ensures exact correspondence of loading fields to the scenario.
+Fields that are not part of scenario will not be loaded.
+</p>
+
+$exon$
+; PAR file %%%%%%%%%%%%%%%%%%%%%%%%
+[fbp]
+scheme = single_b
+nPolar = 13
+ 
+[td]
+awin = none
+profile_file = V:\data\Imagnet_PULSE\14\08\140814\cavity_profile.mat
+$exoff$

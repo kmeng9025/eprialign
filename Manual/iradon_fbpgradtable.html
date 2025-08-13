@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<head>
+<title>EPR Imaging Toolbox Help</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="epri.css" type="text/css" />
+
+</head>
+<body>
+<table class="page_header" width = "100%">
+  <tr>
+    <td class="menu_style" width = "260"><img src="images/logo_200.png" alt="Logo" width="100"></td>
+    <td class="menu_style">EPR Imaging Toolbox collection user manual</td>
+  </tr>
+ </table>
+ <table class="page_core" width = "100%"  height="100%">
+  <tr class="page_core_tr">
+    <td class="page_navigation" width = "260"><table width="100%" class="page_navigation">
+<tr><td class="menu_group0">&nbsp;</td></tr>
+<tr><td class="menu_group0"><a href='index.html'>About</a></td></tr>
+<tr><td class="menu_group0"><a href='general_contribution.html'>Contributions</a></td></tr>
+<tr><td class="menu_group0"><a href='general_installation.html'>Installation</a></td></tr>
+<tr><td class="menu_group0"><a href='sample_data.html'>Sample data</a></td></tr>
+<tr><td class="menu_group0"><a href='radon_toolbox.html'>Radon toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='iradon_toolbox.html'>Iradon toolbox</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_d2d_mstage.html'>iradon_d2d_mstage</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_qiao_fbp3d.html'>iradon_qiao_fbp3d</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_getcoordpole.html'>iradon_GetCoordPole</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_getfbpimagetype.html'>iradon_GetFBPImageType</a></td></tr>
+<tr><td class="menu_group1 menu_selected"><a href='iradon_fbpgradtable.html'>iradon_FBPGradTable</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_interptouniformangle.html'>iradon_InterpToUniformAngle</a></td></tr>
+<tr><td class="menu_group1"><a href='iradon_vor_area_3d.html'>iradon_vor_area_3d</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox.html'>Common toolbox: Algebra</a></td></tr>
+<tr><td class="menu_group0"><a href='common_toolbox_other.html'>Common toolbox: Other</a></td></tr>
+<tr><td class="menu_group0"><a href='epri_toolbox.html'>EPRI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='ibgui_toolbox.html'>ibGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='arbuzgui_toolbox.html'>ArbuzGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='processgui_toolbox.html'>ProcessGUI toolbox</a></td></tr>
+<tr><td class="menu_group0"><a href='utilities.html'>Useful utilities</a></td></tr>
+<tr><td class="menu_group0"><a href='used_toolboxes.html'>Toolboxes used</a></td></tr>
+<tr><td class="menu_group0"><a href='helpmanual.html'>This help</a></td></tr>
+</table>
+</td>
+    <td class="page_content text_main" ><p class="func_name">iradon_FBPGradTable</p><hr><p class="func_descript">Generation of gradient schemes for FBP images</p>
+
+<p class="matlab_syntax_caption">Syntax:</p>
+<p class="matlab_syntax">[out, suplementary_out] = <b>iradon_FBPGradTable</b>(FBP)</p>
+
+
+<p class="matlab_desc_caption">Description:</p>
+<p class="matlab_description"><span class="structure_field">FBP</span> - gradient scheme parameters (structure)
+  ~.<span class="structure_field">imtype</span> - Image type (int, 1 to 14, 1 for 4D, 14 for 3D)
+  ~.<span class="structure_field">nPolar</span> - Number of polar angles (int)
+  ~.<span class="structure_field">nAz</span>    - Number of azimuthal angles (int)
+  ~.<span class="structure_field">nSpec</span>  - Number of spectral angles (int)
+  ~.<span class="structure_field">size</span> - length of the spatial projection (float, cm)
+  ~.<span class="structure_field">CoordPole</span> - (int, 1/2/3) or (string, X/Y/Z, default Z)
+  ~.<span class="structure_field">MaxGradient</span> - Maximum gradient (float, G/cm)
+  ~.<span class="structure_field">angle_sampling</span> - gradient angle sampling scheme (string, <span class="description_literal">'UNIFORM_ANGULAR'</span>/<span class="description_literal">'UNIFORM_ANGULAR_FLIP'</span>/<span class="description_literal">'UNIFORM_SPATIAL_FLIP'</span>)
+     <span class="description_literal">'UNIFORM_ANGULAR'</span>: uniform angular
+     <span class="description_literal">'UNIFORM_ANGULAR_FLIP'</span>: uniform angular with optimized jumps
+     <span class="description_literal">'UNIFORM_SPATIAL_FLIP'</span>: uniform solid angle with optimized jumps
+<span class="structure_field">out</span> - radon transformation parameters (structure)
+  ~.<span class="structure_field">G</span> - gradient vector (float, G/cm, Nx3, N - number of gradients)
+  ~.<span class="structure_field">nP</span> - number of projections (int)
+  ~.<span class="structure_field">nTrace</span> - overall number of traces, including baselines, zero gradients etc (int)
+  ~.<span class="structure_field">gidx</span> - index to convert projections into iradon_d2d_mstage layout (int, Nx1, N = nP)
+  ~.<span class="structure_field">service_idx</span> - index to convert traces into projections (int, Nx1, N = nTrace)
+     1:   a projection
+     0:   not a projection
+<span class="structure_field">suplementary_out</span> - supplementary radon transformation parameters (structure)
+  ~.<span class="structure_field">k</span> - k-space unit vector (float, 1/cm, Nx3, N - number of gradients)
+  ~.<span class="structure_field">w</span>  - projection weight factor (float, 1/cm, Nx3, N - number of gradients)
+  ~.<span class="structure_field">alpha</span>, ~.theta, ~phi - projections angles (float, degree, Nx1, N - number of gradients)</p>
+
+
+<p class="matlab_example_caption">Example:</p>
+<p class="matlab_code"><span class="matlab_comment">% Generate equal solid angle layout of projections</span>
+fbp_struct.nAz = <span class="matlab_value">36</span>;
+fbp_struct.nPolar = <span class="matlab_value">36</span>;
+fbp_struct.imtype = <a href="iradon_getfbpimagetype.html" class="eprit_function">iradon_GetFBPImageType</a>(<span class="matlab_literal">'XYZ'</span>);
+fbp_struct.MaxGradient = <span class="matlab_value">1</span>;     <span class="matlab_comment">% maximum gradient (G/cm)</span>
+fbp_struct.angle_sampling = <span class="matlab_literal">'UNIFORM_SPATIAL_FLIP'</span>;
+pars = <a href="iradon_fbpgradtable.html" class="eprit_function">iradon_FBPGradTable</a>(fbp_struct);</p>
+<p class="matlab_example_legend">Legend: <span class="eprit_function">EPR-IT functions</span>; <span class="matlab_function">MATLAB functions</span>; <span class="matlab_comment">comments</span>.</p>
+
+
+<p class="matlab_example_caption">Example:</p>
+<p class="matlab_code"><span class="matlab_comment">% convert serial projection layout into iradon_d2d_mstage projection layout</span>
+PP = zeros(<span class="matlab_function">size</span>(P,<span class="matlab_value">1</span>), fbp_struct.nAz*fbp_struct.nPolar);
+<span class="matlab_function">PP</span>(:,pars.gidx) = P;
+Pela = reshape(PP, [<span class="matlab_function">size</span>(P,<span class="matlab_value">1</span>), <span class="matlab_value">1</span>, fbp_struct.nAz, fbp_struct.nPolar]);</p>
+<p class="matlab_example_legend">Legend: <span class="eprit_function">EPR-IT functions</span>; <span class="matlab_function">MATLAB functions</span>; <span class="matlab_comment">comments</span>.</p>
+
+
+<p class="see_also">See also:</p>
+<p class="see_also_list"><a href='iradon_getfbpimagetype.html'>iradon_GetFBPImageType</a>, <a href='iradon_d2d_mstage.html'>iradon_d2d_mstage</a></p>
+</td>
+  </tr>
+ </table> 
+</body>
+</html>

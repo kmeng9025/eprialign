@@ -1,0 +1,8 @@
+cavity_profile_LGR19L_Q20p4.mat  is specifically measured for calibration
+cavity_profile_LGR19S_Q20p4.mat is a copy of cavity_profile_LGR19L_Q20p4.mat
+cavity_profile_LGR19L_Q22p2.mat is taken from mouse experiment
+cavity_profile_LGR19S_Q22p2.mat is a copy of cavity_profile_LGR19L_Q22p2.mat
+
+calibration of 700MHz
+1mM phantom installed with plastic ring into LGR19-3 resonator, Q = 80.4, v=732.4 MHz
+1mM phantom installed without plastic ring into LGR19-3 resonator, Q = 107, v=730 MHz
