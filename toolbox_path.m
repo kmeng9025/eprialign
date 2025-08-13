@@ -12,7 +12,7 @@ fixeprPath = questdlg('Reset EPR/UC path');
 if strcmp(fixeprPath,'Yes')
   restoredefaultpath;  
 end
- epr_toolbox_path = 'C:\Users\kmeng\Documents\EPRI-T';
+ epr_toolbox_path = 'C:\Users\ftmen\Documents\mrialign';
 %   epr_toolbox_path = 'D:\CenterMATLAB';
 %  epr_toolbox_path = 'c:\Users\admin\Dropbox\MATLAB';
 %  epr_toolbox_path = '/Users/borisepel/Dropbox/MATLAB';

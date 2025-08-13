@@ -95,13 +95,13 @@ REM Prompt for output directory if not provided
 if not defined OUTPUT_DIR (
     echo.
     echo Output directory not specified.
-    echo Default: ..\data\inference
+    echo Default: ..\..\data\inference
     echo.
     set /p "OUTPUT_DIR=Enter output directory (or press Enter for default): "
     
     REM If user just pressed Enter, use default
     if "!OUTPUT_DIR!"=="" (
-        set OUTPUT_DIR=..\data\inference
+        set OUTPUT_DIR=..\..\data\inference
         echo Using default output directory: !OUTPUT_DIR!
     )
 )
@@ -129,7 +129,7 @@ echo   Output directory: !OUTPUT_DIR!
 echo.
 
 REM Build Python command
-set PYTHON_CMD=python ./simple_box_fiducials.py
+set PYTHON_CMD=python ./src/simple_box_fiducials.py
 
 if defined INPUT_FILE (
     set PYTHON_CMD=!PYTHON_CMD! --input_file "!INPUT_FILE!"
@@ -181,7 +181,7 @@ echo.
 echo NOTES:
 echo   • --input-file and --input-dir are mutually exclusive
 echo   • If no input is specified, you'll be prompted interactively
-echo   • If no output directory is specified, defaults to ../data/inference
+echo   • If no output directory is specified, defaults to ../../data/inference
 echo   • Output directory will be created if it doesn't exist
 echo   • Each run creates a unique timestamped subfolder
 echo.

@@ -576,7 +576,7 @@ def main():
     
     parser.add_argument('--output_dir', type=str,
                         help='Directory to save results')
-    parser.add_argument('--model_path', type=str, default='../models/fiducial_model.pth',
+    parser.add_argument('--model_path', type=str, default='../../models/fiducial_model.pth',
                         help='Path to trained AI model (optional)')
     parser.add_argument('--threshold', type=float, default=0.5,
                         help='AI detection threshold (0-1)')
@@ -614,13 +614,13 @@ def main():
     
     if not args.output_dir:
         print("\n💾 Output directory not specified.")
-        print("Default: ../data/inference")
+        print("Default: ../../data/inference")
         print("")
         response = input("Enter output directory (or press Enter for default): ").strip().strip('"')
         if response:
             args.output_dir = response
         else:
-            args.output_dir = '../data/inference'
+            args.output_dir = '../../data/inference'
             print(f"Using default output directory: {args.output_dir}")
     
     # Handle input validation
