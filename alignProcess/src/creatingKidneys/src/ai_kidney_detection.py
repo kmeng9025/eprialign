@@ -170,38 +170,101 @@ class AIKidneyDetector:
             if not hasattr(images, '__len__') or len(images) == 0:
                 raise ValueError("No images found in file")
             
-            # Find the MRI data
-            mri_data = None
+            # Find ALL MRI images (any image with "MRI" in name or 350x350xN shape)
+            mri_images = []
             
             for i in range(len(images)):
                 img = images[i]
                 if hasattr(img, 'data') and img.data is not None:
                     if hasattr(img.data, 'shape') and len(img.data.shape) == 3:
-                        mri_data = img.data
-                        break
+                        # Check if this looks like an MRI image
+                        shape = img.data.shape
+                        image_name = ""
+                        
+                        # Try to get image name
+                        if hasattr(img, 'Name') and img.Name is not None:
+                            if isinstance(img.Name, str):
+                                image_name = img.Name
+                            elif hasattr(img.Name, '__len__'):
+                                try:
+                                    image_name = ''.join(chr(c) for c in img.Name.flatten() if c != 0)
+                                except:
+                                    image_name = str(img.Name)
+                        
+                        # Check if it's an MRI image by name or by size pattern (350x350xN)
+                        is_mri = False
+                        if "mri" in image_name.lower():
+                            is_mri = True
+                        elif shape[0] == 350 and shape[1] == 350:  # Common MRI dimensions
+                            is_mri = True
+                        
+                        if is_mri:
+                            mri_images.append({
+                                'index': i,
+                                'data': img.data,
+                                'name': image_name or f"MRI_{i}",
+                                'shape': shape
+                            })
             
-            if mri_data is None:
-                raise ValueError("No 3D MRI data found")
+            if not mri_images:
+                raise ValueError("No MRI images found (no images with 'MRI' in name or 350x350xN shape)")
             
-            print(f"   ✅ Found MRI data: {mri_data.shape}")
+            print(f"   ✅ Found {len(mri_images)} MRI image(s):")
+            for mri_img in mri_images:
+                print(f"      - {mri_img['name']}: {mri_img['shape']}")
             
-            # Run AI prediction
-            kidney_mask, num_kidneys, confidence = self.predict_kidneys(mri_data)
+            # Process each MRI image and collect all results
+            all_kidney_masks = {}
+            all_results = []
+            total_kidneys = 0
+            
+            for mri_img in mri_images:
+                print(f"\n🧠 Processing {mri_img['name']} ({mri_img['shape']})...")
+                
+                # Run AI prediction on this MRI
+                kidney_mask, num_kidneys, confidence = self.predict_kidneys(mri_img['data'])
+                
+                print(f"   🎯 Detected {num_kidneys} kidneys (confidence: {confidence:.3f})")
+                print(f"   📊 Coverage: {np.sum(kidney_mask) / np.prod(kidney_mask.shape) * 100:.2f}% of volume")
+                
+                # Store results
+                all_kidney_masks[mri_img['name']] = kidney_mask
+                all_results.append({
+                    'image_name': mri_img['name'],
+                    'image_index': mri_img['index'],
+                    'kidney_mask': kidney_mask,
+                    'num_kidneys': num_kidneys,
+                    'confidence': confidence,
+                    'coverage_percent': np.sum(kidney_mask) / np.prod(kidney_mask.shape) * 100
+                })
+                total_kidneys += num_kidneys
             
             # Save AI results to temporary file
             ai_results_file = os.path.join(output_dir, "ai_kidney_results.mat")
             
+            # Prepare comprehensive AI results
             ai_results = {
-                'ai_kidney_mask': kidney_mask,
-                'ai_num_kidneys_detected': num_kidneys,
-                'ai_detection_confidence': confidence,
+                'ai_kidney_masks': all_kidney_masks,  # Dictionary of all masks by image name
+                'ai_results_summary': all_results,   # List of detailed results per image
+                'ai_total_kidneys_detected': total_kidneys,
+                'ai_num_mri_images_processed': len(mri_images),
                 'ai_detection_timestamp': datetime.now().isoformat(),
                 'ai_training_f1_score': 0.839,
-                'ai_coverage_percent': np.sum(kidney_mask) / np.prod(mri_data.shape) * 100,
                 'ai_model_info': 'UNet3D trained on kidney MRI data'
             }
             
-            print("💾 Saving AI results...")
+            # Add individual results for backward compatibility
+            if all_results:
+                primary_result = all_results[0]  # Use first MRI as primary for compatibility
+                ai_results.update({
+                    'ai_kidney_mask': primary_result['kidney_mask'],
+                    'ai_num_kidneys_detected': primary_result['num_kidneys'],
+                    'ai_detection_confidence': primary_result['confidence'],
+                    'ai_coverage_percent': primary_result['coverage_percent']
+                })
+            
+            print(f"\n💾 Saving AI results for {len(mri_images)} MRI image(s)...")
+            print(f"   📊 Total kidneys detected: {total_kidneys}")
             sio.savemat(ai_results_file, ai_results, format='5')
             
             # Create output filename
@@ -242,8 +305,13 @@ class AIKidneyDetector:
                 print(f"\n✅ SUCCESS! AI kidney detection complete:")
                 print(f"   📁 File: {output_file}")
                 print(f"   📊 Size: {file_size_mb:.1f} MB")
-                print(f"   🤖 AI kidneys: {num_kidneys} detected")
-                print(f"   🎯 Confidence: {confidence:.3f}")
+                print(f"   🖼️  MRI images processed: {len(mri_images)}")
+                print(f"   🤖 Total AI kidneys: {total_kidneys} detected")
+                
+                # Show breakdown by image
+                for result in all_results:
+                    print(f"      - {result['image_name']}: {result['num_kidneys']} kidneys (confidence: {result['confidence']:.3f})")
+                
                 print(f"   👁️  Kidneys will be visible as slaves in ArbuzGUI!")
                 
                 return output_file

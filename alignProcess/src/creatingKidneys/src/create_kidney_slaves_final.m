@@ -22,12 +22,23 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
         fprintf('   🤖 Loading AI kidney results...\n');
         ai_data = load(ai_results_file);
         
-        % Get kidney mask and info
-        kidney_mask = ai_data.ai_kidney_mask;
-        num_kidneys = ai_data.ai_num_kidneys_detected;
-        confidence = ai_data.ai_detection_confidence;
-        
-        fprintf('   🎯 Processing %d detected kidneys (confidence: %.3f)...\n', num_kidneys, confidence);
+        % Check if we have multiple MRI results or single result
+        if isfield(ai_data, 'ai_kidney_masks')
+            % Multiple MRI images processed
+            kidney_masks = ai_data.ai_kidney_masks;
+            results_summary = ai_data.ai_results_summary;
+            total_kidneys = ai_data.ai_total_kidneys_detected;
+            num_mri_processed = ai_data.ai_num_mri_images_processed;
+            
+            fprintf('   🎯 Processing %d total kidneys from %d MRI images...\n', total_kidneys, num_mri_processed);
+        else
+            % Single MRI image (backward compatibility)
+            kidney_mask = ai_data.ai_kidney_mask;
+            num_kidneys = ai_data.ai_num_kidneys_detected;
+            confidence = ai_data.ai_detection_confidence;
+            
+            fprintf('   🎯 Processing %d detected kidneys (confidence: %.3f)...\n', num_kidneys, confidence);
+        end
         
         % Start with original data
         output_data = original_data;
@@ -43,36 +54,94 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
                 try
                     current_image = images{1, i};
                     
-                    % Check if this image has MRI data (the one we want to add kidneys to)
+                    % Check if this image has MRI data
                     if isfield(current_image, 'data') && ~isempty(current_image.data)
                         mri_data = current_image.data;
                         
-                        % Check if it's 3D data that matches our kidney mask
+                        % Check if it's 3D data
                         if ndims(mri_data) >= 3 && min(size(mri_data)) > 1
-                            fprintf('     ✅ Found target image #%d: %s\n', i, mat2str(size(mri_data)));
-                            
-                            % Create kidney slaves
-                            kidney_slaves = create_individual_kidney_slaves(kidney_mask, num_kidneys, current_image);
-                            
-                            if ~isempty(kidney_slaves)
-                                % Add kidney slaves to the image
-                                if isfield(current_image, 'slaves') && ~isempty(current_image.slaves)
-                                    % Append to existing slaves
-                                    for k = 1:length(kidney_slaves)
-                                        current_image.slaves{end+1} = kidney_slaves{k};
-                                    end
+                            % Get image name for matching with AI results
+                            image_name = '';
+                            if isfield(current_image, 'Name') && ~isempty(current_image.Name)
+                                if ischar(current_image.Name)
+                                    image_name = current_image.Name;
                                 else
-                                    % Create new slaves cell array
-                                    current_image.slaves = kidney_slaves;
+                                    image_name = char(current_image.Name);
                                 end
-                                
-                                % Update the image in the output
-                                output_data.images{1, i} = current_image;
-                                
-                                fprintf('     🎯 Added %d kidney slaves to image #%d\n', length(kidney_slaves), i);
                             end
                             
-                            break; % Only add to the first suitable image
+                            fprintf('     📂 Checking image #%d: %s (%s)\n', i, mat2str(size(mri_data)), image_name);
+                            
+                            % Find matching kidney mask for this image
+                            kidney_mask_for_image = [];
+                            num_kidneys_for_image = 0;
+                            confidence_for_image = 0;
+                            
+                            if exist('kidney_masks', 'var')
+                                % Multiple MRI case - find matching mask
+                                mask_names = fieldnames(kidney_masks);
+                                
+                                for mask_idx = 1:length(mask_names)
+                                    mask_name = mask_names{mask_idx};
+                                    
+                                    % Check if this mask matches current image
+                                    % Match by name or by being an MRI-type image
+                                    if (~isempty(image_name) && contains(lower(image_name), 'mri')) || ...
+                                       (size(mri_data, 1) == 350 && size(mri_data, 2) == 350)
+                                        
+                                        % Find corresponding result
+                                        for res_idx = 1:length(results_summary)
+                                            result = results_summary{res_idx};
+                                            if strcmp(result.image_name, mask_name) || ...
+                                               (result.image_index == i-1)  % Convert to 0-based index
+                                                
+                                                kidney_mask_for_image = kidney_masks.(mask_name);
+                                                num_kidneys_for_image = result.num_kidneys;
+                                                confidence_for_image = result.confidence;
+                                                
+                                                fprintf('     ✅ Found kidney data for %s: %d kidneys\n', mask_name, num_kidneys_for_image);
+                                                break;
+                                            end
+                                        end
+                                        
+                                        if ~isempty(kidney_mask_for_image)
+                                            break;
+                                        end
+                                    end
+                                end
+                            else
+                                % Single MRI case (backward compatibility)
+                                if size(mri_data) == size(kidney_mask)
+                                    kidney_mask_for_image = kidney_mask;
+                                    num_kidneys_for_image = num_kidneys;
+                                    confidence_for_image = confidence;
+                                    
+                                    fprintf('     ✅ Found target image #%d: %s\n', i, mat2str(size(mri_data)));
+                                end
+                            end
+                            
+                            % Create kidney slaves if we found matching data
+                            if ~isempty(kidney_mask_for_image) && num_kidneys_for_image > 0
+                                kidney_slaves = create_individual_kidney_slaves(kidney_mask_for_image, num_kidneys_for_image, current_image);
+                                
+                                if ~isempty(kidney_slaves)
+                                    % Add kidney slaves to the image
+                                    if isfield(current_image, 'slaves') && ~isempty(current_image.slaves)
+                                        % Append to existing slaves
+                                        for k = 1:length(kidney_slaves)
+                                            current_image.slaves{end+1} = kidney_slaves{k};
+                                        end
+                                    else
+                                        % Create new slaves cell array
+                                        current_image.slaves = kidney_slaves;
+                                    end
+                                    
+                                    % Update the image in the output
+                                    output_data.images{1, i} = current_image;
+                                    
+                                    fprintf('     🎯 Added %d kidney slaves to image #%d\n', length(kidney_slaves), i);
+                                end
+                            end
                         end
                     end
                 catch ME
@@ -83,10 +152,21 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
         end
         
         % Add minimal AI metadata
-        output_data.ai_detection_summary = sprintf('%d kidney slaves created on %s', ...
-            num_kidneys, ai_data.ai_detection_timestamp);
-        output_data.ai_model_info = sprintf('UNet3D (F1=%.3f, confidence=%.3f)', ...
-            ai_data.ai_training_f1_score, confidence);
+        if exist('total_kidneys', 'var')
+            % Multiple MRI case
+            output_data.ai_detection_summary = sprintf('%d kidney slaves created from %d MRI images on %s', ...
+                total_kidneys, num_mri_processed, ai_data.ai_detection_timestamp);
+            output_data.ai_model_info = sprintf('UNet3D (F1=%.3f) processed %d MRI images', ...
+                ai_data.ai_training_f1_score, num_mri_processed);
+            total_kidneys_for_display = total_kidneys;
+        else
+            % Single MRI case
+            output_data.ai_detection_summary = sprintf('%d kidney slaves created on %s', ...
+                num_kidneys, ai_data.ai_detection_timestamp);
+            output_data.ai_model_info = sprintf('UNet3D (F1=%.3f, confidence=%.3f)', ...
+                ai_data.ai_training_f1_score, confidence);
+            total_kidneys_for_display = num_kidneys;
+        end
         
         % Save final clean file
         fprintf('   💾 Saving final Arbuz file with kidney slaves...\n');
@@ -101,7 +181,7 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
         fprintf('✅ Final Arbuz file with kidney slaves created!\n');
         fprintf('   📁 File: %s\n', output_file);
         fprintf('   📊 Size: %d bytes\n', file_info.bytes);
-        fprintf('   🎯 Kidney slaves: %d\n', num_kidneys);
+        fprintf('   🎯 Kidney slaves: %d\n', total_kidneys_for_display);
         fprintf('   🧹 Temporary files cleaned up\n');
         fprintf('📋 Ready for ArbuzGUI - kidneys will appear as slaves!\n');
         
