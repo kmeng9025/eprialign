@@ -9,7 +9,7 @@ set "INPUT_FILE="
 set "INPUT_DIR="
 set "OUTPUT_DIR="
 set "SHOW_HELP="
-set "DEFAULT_OUTPUT_DIR=..\..\..\data\inference"
+set "DEFAULT_OUTPUT_DIR=..\data\inference"
 
 REM Parse command line arguments
 :parse_args
@@ -153,7 +153,7 @@ if %errorlevel% neq 0 (
         pip install -r "../requirements.txt"
         if !errorlevel! neq 0 (
             echo FAILED to install packages. Please check your Python environment.
-            pause
+            @REM pause
             goto end
         )
         echo Packages installed successfully!
@@ -239,5 +239,5 @@ if !PYTHON_EXIT! equ 0 (
 echo.
 
 :end
-echo Press any key to exit...
-pause >nul
+@REM echo Press any key to exit...
+@REM pause >nul
