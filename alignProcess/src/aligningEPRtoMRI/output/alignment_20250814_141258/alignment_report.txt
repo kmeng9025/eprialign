@@ -1,0 +1,24 @@
+EPR-to-MRI Alignment Report
+===========================
+
+Generated on: 14-Aug-2025 14:13:33
+
+Summary:
+--------
+Number of aligned images: 3
+
+Transformation Details:
+----------------------
+
+>PreHemo:
+  Scale factors: [6.459460, 6.459460, 6.459460]
+  Translation: [-10.7846, 320.2877, -259.5348]
+
+>Hemo:
+  Scale factors: [6.371982, 6.371982, 6.371982]
+  Translation: [-7.3896, 335.5975, -251.6678]
+
+>Post_Transfus2:
+  Scale factors: [6.389102, 6.389102, 6.389102]
+  Translation: [-7.7742, 348.2017, -250.7845]
+
