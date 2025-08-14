@@ -100,7 +100,7 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
         file_info = dir(output_file);
         fprintf('✅ Final Arbuz file with kidney slaves created!\n');
         fprintf('   📁 File: %s\n', output_file);
-        fprintf('   📊 Size: %.1f MB\n', file_info.bytes / (1024*1024));
+        fprintf('   📊 Size: %d bytes\n', file_info.bytes);
         fprintf('   🎯 Kidney slaves: %d\n', num_kidneys);
         fprintf('   🧹 Temporary files cleaned up\n');
         fprintf('📋 Ready for ArbuzGUI - kidneys will appear as slaves!\n');
@@ -145,8 +145,8 @@ function kidney_slaves = create_individual_kidney_slaves(kidney_mask, num_kidney
         kidney_slave.data = logical(individual_kidney);  % Convert to logical
         kidney_slave.FileName = '';
         kidney_slave.Selected = 0;
-        kidney_slave.Visible = 0;  % Match working slaves: start as not visible
-        kidney_slave.isLoaded = 0;  % Match working slaves: start as not loaded
+        kidney_slave.Visible = 1;  % Make kidney visible by default
+        kidney_slave.isLoaded = 1;  % Mark kidney data as loaded
         kidney_slave.isStore = 1;   % Store in project
         kidney_slave.A = eye(4);
         kidney_slave.box = size(individual_kidney);
@@ -177,7 +177,6 @@ function cleanup_temp_files(output_dir)
         % List of temporary file patterns to remove
         temp_patterns = {
             '*_AI_results.mat',
-            '*_with_AI_kidneys.mat', 
             '*_ARBUZ_COMPATIBLE.mat',
             '*.png',
             '*.jpg',
