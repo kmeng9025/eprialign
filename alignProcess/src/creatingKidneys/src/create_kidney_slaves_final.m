@@ -84,22 +84,41 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
                                 for mask_idx = 1:length(mask_names)
                                     mask_name = mask_names{mask_idx};
                                     
-                                    % Check if this mask matches current image
-                                    % Match by name or by being an MRI-type image
-                                    if (~isempty(image_name) && contains(lower(image_name), 'mri')) || ...
-                                       (size(mri_data, 1) == 350 && size(mri_data, 2) == 350)
+                                    % Find corresponding result first to get exact dimensions
+                                    matching_result = [];
+                                    for res_idx = 1:length(results_summary)
+                                        result = results_summary{res_idx};
+                                        if strcmp(result.image_name, mask_name)
+                                            matching_result = result;
+                                            break;
+                                        end
+                                    end
+                                    
+                                    % Match by exact name first, then by dimensions
+                                    exact_name_match = ~isempty(image_name) && strcmp(image_name, mask_name);
+                                    
+                                    % Match by dimensions - check that the mask dimensions match the image dimensions
+                                    dimension_match = false;
+                                    if ~isempty(matching_result)
+                                        mask_data = kidney_masks.(mask_name);
+                                        if isequal(size(mri_data), size(mask_data))
+                                            dimension_match = true;
+                                        end
+                                    end
+                                    
+                                    % Use exact name match first, then dimension match as fallback
+                                    if exact_name_match || dimension_match
                                         
                                         % Find corresponding result
                                         for res_idx = 1:length(results_summary)
                                             result = results_summary{res_idx};
-                                            if strcmp(result.image_name, mask_name) || ...
-                                               (result.image_index == i-1)  % Convert to 0-based index
+                                            if strcmp(result.image_name, mask_name)
                                                 
                                                 kidney_mask_for_image = kidney_masks.(mask_name);
                                                 num_kidneys_for_image = result.num_kidneys;
                                                 confidence_for_image = result.confidence;
                                                 
-                                                fprintf('     ✅ Found kidney data for %s: %d kidneys\n', mask_name, num_kidneys_for_image);
+                                                fprintf('     ✅ Found kidney data for %s: %d kidneys (dimensions: %s)\n', mask_name, num_kidneys_for_image, mat2str(size(kidney_mask_for_image)));
                                                 break;
                                             end
                                         end

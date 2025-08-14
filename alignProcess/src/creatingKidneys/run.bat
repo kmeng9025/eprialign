@@ -9,7 +9,7 @@ set "INPUT_FILE="
 set "INPUT_DIR="
 set "OUTPUT_DIR="
 set "SHOW_HELP="
-set "DEFAULT_OUTPUT_DIR=..\data\inference"
+set "DEFAULT_OUTPUT_DIR=..\inference"
 
 REM Parse command line arguments
 :parse_args
