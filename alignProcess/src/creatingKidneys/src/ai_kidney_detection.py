@@ -30,6 +30,11 @@ class AIKidneyDetector:
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         print(f"   🔧 Device: {self.device}")
         
+        # Resolve model path relative to this script's directory
+        if not os.path.isabs(model_path):
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            model_path = os.path.join(script_dir, model_path)
+        
         # Load trained model
         self.model = self._load_model(model_path)
         print("   ✅ AI model loaded successfully")
@@ -39,7 +44,8 @@ class AIKidneyDetector:
         print(f"   📂 Loading model: {model_path}")
         
         # Check if Random Forest model exists (temporarily disabled for testing)
-        rf_model_path = os.path.join(os.path.dirname(model_path), 'kidney_random_forest_best.joblib')
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        rf_model_path = os.path.join(script_dir, 'kidney_random_forest_best.joblib')
         if False and os.path.exists(rf_model_path):  # Disabled Random Forest for now
             print(f"   🌳 Using Random Forest model: {rf_model_path}")
             from random_forest_kidney import load_random_forest_model
@@ -71,6 +77,7 @@ class AIKidneyDetector:
     def predict_kidneys(self, mri_data):
         """Run AI prediction on MRI data"""
         print(f"   🧠 Running AI prediction on {mri_data.shape} volume...")
+        print(f"   📊 Data range: [{mri_data.min():.3f}, {mri_data.max():.3f}]")
         
         # Handle Random Forest vs U-Net prediction
         if hasattr(self, 'model_type') and self.model_type == 'random_forest':
@@ -97,6 +104,7 @@ class AIKidneyDetector:
             # U-Net prediction (original code)
             # Normalize data
             mri_normalized = (mri_data - mri_data.min()) / (mri_data.max() - mri_data.min())
+            print(f"   📊 Normalized range: [{mri_normalized.min():.3f}, {mri_normalized.max():.3f}]")
             
             # Resize to model target size (64, 64, 32)
             target_size = (64, 64, 32)
@@ -111,13 +119,22 @@ class AIKidneyDetector:
                 output = self.model(input_tensor)
                 prediction = torch.sigmoid(output).cpu().numpy()[0, 0]
             
+            print(f"   📊 Model output range: [{prediction.min():.3f}, {prediction.max():.3f}]")
+            print(f"   📊 Model output mean: {prediction.mean():.3f}")
+            
             # Resize back to original size
             original_zoom_factors = [s/t for s, t in zip(mri_data.shape, target_size)]
             kidney_prediction = zoom(prediction, original_zoom_factors, order=1)
             
+            print(f"   📊 Resized prediction range: [{kidney_prediction.min():.3f}, {kidney_prediction.max():.3f}]")
+            print(f"   📊 Resized prediction mean: {kidney_prediction.mean():.3f}")
+            
             # Threshold and post-process
-            threshold = 0.7  # Increased threshold to handle overconfident model
+            threshold = 0.51  # Much lower threshold based on observed output range
+            print(f"   🔍 Using threshold: {threshold}")
             kidney_mask = kidney_prediction > threshold
+            
+            print(f"   📊 Pixels above threshold: {np.sum(kidney_mask)} / {np.prod(kidney_mask.shape)} ({np.sum(kidney_mask)/np.prod(kidney_mask.shape)*100:.2f}%)")
             
             # Clean up prediction with morphological operations
             kidney_mask = binary_dilation(kidney_mask, iterations=1)
@@ -125,16 +142,31 @@ class AIKidneyDetector:
         # Find connected components (kidneys)
         labeled_mask, num_kidneys = label(kidney_mask)
         
-        # Filter small components
-        min_kidney_size = 50
-        final_mask = np.zeros_like(kidney_mask, dtype=bool)
-        valid_kidneys = 0
+        # Filter small components and keep only the largest ones (expect 2 kidneys)
+        min_kidney_size = 100  # Minimum kidney size
+        component_sizes = []
         
         for i in range(1, num_kidneys + 1):
             component = labeled_mask == i
-            if np.sum(component) >= min_kidney_size:
-                final_mask |= component
-                valid_kidneys += 1
+            size = np.sum(component)
+            if size >= min_kidney_size:
+                component_sizes.append((i, size))
+        
+        # Sort by size and keep only the 2 largest components (representing 2 kidneys)
+        component_sizes.sort(key=lambda x: x[1], reverse=True)
+        max_kidneys = min(2, len(component_sizes))  # Keep at most 2 kidneys
+        
+        final_mask = np.zeros_like(kidney_mask, dtype=bool)
+        valid_kidneys = 0
+        
+        print(f"   🔍 Found {len(component_sizes)} valid components, keeping largest {max_kidneys}")
+        
+        for i in range(max_kidneys):
+            component_id, size = component_sizes[i]
+            component = labeled_mask == component_id
+            final_mask |= component
+            valid_kidneys += 1
+            print(f"      Kidney {i+1}: {size} voxels")
         
         confidence = np.mean(kidney_prediction[final_mask]) if np.any(final_mask) else 0.0
         coverage = np.sum(final_mask) / np.prod(mri_data.shape) * 100
