@@ -1,0 +1,16 @@
+EPR-to-MRI Alignment Summary
+=============================
+
+Timestamp: Thu 08/14/2025 14:13:34.37
+Input file: C:\Users\ftmen\Documents\mrialign\alignProcess\data\training\withoutROIwithMRI.mat
+Fiducials file: C:\Users\ftmen\Documents\mrialign\alignProcess\data\inference\fiducials_withoutROIwithMRIwithoutTransformations_20250814_125342\box_fiducials_withoutROIwithMRIwithoutTransformations_20250814_125345\withoutROIwithMRIwithoutTransformations_with_boxes.mat
+Output directory: C:\Users\ftmen\Documents\mrialign\alignProcess\src\aligningEPRtoMRI\output\alignment_20250814_141258
+
+Main output file:
+- aligned_data.mat (load this in ArbuzGUI)
+
+Additional files:
+- alignment_report.txt (detailed statistics)
+- summary.txt (this file)
+
+Status: SUCCESS
