@@ -186,85 +186,97 @@ class CombinedLoss(nn.Module):
         
         return total_loss, bce, dice, focal
 
-def train_fresh_model():
+
+# Modal AI Cloud adaptation:
+# - Set data_dir to your cloud data path (e.g., '/mnt/data/training')
+# - Or use --data_dir argument to specify a custom path
+# - Script will use GPU (A10) if available
+import argparse
+def train_fresh_model(data_dir=None):
     """Train a completely fresh kidney detection model"""
-    print("🚀 TRAINING FRESH AI KIDNEY DETECTION MODEL")
+    print("🚀 TRAINING FRESH AI KIDNEY DETECTION MODEL (Modal AI Cloud Ready)")
     print("=" * 60)
-    
+
     # Setup
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"🔧 Device: {device}")
-    
+
     # Load dataset
-    data_dir = '../../../data/training'
-    if not os.path.exists(data_dir):
-        data_dir = '../../data/training'
+    if data_dir is None:
+        # Default for Modal: use /mnt/data/training
+        data_dir = '/mnt/data/training'
         if not os.path.exists(data_dir):
-            data_dir = 'training'
-    
+            # Fallbacks for local/dev
+            data_dir = '../../../data/training'
+            if not os.path.exists(data_dir):
+                data_dir = '../../data/training'
+                if not os.path.exists(data_dir):
+                    data_dir = 'training'
+
+    print(f"📁 Using data_dir: {data_dir}")
     dataset = FreshKidneyDataset(data_dir)
-    
+
     if len(dataset) == 0:
         raise ValueError("No training data found!")
-    
+
     # Create DataLoader
     dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
-    
+
     # Initialize fresh model
     model = UNet3D(in_channels=1, out_channels=1)
     model.to(device)
-    
+
     # Count parameters
     total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print(f"🧠 Fresh model parameters: {total_params:,}")
-    
+
     # Setup training
     criterion = CombinedLoss()
     optimizer = optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=10)
-    
+
     # Training loop
     num_epochs = 100
     best_loss = float('inf')
-    
+
     print(f"\n🏋️ Starting training for {num_epochs} epochs...")
-    
+
     for epoch in range(num_epochs):
         model.train()
         epoch_loss = 0.0
         epoch_bce = 0.0
         epoch_dice = 0.0
         epoch_focal = 0.0
-        
+
         for batch_idx, (mri, mask) in enumerate(dataloader):
             mri, mask = mri.to(device), mask.to(device)
-            
+
             optimizer.zero_grad()
-            
+
             # Forward pass
             outputs = model(mri)
             total_loss, bce_loss, dice_loss, focal_loss = criterion(outputs, mask)
-            
+
             # Backward pass
             total_loss.backward()
             optimizer.step()
-            
+
             # Accumulate losses
             epoch_loss += total_loss.item()
             epoch_bce += bce_loss.item()
             epoch_dice += dice_loss.item()
             epoch_focal += focal_loss.item()
-        
+
         # Average losses
         avg_loss = epoch_loss / len(dataloader)
         avg_bce = epoch_bce / len(dataloader)
         avg_dice = epoch_dice / len(dataloader)
         avg_focal = epoch_focal / len(dataloader)
-        
+
         # Update learning rate
         scheduler.step(avg_loss)
         current_lr = optimizer.param_groups[0]['lr']
-        
+
         # Print progress
         if epoch % 5 == 0 or epoch == num_epochs - 1:
             print(f"Epoch {epoch+1:3d}/{num_epochs} | "
@@ -273,13 +285,13 @@ def train_fresh_model():
                   f"Dice: {avg_dice:.4f} | "
                   f"Focal: {avg_focal:.4f} | "
                   f"LR: {current_lr:.6f}")
-        
+
         # Save best model
         if avg_loss < best_loss:
             best_loss = avg_loss
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             model_path = f'kidney_fresh_model_{timestamp}.pth'
-            
+
             torch.save({
                 'epoch': epoch + 1,
                 'model_state_dict': model.state_dict(),
@@ -287,7 +299,7 @@ def train_fresh_model():
                 'best_loss': best_loss,
                 'training_samples': len(dataset)
             }, model_path)
-            
+
             # Also save as the "best" model for inference
             torch.save({
                 'epoch': epoch + 1,
@@ -296,13 +308,16 @@ def train_fresh_model():
                 'best_loss': best_loss,
                 'training_samples': len(dataset)
             }, 'kidney_unet_model_best.pth')
-            
+
             print(f"   💾 New best model saved! Loss: {best_loss:.4f}")
-    
+
     print(f"\n✅ Training completed!")
     print(f"📊 Final best loss: {best_loss:.4f}")
     print(f"🎯 Model saved as: kidney_unet_model_best.pth")
     print(f"📈 Training samples used: {len(dataset)}")
 
 if __name__ == "__main__":
-    train_fresh_model()
+    parser = argparse.ArgumentParser(description="Train fresh kidney detection model (Modal AI Cloud ready)")
+    parser.add_argument('--data_dir', type=str, default=None, help='Path to training data directory')
+    args = parser.parse_args()
+    train_fresh_model(data_dir=args.data_dir)
