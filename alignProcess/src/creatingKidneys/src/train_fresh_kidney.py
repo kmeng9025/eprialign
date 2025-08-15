@@ -33,60 +33,73 @@ class FreshKidneyDataset(Dataset):
                 file_path = os.path.join(self.data_dir, filename)
                 try:
                     data = sio.loadmat(file_path, struct_as_record=False, squeeze_me=True)
-                    
                     if 'images' in data:
                         images = data['images']
-                        
-                        # Find MRI and kidney pairs
-                        mri_data = None
-                        kidney_masks = []
-                        
+                        print(f"\n🗂️  {filename} contains {len(images)} images:")
                         for i in range(len(images)):
                             img = images[i]
-                            if hasattr(img, 'data') and img.data is not None:
-                                # Get image name
-                                name = ""
-                                if hasattr(img, 'Name'):
-                                    if isinstance(img.Name, str):
-                                        name = img.Name
-                                    else:
-                                        try:
-                                            name = ''.join(chr(c) for c in img.Name.flatten() if c != 0)
-                                        except:
-                                            name = f"img_{i}"
-                                
-                                # Check for MRI
-                                if "mri" in name.lower() and len(img.data.shape) == 3:
-                                    if img.data.shape[0] == 350 and img.data.shape[1] == 350:
-                                        mri_data = img.data
-                                        print(f"   📷 Found MRI: {name} {img.data.shape}")
-                                
-                                # Check for kidney slaves (but exclude surface slaves)
-                                elif "kidney" in name.lower() and "srf" not in name.lower():
-                                    if hasattr(img.data, 'shape') and len(img.data.shape) == 3:
-                                        kidney_masks.append(img.data)
-                                        print(f"   🎯 Found kidney: {name} {img.data.shape}")
-                        
-                        # Create samples if we have MRI and kidney data
-                        if mri_data is not None and kidney_masks:
-                            for kidney_mask in kidney_masks:
-                                if kidney_mask.shape == mri_data.shape:
-                                    coverage = np.sum(kidney_mask > 0) / kidney_mask.size * 100
-                                    if 0.1 < coverage < 10:  # Reasonable kidney coverage
+                            name = ''
+                            if hasattr(img, 'Name'):
+                                if isinstance(img.Name, str):
+                                    name = img.Name
+                                else:
+                                    try:
+                                        name = ''.join(chr(c) for c in img.Name.flatten() if c != 0)
+                                    except:
+                                        name = f"img_{i}"
+                            shape = getattr(img, 'data', np.array([])).shape if hasattr(img, 'data') else None
+                            print(f"   - {name} {shape}")
+                        # Find MRI and kidney mask slaves
+                        for i in range(len(images)):
+                            img = images[i]
+                            name = ''
+                            if hasattr(img, 'Name'):
+                                if isinstance(img.Name, str):
+                                    name = img.Name
+                                else:
+                                    try:
+                                        name = ''.join(chr(c) for c in img.Name.flatten() if c != 0)
+                                    except:
+                                        name = f"img_{i}"
+                            if 'mri' in name.lower() and hasattr(img, 'data') and len(img.data.shape) == 3:
+                                mri_data = img.data
+                                print(f"   📷 Found MRI: {name} {img.data.shape}")
+                                # Look for slaves field
+                                if hasattr(img, 'slaves') and isinstance(img.slaves, np.ndarray):
+                                    for slave in img.slaves:
+                                        slave_name = ''
+                                        if hasattr(slave, 'Name'):
+                                            if isinstance(slave.Name, str):
+                                                slave_name = slave.Name
+                                            else:
+                                                try:
+                                                    slave_name = ''.join(chr(c) for c in slave.Name.flatten() if c != 0)
+                                                except:
+                                                    slave_name = 'slave'
+                                        # Only use slaves with 'Kidney' in name and not 'SRF'
+                                        if 'kidney' not in slave_name.lower() or 'srf' in slave_name.lower():
+                                            print(f"      ⚠️  Skipped slave: {slave_name} (not a valid kidney mask)")
+                                            continue
+                                        if not hasattr(slave, 'data') or not isinstance(slave.data, np.ndarray) or len(slave.data.shape) != 3:
+                                            print(f"      ⚠️  Skipped slave: {slave_name} (not 3D)")
+                                            continue
+                                        mask = slave.data
+                                        if mask.shape != mri_data.shape:
+                                            print(f"      ⚠️  Skipped slave: {slave_name} (shape mismatch {mask.shape} vs MRI {mri_data.shape})")
+                                            continue
                                         self.samples.append({
                                             'mri': mri_data.astype(np.float32),
-                                            'kidney': (kidney_mask > 0).astype(np.float32),
+                                            'kidney': (mask > 0).astype(np.float32),
                                             'file': filename,
-                                            'coverage': coverage
+                                            'slave_name': slave_name
                                         })
-                                        print(f"   ✅ Added sample: {filename} (coverage: {coverage:.2f}%)")
-                
+                                        print(f"      ✅ Added sample: {filename} (slave: {slave_name})")
                 except Exception as e:
                     print(f"   ⚠️  Skipped {filename}: {str(e)}")
         
         print(f"📊 Total training samples: {len(self.samples)}")
         for i, sample in enumerate(self.samples):
-            print(f"   {i+1}. {sample['file']} - coverage: {sample['coverage']:.2f}%")
+            print(f"   {i+1}. {sample['file']} - slave: {sample['slave_name']}")
     
     def __len__(self):
         return len(self.samples)
