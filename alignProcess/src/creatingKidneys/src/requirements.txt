@@ -1,6 +1,0 @@
-# Requirements for Modal AI Cloud kidney training
-torch>=1.10
-numpy
-scipy
-matplotlib
-argparse

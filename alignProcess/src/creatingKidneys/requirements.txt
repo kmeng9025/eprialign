@@ -13,6 +13,7 @@ SimpleITK>=2.1.0
 h5py>=3.3.0
 scikit-image>=0.18.0
 scikit-learn>=1.0.0
+argparse
 
 # MATLAB integration
 # Note: MATLAB must be installed separately with required toolboxes
