@@ -2,64 +2,72 @@ import torch
 import torch.nn as nn
 
 class UNet3D(nn.Module):
-    """3D U-Net model for kidney segmentation"""
+    """3D U-Net for kidney segmentation matching Modal training architecture"""
     
-    def __init__(self, in_channels=1, out_channels=1):
+    def __init__(self, in_channels=1, out_channels=1, features=[64, 128, 256, 512]):
         super(UNet3D, self).__init__()
         
-        def conv_block(in_ch, out_ch):
-            return nn.Sequential(
-                nn.Conv3d(in_ch, out_ch, kernel_size=3, padding=1),
-                nn.BatchNorm3d(out_ch),
-                nn.ReLU(inplace=True),
-                nn.Conv3d(out_ch, out_ch, kernel_size=3, padding=1),
-                nn.BatchNorm3d(out_ch),
-                nn.ReLU(inplace=True)
-            )
+        # Encoder
+        self.encoder = nn.ModuleList()
+        self.encoder_pools = nn.ModuleList()
         
-        # Encoder (smaller for kidney data)
-        self.enc1 = conv_block(in_channels, 16)
-        self.pool1 = nn.MaxPool3d(2)
-        self.enc2 = conv_block(16, 32)
-        self.pool2 = nn.MaxPool3d(2)
-        self.enc3 = conv_block(32, 64)
-        self.pool3 = nn.MaxPool3d(2)
+        for feature in features:
+            self.encoder.append(self._make_conv_block(in_channels, feature))
+            self.encoder_pools.append(nn.MaxPool3d(kernel_size=2, stride=2))
+            in_channels = feature
         
         # Bottleneck
-        self.bottleneck = conv_block(64, 128)
+        self.bottleneck = self._make_conv_block(features[-1], features[-1] * 2)
         
         # Decoder
-        self.up3 = nn.ConvTranspose3d(128, 64, kernel_size=2, stride=2)
-        self.dec3 = conv_block(128, 64)
-        self.up2 = nn.ConvTranspose3d(64, 32, kernel_size=2, stride=2)
-        self.dec2 = conv_block(64, 32)
-        self.up1 = nn.ConvTranspose3d(32, 16, kernel_size=2, stride=2)
-        self.dec1 = conv_block(32, 16)
+        self.decoder = nn.ModuleList()
+        self.decoder_upconvs = nn.ModuleList()
+        
+        for feature in reversed(features):
+            self.decoder_upconvs.append(
+                nn.ConvTranspose3d(feature * 2, feature, kernel_size=2, stride=2)
+            )
+            self.decoder.append(self._make_conv_block(feature * 2, feature))
         
         # Final layer
-        self.final = nn.Conv3d(16, out_channels, kernel_size=1)
+        self.final_conv = nn.Conv3d(features[0], out_channels, kernel_size=1)
         self.sigmoid = nn.Sigmoid()
-        
-    def forward(self, x, apply_sigmoid=True):
+    
+    def _make_conv_block(self, in_channels, out_channels):
+        return nn.Sequential(
+            nn.Conv3d(in_channels, out_channels, kernel_size=3, padding=1),
+            nn.BatchNorm3d(out_channels),
+            nn.ReLU(inplace=True),
+            nn.Conv3d(out_channels, out_channels, kernel_size=3, padding=1),
+            nn.BatchNorm3d(out_channels),
+            nn.ReLU(inplace=True)
+        )
+    
+    def forward(self, x):
         # Encoder
-        enc1 = self.enc1(x)
-        enc2 = self.enc2(self.pool1(enc1))
-        enc3 = self.enc3(self.pool2(enc2))
+        skip_connections = []
+        for encoder, pool in zip(self.encoder, self.encoder_pools):
+            x = encoder(x)
+            skip_connections.append(x)
+            x = pool(x)
         
         # Bottleneck
-        bottleneck = self.bottleneck(self.pool3(enc3))
+        x = self.bottleneck(x)
         
-        # Decoder with skip connections
-        up3 = self.up3(bottleneck)
-        dec3 = self.dec3(torch.cat([up3, enc3], dim=1))
-        up2 = self.up2(dec3)
-        dec2 = self.dec2(torch.cat([up2, enc2], dim=1))
-        up1 = self.up1(dec2)
-        dec1 = self.dec1(torch.cat([up1, enc1], dim=1))
+        # Decoder
+        skip_connections = skip_connections[::-1]
+        for idx, (upconv, decoder) in enumerate(zip(self.decoder_upconvs, self.decoder)):
+            x = upconv(x)
+            skip_connection = skip_connections[idx]
+            
+            # Handle size mismatch
+            if x.shape != skip_connection.shape:
+                x = nn.functional.interpolate(x, size=skip_connection.shape[2:], mode='trilinear', align_corners=False)
+            
+            concat_skip = torch.cat((skip_connection, x), dim=1)
+            x = decoder(concat_skip)
         
-        logits = self.final(dec1)
-        
-        if apply_sigmoid:
-            return self.sigmoid(logits)
-        else:
-            return logits
+        # Final output
+        x = self.final_conv(x)
+        x = self.sigmoid(x)
+        return x

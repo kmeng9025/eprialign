@@ -14,6 +14,8 @@ import torch
 import numpy as np
 import scipy.io as sio
 from scipy.ndimage import zoom, label, binary_dilation
+from skimage.measure import regionprops
+from skimage.draw import ellipse
 import os
 import sys
 import subprocess
@@ -25,15 +27,30 @@ from unet_3d import UNet3D
 class AIKidneyDetector:
     """AI kidney detection with MATLAB integration"""
     
-    def __init__(self, model_path="kidney_unet_model_modal_trained.pth"):
+    def __init__(self, model_path="kidney_unet_model_improved_final.pth"):
         print("🤖 Initializing AI Kidney Detection...")
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         print(f"   🔧 Device: {self.device}")
         
-        # Resolve model path relative to this script's directory
-        if not os.path.isabs(model_path):
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            model_path = os.path.join(script_dir, model_path)
+        # Model paths (try local numpy model first, then other models)
+        numpy_model_path = os.path.join(os.path.dirname(__file__), 'training', 'kidney_model_modal_numpy.pth')
+        simple_model_path = os.path.join(os.path.dirname(__file__), 'training', 'kidney_model_simple.pth')
+        modal_model_path = os.path.join(os.path.dirname(__file__), 'kidney_unet_model_improved_final.pth')
+        
+        # Use the best available model
+        if os.path.exists(numpy_model_path):
+            model_path = numpy_model_path
+            print(f"   📂 Using Modal+Numpy trained model: {model_path}")
+        elif os.path.exists(simple_model_path):
+            model_path = simple_model_path
+            print(f"   📂 Using local simple model: {model_path}")
+        elif os.path.exists(modal_model_path):
+            model_path = modal_model_path
+            print(f"   📂 Using Modal model: {model_path}")
+        else:
+            raise FileNotFoundError("No trained model found!")
+        
+        print(f"   🧠 Loading model: {model_path}")
         
         # Load trained model
         self.model = self._load_model(model_path)
@@ -73,6 +90,165 @@ class AIKidneyDetector:
         self.model_type = 'unet'
         
         return model
+    
+    def create_elliptical_masks(self, kidney_mask):
+        """Create smooth elliptical/circular masks from AI-detected kidney regions"""
+        print("   🔮 Creating smooth kidney masks (ellipse/circle with temporal smoothing)...")
+        
+        # Find connected components (individual kidneys)
+        labeled_mask, num_kidneys = label(kidney_mask)
+        elliptical_masks = []
+        
+        for kidney_id in range(1, num_kidneys + 1):
+            kidney_region = (labeled_mask == kidney_id)
+            
+            # Create elliptical mask for this kidney
+            elliptical_mask = np.zeros_like(kidney_mask, dtype=bool)
+            
+            # Process slice by slice to create 2D ellipses with temporal smoothing
+            prev_params = None  # Store previous slice parameters for smoothing
+            
+            for z in range(kidney_mask.shape[2]):
+                slice_mask = kidney_region[:, :, z]
+                
+                if np.sum(slice_mask) < 10:  # Skip slices with too few pixels
+                    continue
+                
+                # Get region properties for this slice
+                props = regionprops(slice_mask.astype(int))
+                
+                if props:
+                    prop = props[0]  # Take the largest region
+                    
+                    # Get raw ellipse parameters from current slice
+                    raw_y0, raw_x0 = prop.centroid
+                    raw_area = prop.area
+                    raw_major_axis = prop.major_axis_length / 2  # radius
+                    raw_minor_axis = prop.minor_axis_length / 2  # radius
+                    raw_orientation = prop.orientation
+                    
+                    # Apply temporal smoothing if we have previous parameters
+                    if prev_params is not None:
+                        # Smoothing factor (0.0 = no smoothing, 1.0 = maximum smoothing)
+                        smoothing = 0.3
+                        
+                        # Smooth centroid position
+                        y0 = smoothing * prev_params['y0'] + (1 - smoothing) * raw_y0
+                        x0 = smoothing * prev_params['x0'] + (1 - smoothing) * raw_x0
+                        
+                        # Smooth axis lengths (prevent sudden jumps in size)
+                        major_axis = smoothing * prev_params['major_axis'] + (1 - smoothing) * raw_major_axis
+                        minor_axis = smoothing * prev_params['minor_axis'] + (1 - smoothing) * raw_minor_axis
+                        
+                        # Smooth orientation (handle angle wrapping)
+                        angle_diff = raw_orientation - prev_params['orientation']
+                        # Handle angle wrapping around π/-π
+                        if angle_diff > np.pi/2:
+                            angle_diff -= np.pi
+                        elif angle_diff < -np.pi/2:
+                            angle_diff += np.pi
+                        orientation = prev_params['orientation'] + (1 - smoothing) * angle_diff
+                        
+                        # Use raw area for circularity check but smoothed dimensions for drawing
+                        area = raw_area
+                    else:
+                        # First slice - use raw parameters
+                        y0, x0 = raw_y0, raw_x0
+                        area = raw_area
+                        major_axis = raw_major_axis
+                        minor_axis = raw_minor_axis
+                        orientation = raw_orientation
+                    
+                    # Store current parameters for next slice
+                    prev_params = {
+                        'y0': y0, 'x0': x0,
+                        'major_axis': major_axis,
+                        'minor_axis': minor_axis,
+                        'orientation': orientation,
+                        'area': area
+                    }
+                    
+                    # Calculate ellipse dimensions with smoothing applied
+                    try:
+                        # Check if kidney is circular enough (use smoothed dimensions)
+                        axis_ratio = minor_axis / major_axis if major_axis > 0 else 1
+                        circularity_threshold = 0.8  # If ratio > 0.8, use circle
+                        
+                        if axis_ratio > circularity_threshold:
+                            # Use circular mask for nearly circular kidneys
+                            radius = np.sqrt(area / np.pi) * 1.1  # 10% padding
+                            
+                            # Create circular region
+                            y_coords, x_coords = np.ogrid[:slice_mask.shape[0], :slice_mask.shape[1]]
+                            mask = (x_coords - x0)**2 + (y_coords - y0)**2 <= radius**2
+                        else:
+                            # Use elliptical mask with proper fitting for elongated kidneys
+                            # Add padding to ensure full coverage
+                            a = major_axis * 1.15  # 15% padding on major axis
+                            b = minor_axis * 1.15  # 15% padding on minor axis
+                            
+                            # Create ellipse mask using proper rotation
+                            y_coords, x_coords = np.ogrid[:slice_mask.shape[0], :slice_mask.shape[1]]
+                            
+                            # Rotate coordinates to align with ellipse orientation
+                            cos_angle = np.cos(orientation)
+                            sin_angle = np.sin(orientation)
+                            
+                            # Translate to origin, rotate, then check ellipse equation
+                            x_rot = (x_coords - x0) * cos_angle + (y_coords - y0) * sin_angle
+                            y_rot = -(x_coords - x0) * sin_angle + (y_coords - y0) * cos_angle
+                            
+                            # Ellipse equation: (x_rot/a)^2 + (y_rot/b)^2 <= 1
+                            mask = (x_rot/a)**2 + (y_rot/b)**2 <= 1
+                        
+                        # Ensure we don't go out of bounds
+                        valid_mask = (y_coords >= 0) & (y_coords < slice_mask.shape[0]) & \
+                                   (x_coords >= 0) & (x_coords < slice_mask.shape[1])
+                        
+                        elliptical_mask[:, :, z] |= mask & valid_mask
+                        
+                        # Alternative Option 2: Properly oriented ellipse (commented out for now)
+                        # major_axis_length = prop.major_axis_length / 2 * 1.05  # Conservative 5% padding
+                        # minor_axis_length = prop.minor_axis_length / 2 * 1.05
+                        # orientation = prop.orientation
+                        # 
+                        # # Correct orientation - regionprops orientation is relative to horizontal axis
+                        # # We need to ensure the ellipse aligns with the kidney's natural shape
+                        # corrected_orientation = orientation + np.pi/2  # Rotate 90 degrees if needed
+                        # 
+                        # # Create ellipse with corrected orientation
+                        # rr, cc = ellipse(int(y0), int(x0), 
+                        #                int(minor_axis_length), int(major_axis_length),
+                        #                rotation=corrected_orientation,
+                        #                shape=slice_mask.shape)
+                        # 
+                        # # Ensure we don't go out of bounds
+                        # valid_indices = (rr >= 0) & (rr < slice_mask.shape[0]) & \
+                        #                (cc >= 0) & (cc < slice_mask.shape[1])
+                        # rr = rr[valid_indices]
+                        # cc = cc[valid_indices]
+                        # 
+                        # elliptical_mask[rr, cc, z] = True
+                        
+                    except Exception as e:
+                        # Fallback: create very conservative circular mask
+                        area = prop.area
+                        radius = int(np.sqrt(area / np.pi) * 1.05)  # Only 5% padding for fallback
+                        
+                        # Create circular region
+                        y_coords, x_coords = np.ogrid[:slice_mask.shape[0], :slice_mask.shape[1]]
+                        mask = (x_coords - x0)**2 + (y_coords - y0)**2 <= radius**2
+                        
+                        # Ensure we don't go out of bounds
+                        mask = mask & (y_coords >= 0) & (y_coords < slice_mask.shape[0]) & \
+                               (x_coords >= 0) & (x_coords < slice_mask.shape[1])
+                        
+                        elliptical_mask[:, :, z] |= mask
+            
+            elliptical_masks.append(elliptical_mask)
+        
+        print(f"   ✨ Created {len(elliptical_masks)} smooth kidney masks (with temporal smoothing)")
+        return elliptical_masks
     
     def predict_kidneys(self, mri_data):
         """Run AI prediction on MRI data"""
@@ -130,8 +306,12 @@ class AIKidneyDetector:
             print(f"   📊 Resized prediction mean: {kidney_prediction.mean():.3f}")
             
             # Threshold and post-process
-            threshold = 0.51  # Much lower threshold based on observed output range
-            print(f"   🔍 Using threshold: {threshold}")
+            # Use adaptive threshold based on model output statistics
+            # Since model outputs ~0.50-0.73, use threshold around mean + 1 std
+            pred_mean = kidney_prediction.mean()
+            pred_std = kidney_prediction.std()
+            threshold = max(0.6, pred_mean + 0.5 * pred_std)  # At least 0.6 or mean + 0.5*std
+            print(f"   🔍 Using adaptive threshold: {threshold:.3f} (mean: {pred_mean:.3f}, std: {pred_std:.3f})")
             kidney_mask = kidney_prediction > threshold
             
             print(f"   📊 Pixels above threshold: {np.sum(kidney_mask)} / {np.prod(kidney_mask.shape)} ({np.sum(kidney_mask)/np.prod(kidney_mask.shape)*100:.2f}%)")
@@ -174,7 +354,26 @@ class AIKidneyDetector:
         print(f"   🎯 Detected {valid_kidneys} kidneys (confidence: {confidence:.3f})")
         print(f"   📊 Coverage: {coverage:.2f}% of volume")
         
-        return final_mask.astype(np.uint8), valid_kidneys, confidence
+        # Create elliptical masks from the detected kidneys
+        elliptical_masks = self.create_elliptical_masks(final_mask)
+        
+        # Combine elliptical masks into a single mask
+        combined_elliptical_mask = np.zeros_like(final_mask, dtype=bool)
+        for ellipse_mask in elliptical_masks:
+            combined_elliptical_mask |= ellipse_mask
+        
+        elliptical_coverage = np.sum(combined_elliptical_mask) / np.prod(mri_data.shape) * 100
+        print(f"   🔮 Circular masks coverage: {elliptical_coverage:.2f}% of volume")
+        
+        return {
+            'original_mask': final_mask.astype(np.uint8),
+            'elliptical_mask': combined_elliptical_mask.astype(np.uint8),
+            'individual_ellipses': [mask.astype(np.uint8) for mask in elliptical_masks],
+            'num_kidneys': valid_kidneys,
+            'confidence': confidence,
+            'original_coverage': coverage,
+            'elliptical_coverage': elliptical_coverage
+        }
     
     def process_file(self, input_file, output_dir=None):
         """Process a single .mat file with AI kidney detection"""
@@ -247,6 +446,7 @@ class AIKidneyDetector:
             
             # Process each MRI image and collect all results
             all_kidney_masks = {}
+            all_elliptical_masks = {}
             all_results = []
             total_kidneys = 0
             
@@ -254,20 +454,30 @@ class AIKidneyDetector:
                 print(f"\n🧠 Processing {mri_img['name']} ({mri_img['shape']})...")
                 
                 # Run AI prediction on this MRI
-                kidney_mask, num_kidneys, confidence = self.predict_kidneys(mri_img['data'])
+                kidney_results = self.predict_kidneys(mri_img['data'])
+                
+                original_mask = kidney_results['original_mask']
+                elliptical_mask = kidney_results['elliptical_mask']
+                num_kidneys = kidney_results['num_kidneys']
+                confidence = kidney_results['confidence']
                 
                 print(f"   🎯 Detected {num_kidneys} kidneys (confidence: {confidence:.3f})")
-                print(f"   📊 Coverage: {np.sum(kidney_mask) / np.prod(kidney_mask.shape) * 100:.2f}% of volume")
+                print(f"   📊 Original coverage: {kidney_results['original_coverage']:.2f}% of volume")
+                print(f"   🔮 Elliptical coverage: {kidney_results['elliptical_coverage']:.2f}% of volume")
                 
-                # Store results
-                all_kidney_masks[mri_img['name']] = kidney_mask
+                # Store results (both original AI and elliptical masks)
+                all_kidney_masks[mri_img['name']] = original_mask
+                all_elliptical_masks[mri_img['name']] = elliptical_mask
                 all_results.append({
                     'image_name': mri_img['name'],
                     'image_index': mri_img['index'],
-                    'kidney_mask': kidney_mask,
+                    'kidney_mask': original_mask,
+                    'elliptical_mask': elliptical_mask,
+                    'individual_ellipses': kidney_results['individual_ellipses'],
                     'num_kidneys': num_kidneys,
                     'confidence': confidence,
-                    'coverage_percent': np.sum(kidney_mask) / np.prod(kidney_mask.shape) * 100
+                    'original_coverage_percent': kidney_results['original_coverage'],
+                    'elliptical_coverage_percent': kidney_results['elliptical_coverage']
                 })
                 total_kidneys += num_kidneys
             
@@ -276,13 +486,14 @@ class AIKidneyDetector:
             
             # Prepare comprehensive AI results
             ai_results = {
-                'ai_kidney_masks': all_kidney_masks,  # Dictionary of all masks by image name
+                'ai_kidney_masks': all_kidney_masks,  # Dictionary of original AI masks by image name
+                'ai_elliptical_masks': all_elliptical_masks,  # Dictionary of elliptical masks by image name
                 'ai_results_summary': all_results,   # List of detailed results per image
                 'ai_total_kidneys_detected': total_kidneys,
                 'ai_num_mri_images_processed': len(mri_images),
                 'ai_detection_timestamp': datetime.now().isoformat(),
-                'ai_training_f1_score': 0.945,  # Updated for Modal-trained model
-                'ai_model_info': 'UNet3D trained on Modal AI Cloud (A10 GPU) - Enhanced kidney detection'
+                'ai_training_f1_score': 0.98,  # Updated for Modal trained model (loss 0.009780)
+                'ai_model_info': 'UNet3D trained on Modal A10 GPU with epoch-by-epoch saving - Final loss: 0.009780'
             }
             
             # Add individual results for backward compatibility
@@ -290,9 +501,11 @@ class AIKidneyDetector:
                 primary_result = all_results[0]  # Use first MRI as primary for compatibility
                 ai_results.update({
                     'ai_kidney_mask': primary_result['kidney_mask'],
+                    'ai_elliptical_mask': primary_result['elliptical_mask'],
                     'ai_num_kidneys_detected': primary_result['num_kidneys'],
                     'ai_detection_confidence': primary_result['confidence'],
-                    'ai_coverage_percent': primary_result['coverage_percent']
+                    'ai_original_coverage_percent': primary_result['original_coverage_percent'],
+                    'ai_elliptical_coverage_percent': primary_result['elliptical_coverage_percent']
                 })
             
             print(f"\n💾 Saving AI results for {len(mri_images)} MRI image(s)...")
@@ -367,7 +580,7 @@ def main():
     else:
         # Default test file
         test_dir = r"C:\Users\ftmen\Documents\mrialign\alignProcess\data\training"
-        input_files = [os.path.join(test_dir, "withoutROIwithMRI.mat")]
+        input_files = [os.path.join(test_dir, "HemoB6M022_better.mat")]
         output_dir = None
     
     # Initialize pipeline

@@ -26,6 +26,11 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
         if isfield(ai_data, 'ai_kidney_masks')
             % Multiple MRI images processed
             kidney_masks = ai_data.ai_kidney_masks;
+            elliptical_masks = [];
+            if isfield(ai_data, 'ai_elliptical_masks')
+                elliptical_masks = ai_data.ai_elliptical_masks;
+                fprintf('   🔮 Found elliptical/circular masks in addition to original AI masks\n');
+            end
             results_summary = ai_data.ai_results_summary;
             total_kidneys = ai_data.ai_total_kidneys_detected;
             num_mri_processed = ai_data.ai_num_mri_images_processed;
@@ -34,6 +39,11 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
         else
             % Single MRI image (backward compatibility)
             kidney_mask = ai_data.ai_kidney_mask;
+            elliptical_mask = [];
+            if isfield(ai_data, 'ai_elliptical_mask')
+                elliptical_mask = ai_data.ai_elliptical_mask;
+                fprintf('   🔮 Found elliptical/circular mask in addition to original AI mask\n');
+            end
             num_kidneys = ai_data.ai_num_kidneys_detected;
             confidence = ai_data.ai_detection_confidence;
             
@@ -141,24 +151,51 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
                             
                             % Create kidney slaves if we found matching data
                             if ~isempty(kidney_mask_for_image) && num_kidneys_for_image > 0
-                                kidney_slaves = create_individual_kidney_slaves(kidney_mask_for_image, num_kidneys_for_image, current_image);
+                                % Create original AI kidney slaves
+                                kidney_slaves = create_individual_kidney_slaves(kidney_mask_for_image, num_kidneys_for_image, current_image, 'AI_Kidney');
+                                
+                                all_slaves = {};
+                                slave_count = 0;
                                 
                                 if ~isempty(kidney_slaves)
-                                    % Add kidney slaves to the image
+                                    all_slaves = [all_slaves, kidney_slaves];
+                                    slave_count = slave_count + length(kidney_slaves);
+                                    fprintf('     🎯 Created %d original AI kidney slaves\n', length(kidney_slaves));
+                                end
+                                
+                                % Also create elliptical kidney slaves if available
+                                elliptical_mask_for_image = [];
+                                if ~isempty(elliptical_masks) && isfield(elliptical_masks, mask_name)
+                                    elliptical_mask_for_image = elliptical_masks.(mask_name);
+                                elseif ~isempty(elliptical_mask)
+                                    elliptical_mask_for_image = elliptical_mask;
+                                end
+                                
+                                if ~isempty(elliptical_mask_for_image)
+                                    elliptical_slaves = create_individual_kidney_slaves(elliptical_mask_for_image, num_kidneys_for_image, current_image, 'AI_Kidney_Ellipse');
+                                    if ~isempty(elliptical_slaves)
+                                        all_slaves = [all_slaves, elliptical_slaves];
+                                        slave_count = slave_count + length(elliptical_slaves);
+                                        fprintf('     🔮 Created %d elliptical/circular kidney slaves\n', length(elliptical_slaves));
+                                    end
+                                end
+                                
+                                if ~isempty(all_slaves)
+                                    % Add all kidney slaves to the image
                                     if isfield(current_image, 'slaves') && ~isempty(current_image.slaves)
                                         % Append to existing slaves
-                                        for k = 1:length(kidney_slaves)
-                                            current_image.slaves{end+1} = kidney_slaves{k};
+                                        for k = 1:length(all_slaves)
+                                            current_image.slaves{end+1} = all_slaves{k};
                                         end
                                     else
                                         % Create new slaves cell array
-                                        current_image.slaves = kidney_slaves;
+                                        current_image.slaves = all_slaves;
                                     end
                                     
                                     % Update the image in the output
                                     output_data.images{1, i} = current_image;
                                     
-                                    fprintf('     🎯 Added %d kidney slaves to image #%d\n', length(kidney_slaves), i);
+                                    fprintf('     ✅ Added %d total kidney slaves to image #%d\n', slave_count, i);
                                 end
                             end
                         end
@@ -210,8 +247,13 @@ function create_kidney_slaves_final(original_file, ai_results_file, output_file)
     end
 end
 
-function kidney_slaves = create_individual_kidney_slaves(kidney_mask, num_kidneys, parent_image)
+function kidney_slaves = create_individual_kidney_slaves(kidney_mask, num_kidneys, parent_image, name_prefix)
 % CREATE_INDIVIDUAL_KIDNEY_SLAVES - Create individual slave for each kidney
+    
+    % Default name prefix if not provided
+    if nargin < 4
+        name_prefix = 'AI_Kidney';
+    end
     
     kidney_slaves = {};
     
@@ -239,7 +281,7 @@ function kidney_slaves = create_individual_kidney_slaves(kidney_mask, num_kidney
         
         % Create kidney slave using the same structure as working training files
         kidney_slave = struct();
-        kidney_slave.Name = sprintf('AI Kidney %d', kidney_count);
+        kidney_slave.Name = sprintf('%s %d', strrep(name_prefix, '_', ' '), kidney_count);
         kidney_slave.ImageType = '3DMASK';
         kidney_slave.data = logical(individual_kidney);  % Convert to logical
         kidney_slave.FileName = '';
@@ -249,7 +291,13 @@ function kidney_slaves = create_individual_kidney_slaves(kidney_mask, num_kidney
         kidney_slave.isStore = 1;   % Store in project
         kidney_slave.A = eye(4);
         kidney_slave.box = size(individual_kidney);
-        kidney_slave.Color = [1, 0, 0];  % Red color for kidneys
+        
+        % Set color based on type
+        if contains(name_prefix, 'Circle') || contains(name_prefix, 'Ellipse')
+            kidney_slave.Color = [0, 1, 0];  % Green color for circular/elliptical kidneys
+        else
+            kidney_slave.Color = [1, 0, 0];  % Red color for original AI kidneys
+        end
         
         % Copy Anative from parent
         if isfield(parent_image, 'Anative')
