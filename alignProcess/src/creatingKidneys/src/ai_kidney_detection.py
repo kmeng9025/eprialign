@@ -429,18 +429,21 @@ class AIKidneyDetector:
                         elif shape[0] == 350 and shape[1] == 350:  # Common MRI dimensions
                             is_mri = True
                         
-                        if is_mri:
+                        # Skip LongMRI images - only process short MRI sequences
+                        if is_mri and "long" not in image_name.lower():
                             mri_images.append({
                                 'index': i,
                                 'data': img.data,
                                 'name': image_name or f"MRI_{i}",
                                 'shape': shape
                             })
+                        elif is_mri and "long" in image_name.lower():
+                            print(f"      ⏭️  Skipping {image_name} (LongMRI sequences excluded)")
             
             if not mri_images:
-                raise ValueError("No MRI images found (no images with 'MRI' in name or 350x350xN shape)")
+                raise ValueError("No short MRI images found (LongMRI images are excluded)")
             
-            print(f"   ✅ Found {len(mri_images)} MRI image(s):")
+            print(f"   ✅ Found {len(mri_images)} short MRI image(s) to process:")
             for mri_img in mri_images:
                 print(f"      - {mri_img['name']}: {mri_img['shape']}")
             
